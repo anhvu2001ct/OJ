@@ -67,7 +67,7 @@ int main() {
 
 	for (int iTest = 1; iTest <= 1; ++iTest) {
 		genTest();
-		//validTest(iTest);hi
+		//validTest(iTest);
 	}
 
 	return 0;
