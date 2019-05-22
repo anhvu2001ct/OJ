@@ -18,14 +18,14 @@ double const pi = acos(-1);
 
 #define Name "main"
 
-int Rand(int l, int r) {
+int rand(int l, int r) {
 	static mt19937 rg(chrono::steady_clock::now().time_since_epoch().count());
 	return uniform_int_distribution<>(l, r)(rg);
 }
 
 void genTest() {
 	ofstream inpFile(Name".inp");
-	int n = Rand(50, 100);
+	int n = rand(50, 100);
 }
 
 void runTest() {
