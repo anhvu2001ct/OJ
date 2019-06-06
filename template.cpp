@@ -1,3 +1,4 @@
+
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
@@ -5,11 +6,23 @@
 using namespace __gnu_pbds;
 using namespace std;
 
-#define bug1(x, i) cout << #x << '[' << i << "] = " << x[i] << '\n'
-#define bug2(x, i, j) cout << #x << '[' << i << "][" << j << "] = " << x[i][j] << '\n'
-#define bug3(x, i, j, k) cout << #x << '[' << i << "][" << j << "][" << k << "] = " << x[i][j][k] << '\n'
+#define fto(i, s, e) for(int i = s; i <= e; ++i)
+#define fto1(i, s, e) for(int i = s; i < e; ++i)
+#define fdto(i, s, e) for(int i = s; i >= e; --i)
+#define fit(var, it) for(auto it = var.begin(); it != var.end(); ++it)
+#define frit(var, it) for(auto it = var.rbegin(); it != var.rend(); ++it)
+
+#define newl '\n'
+#define bug1(x, i) cout << #x << '[' << i << "] = " << x[i] << newl
+#define bug2(x, i, j) cout << #x << '[' << i << "][" << j << "] = " << x[i][j] << newl
+#define bug3(x, i, j, k) cout << #x << '[' << i << "][" << j << "][" << k << "] = " << x[i][j][k] << newl
+
+#define pc __builtin_popcountll
 
 #define ll long long
+#define ii pair<int, int>
+#define ff first
+#define ss second
 #define mp make_pair
 #define pb push_back
 #define sz(v) int((v).size())
@@ -23,7 +36,7 @@ template<class T, class Cmp = less<T>> using oss = tree<T, null_type, Cmp, rb_tr
 double const pi = acos(-1);
 #define oo 1000000007
 #define OO 1000000000000000003LL
-#define maxn 1003
+#define maxn 103
 
 
 
@@ -32,9 +45,9 @@ int main() {
 		freopen("main.inp", "r", stdin);
 		freopen("main.out", "w", stdout);
 	#endif
-	//ios_base::sync_with_stdio(0); cin.tie(0);
+	//ios_base::sync_with_stdio(0); cin.tie(nullptr);
+	
 	
 
-
-	cerr << 0.001*clock() << '\n'; return 0;
+	cerr << 0.001*clock() << newl; return 0;
 }
