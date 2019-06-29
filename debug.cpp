@@ -15,6 +15,7 @@ double const pi = acos(-1);
 #define oo 1000000007
 #define OO 1000000000000000007LL
 #define maxn 100003
+#define nTest 1
 
 #define Name "main"
 
@@ -65,7 +66,7 @@ void validTest(int iTest) {
 int main() {
 	ios_base::sync_with_stdio(0);
 
-	for (int iTest = 1; iTest <= 1; ++iTest) {
+	for (int iTest = 1; iTest <= nTest; ++iTest) {
 		genTest();
 		//validTest(iTest);
 	}
