@@ -33,7 +33,7 @@ template<typename T, typename Cmp = less<T>> using oss = tree<T, null_type, Cmp,
 double const pi = acos(-1);
 #define oo 1000000007
 #define OO 1000000000000000003LL
-#define maxn 103
+#define maxn 100003
 
 
 

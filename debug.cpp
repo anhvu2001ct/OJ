@@ -60,29 +60,33 @@ vector<Type> genVec(int n, Type l = 1, Type r = oo) {
 	return res;
 }
 
-vector<ii> genTree(int n, int root = 1) {
+vector<ii> genTree(int n, int root = 1, int depth = 1) {
 	vector<int> node, used(1, root);
 	fto (i, 1, n) if (i != root) node.push_back(i);
 	shuffleVec(node);
 	vector<ii> res;
-	while (!node.empty()) {
-		res.push_back({rand(used), node.back()});
+	auto push = [&](int from) {
+		res.push_back({from, node.back()});
 		used.push_back(node.back());
 		node.pop_back();
-	}
+	};
+	while (--depth) push(root);
+	while (!node.empty()) push(rand(used));
 	return res;
 }
 
-vector<pair<ii, int>> genWTree(int n, int root = 1, int l = 1, int r = 1000000) {
+vector<pair<ii, int>> genWTree(int n, int root = 1, int depth = 1, int l = 1, int r = 1000000) {
 	vector<int> node, used(1, root);
 	fto (i, 1, n) if (i != root) node.push_back(i);
 	shuffleVec(node);
 	vector<pair<ii, int>> res;
-	while (!node.empty()) {
-		res.push_back({{rand(used), node.back()}, rand(l, r)});
+	auto push = [&](int from) {
+		res.push_back({{from, node.back()}, rand(l, r)});
 		used.push_back(node.back());
 		node.pop_back();
-	}
+	};
+	while (--depth) push(root);
+	while (!node.empty()) push(rand(used));
 	return res;
 }
 
@@ -92,15 +96,18 @@ void outp(ofstream &f, Type var) {
 }
 
 template<typename Type>
-void outp(ofstream &f, vector<Type> &vec) {
+void outp(ofstream &f, vector<Type> &vec, bool nl = 0) {
 	fto1 (i, 0, sz(vec)) {
-		f << vec[i] << (i == sz(vec)-1 ? '\n' : ' ');
+		f << vec[i] << (i == sz(vec)-1 ? newl : (nl ? newl : ' '));
 	}
 }
 
 void genTest() {
 	ofstream inp(Name".inp");
-	auto n = rand(10, 20);
+	auto n = rand(7, 10);
+	auto v = genTree(n);
+	outp(inp, n);
+	outp(inp, v, 1);
 }
 
 void runTest() {
