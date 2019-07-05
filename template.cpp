@@ -1,4 +1,3 @@
-
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
@@ -23,15 +22,13 @@ using namespace std;
 #define ii pair<int, int>
 #define ff first
 #define ss second
-#define mp make_pair
-#define pb push_back
 #define sz(v) int((v).size())
 
-template<class T1, class T2> ostream& operator<< (ostream &os, pair<T1, T2> const &v) {
-	return os << '(' << v.first << ", " << v.second << ')';
+template<typename T1, typename T2> ostream& operator<< (ostream &os, pair<T1, T2> const &v) {
+	return os << '(' << v.ff << ", " << v.ss << ')';
 }
 
-template<class T, class Cmp = less<T>> using oss = tree<T, null_type, Cmp, rb_tree_tag, tree_order_statistics_node_update>;
+template<typename T, typename Cmp = less<T>> using oss = tree<T, null_type, Cmp, rb_tree_tag, tree_order_statistics_node_update>;
 
 double const pi = acos(-1);
 #define oo 1000000007
@@ -46,7 +43,7 @@ int main() {
 		freopen("main.out", "w", stdout);
 	#endif
 	//ios_base::sync_with_stdio(0); cin.tie(nullptr);
-	
+
 	
 
 	cerr << 0.001*clock() << newl; return 0;
