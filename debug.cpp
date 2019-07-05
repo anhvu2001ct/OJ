@@ -25,6 +25,7 @@ template<typename T1, typename T2> ostream& operator<< (ostream &os, pair<T1, T2
 
 #define oo 1000000007
 #define OO 1000000000000000003LL
+#define maxn 1000000
 #define nTest 1
 
 #define Name "main"
@@ -33,7 +34,7 @@ double const pi = acos(-1);
 mt19937 rg(chrono::steady_clock::now().time_since_epoch().count());
 
 int rand() {
-	return uniform_int_distribution<>(1, 1000000)(rg);
+	return uniform_int_distribution<>(1, maxn)(rg);
 }
 
 int rand(int l, int r) {
@@ -55,7 +56,7 @@ void shuffleVec(vector<Type> &vec) {
 }
 
 template<typename Type = int>
-vector<Type> genVec(int n, Type l = 1, Type r = oo) {
+vector<Type> genVec(int n, Type l = 1, Type r = maxn) {
 	vector<Type> res(n); fit (res, it) *it = rand(l, r);
 	return res;
 }
@@ -76,7 +77,7 @@ vector<ii> genTree(int n, int root = 1, int minDepth = 1) {
 	return res;
 }
 
-vector<pair<ii, int>> genWTree(int n, int root = 1, int minDepth = 1, int l = 1, int r = 1000000) {
+vector<pair<ii, int>> genWTree(int n, int root = 1, int minDepth = 1, int l = 1, int r = maxn) {
 	minDepth = max(min(minDepth, n), 1);
 	vector<int> node, used(1, root);
 	fto (i, 1, n) if (i != root) node.push_back(i);
