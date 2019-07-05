@@ -60,7 +60,8 @@ vector<Type> genVec(int n, Type l = 1, Type r = oo) {
 	return res;
 }
 
-vector<ii> genTree(int n, int root = 1, int depth = 1) {
+vector<ii> genTree(int n, int root = 1, int minDepth = 1) {
+	minDepth = max(min(minDepth, n), 1);
 	vector<int> node, used(1, root);
 	fto (i, 1, n) if (i != root) node.push_back(i);
 	shuffleVec(node);
@@ -70,12 +71,13 @@ vector<ii> genTree(int n, int root = 1, int depth = 1) {
 		used.push_back(node.back());
 		node.pop_back();
 	};
-	while (--depth) push(used.back());
+	while (--minDepth) push(used.back());
 	while (!node.empty()) push(rand(used));
 	return res;
 }
 
-vector<pair<ii, int>> genWTree(int n, int root = 1, int depth = 1, int l = 1, int r = 1000000) {
+vector<pair<ii, int>> genWTree(int n, int root = 1, int minDepth = 1, int l = 1, int r = 1000000) {
+	minDepth = max(min(minDepth, n), 1);
 	vector<int> node, used(1, root);
 	fto (i, 1, n) if (i != root) node.push_back(i);
 	shuffleVec(node);
@@ -85,7 +87,7 @@ vector<pair<ii, int>> genWTree(int n, int root = 1, int depth = 1, int l = 1, in
 		used.push_back(node.back());
 		node.pop_back();
 	};
-	while (--depth) push(used.back());
+	while (--minDepth) push(used.back());
 	while (!node.empty()) push(rand(used));
 	return res;
 }
