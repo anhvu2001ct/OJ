@@ -70,7 +70,7 @@ vector<ii> genTree(int n, int root = 1, int depth = 1) {
 		used.push_back(node.back());
 		node.pop_back();
 	};
-	while (--depth) push(root);
+	while (--depth) push(used.back());
 	while (!node.empty()) push(rand(used));
 	return res;
 }
@@ -85,7 +85,7 @@ vector<pair<ii, int>> genWTree(int n, int root = 1, int depth = 1, int l = 1, in
 		used.push_back(node.back());
 		node.pop_back();
 	};
-	while (--depth) push(root);
+	while (--depth) push(used.back());
 	while (!node.empty()) push(rand(used));
 	return res;
 }
@@ -105,7 +105,7 @@ void outp(ofstream &f, vector<Type> &vec, bool nl = 0) {
 void genTest() {
 	ofstream inp(Name".inp");
 	auto n = rand(7, 10);
-	auto v = genTree(n);
+	auto v = genTree(n, 1, n);
 	outp(inp, n);
 	outp(inp, v, 1);
 }
