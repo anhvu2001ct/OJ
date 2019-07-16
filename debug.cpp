@@ -2,11 +2,11 @@
 
 using namespace std;
 
-#define fto(i, s, e) for(int i = s; i <= e; ++i)
-#define fto1(i, s, e) for(int i = s; i < e; ++i)
-#define fdto(i, s, e) for(int i = s; i >= e; --i)
-#define fit(var, it) for(auto it = var.begin(); it != var.end(); ++it)
-#define frit(var, it) for(auto it = var.rbegin(); it != var.rend(); ++it)
+#define fto(i, s, e) for (int i = s; i <= e; ++i)
+#define fto1(i, s, e) for (int i = s; i < e; ++i)
+#define fdto(i, s, e) for (int i = s; i >= e; --i)
+#define fit(var, it) for (auto it = var.begin(); it != var.end(); ++it)
+#define frit(var, it) for (auto it = var.rbegin(); it != var.rend(); ++it)
 
 #define newl '\n'
 #define bug1(x, i) cout << #x << '[' << i << "] = " << x[i] << '\n'

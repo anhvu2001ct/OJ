@@ -5,11 +5,11 @@
 using namespace __gnu_pbds;
 using namespace std;
 
-#define fto(i, s, e) for(int i = s; i <= e; ++i)
-#define fto1(i, s, e) for(int i = s; i < e; ++i)
-#define fdto(i, s, e) for(int i = s; i >= e; --i)
-#define fit(var, it) for(auto it = var.begin(); it != var.end(); ++it)
-#define frit(var, it) for(auto it = var.rbegin(); it != var.rend(); ++it)
+#define fto(i, s, e) for (int i = s; i <= e; ++i)
+#define fto1(i, s, e) for (int i = s; i < e; ++i)
+#define fdto(i, s, e) for (int i = s; i >= e; --i)
+#define fit(var, it) for (auto it = var.begin(); it != var.end(); ++it)
+#define frit(var, it) for (auto it = var.rbegin(); it != var.rend(); ++it)
 
 #define newl '\n'
 #define bug1(x, i) cout << #x << '[' << i << "] = " << x[i] << newl
@@ -22,6 +22,7 @@ using namespace std;
 #define ii pair<int, int>
 #define ff first
 #define ss second
+#define pb push_back
 #define sz(v) int((v).size())
 
 template<typename T1, typename T2> ostream& operator<< (ostream &os, pair<T1, T2> const &v) {
