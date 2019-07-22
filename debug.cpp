@@ -2,16 +2,19 @@
 
 using namespace std;
 
-#define fto(i, s, e) for (int i = s; i <= e; ++i)
-#define fto1(i, s, e) for (int i = s; i < e; ++i)
-#define fdto(i, s, e) for (int i = s; i >= e; --i)
-#define fit(var, it) for (auto it = var.begin(); it != var.end(); ++it)
-#define frit(var, it) for (auto it = var.rbegin(); it != var.rend(); ++it)
+#define fto(i, s, e) for(int i = (s); i <= (e); ++i)
+#define fto1(i, s, e) for(int i = (s); i < (e); ++i)
+#define fdto(i, s, e) for(int i = (s); i >= (e); --i)
+#define fit(var, it) for(auto it = (var).begin(); it != (var).end(); ++it)
+#define frit(var, it) for(auto it = (var).rbegin(); it != (var).rend(); ++it)
 
 #define newl '\n'
-#define bug1(x, i) cout << #x << '[' << i << "] = " << x[i] << '\n'
-#define bug2(x, i, j) cout << #x << '[' << i << "][" << j << "] = " << x[i][j] << '\n'
-#define bug3(x, i, j, k) cout << #x << '[' << i << "][" << j << "][" << k << "] = " << x[i][j][k] << '\n'
+#define bug1(x, i) cout << #x << '[' << i << "] = " << x[i] << newl
+#define bug2(x, i, j) cout << #x << '[' << i << "][" << j << "] = " << x[i][j] << newl
+#define bug3(x, i, j, k) cout << #x << '[' << i << "][" << j << "][" << k << "] = " << x[i][j][k] << newl
+
+#define bc __builtin_popcountll
+#define y1 ansdj
 
 #define ll long long
 #define ii pair<int, int>
@@ -20,14 +23,13 @@ using namespace std;
 #define sz(v) int((v).size())
 
 template<typename T1, typename T2> ostream& operator<< (ostream &os, pair<T1, T2> const &v) {
-	return os << '(' << v.ff << ", " << v.ss << ')';
+	return os << v.ff << ' ' << v.ss;
 }
 
 #define oo 1000000007
 #define OO 1000000000000000003LL
 #define maxn 1000000
 #define nTest 1
-
 #define Name "main"
 
 double const pi = acos(-1);
@@ -101,7 +103,7 @@ void outp(ofstream &f, Type var) {
 template<typename Type>
 void outp(ofstream &f, vector<Type> &vec, bool nl = 0) {
 	fto1 (i, 0, sz(vec)) {
-		f << vec[i] << (i == sz(vec)-1 ? newl : (nl ? newl : ' '));
+		f << vec[i] << " \n"[i < sz(vec)-1];
 	}
 }
 
