@@ -157,7 +157,7 @@ void validTest(int iTest) {
 int main() {
 	ios_base::sync_with_stdio(0); cin.tie(nullptr);
 
-	for (int iTest = 1; iTest <= nTest; ++iTest) {
+	fto (iTest, 1, nTest) {
 		genTest();
 		//validTest(iTest);
 	}
