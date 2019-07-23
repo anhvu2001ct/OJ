@@ -50,8 +50,11 @@ int main() {
 		freopen("main.out", "w", stdout);
 	#endif
 	ios_base::sync_with_stdio(0); cin.tie(nullptr);
+	
 
 
-
+	#ifdef KITTENS
+		cerr << 0.001*clock() << newl;
+	#endif
 	return 0;
 }
