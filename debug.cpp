@@ -108,7 +108,7 @@ void outp(ofstream &f, Type var) {
 template<typename Type>
 void outp(ofstream &f, vector<Type> &vec, bool nl = 0) {
 	fto1 (i, 0, sz(vec)) {
-		f << vec[i] << " \n"[i == sz(vec)-1];
+		f << vec[i] << (i == sz(vec)-1 ? "" : (nl ? "\n" : " "));
 	}
 }
 
