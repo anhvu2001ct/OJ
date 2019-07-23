@@ -84,7 +84,8 @@ vector<ii> genTree(int n, int root = 1, int minDepth = 1) {
 	return res;
 }
 
-vector<pair<ii, int>> genWTree(int n, int root = 1, int minDepth = 1, int l = 1, int r = maxn) {
+template<typename Type = int>
+vector<pair<ii, int>> genWTree(int n, int root = 1, int minDepth = 1, Type l = 1, Type r = maxn) {
 	minDepth = max(min(minDepth, n), 1);
 	vector<int> node, used(1, root);
 	fto (i, 1, n) if (i != root) node.pb(i);
