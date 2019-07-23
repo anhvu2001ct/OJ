@@ -47,11 +47,11 @@ double const pi = acos(-1);
 int main() {
 	#ifdef KITTENS
 		freopen("main.inp", "r", stdin);
-	 	freopen("main.out", "w", stdout);
+		freopen("main.out", "w", stdout);
 	#endif
-    //ios_base::sync_with_stdio(0); cin.tie(nullptr);
-	
-	
+	//ios_base::sync_with_stdio(0); cin.tie(nullptr);
+
+
 
 	return 0;
 }
