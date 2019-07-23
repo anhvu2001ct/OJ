@@ -20,10 +20,15 @@ using namespace std;
 #define ii pair<int, int>
 #define ff first
 #define ss second
+#define pb emplace_back
 #define sz(v) int((v).size())
 
 template<typename T1, typename T2> ostream& operator<< (ostream &os, pair<T1, T2> const &v) {
 	return os << v.ff << ' ' << v.ss;
+}
+
+char* sfm(const char *sf, ...) {
+	static char res[100];va_list args;va_start(args, sf);vsnprintf(res, 100, sf, args);va_end(args);return res;
 }
 
 #define oo 1000000007
@@ -66,12 +71,12 @@ vector<Type> genVec(int n, Type l = 1, Type r = maxn) {
 vector<ii> genTree(int n, int root = 1, int minDepth = 1) {
 	minDepth = max(min(minDepth, n), 1);
 	vector<int> node, used(1, root);
-	fto (i, 1, n) if (i != root) node.push_back(i);
+	fto (i, 1, n) if (i != root) node.pb(i);
 	shuffleVec(node);
 	vector<ii> res;
 	auto push = [&](int from) {
-		res.push_back({from, node.back()});
-		used.push_back(node.back());
+		res.pb(from, node.back());
+		used.pb(node.back());
 		node.pop_back();
 	};
 	while (--minDepth) push(used.back());
@@ -82,12 +87,12 @@ vector<ii> genTree(int n, int root = 1, int minDepth = 1) {
 vector<pair<ii, int>> genWTree(int n, int root = 1, int minDepth = 1, int l = 1, int r = maxn) {
 	minDepth = max(min(minDepth, n), 1);
 	vector<int> node, used(1, root);
-	fto (i, 1, n) if (i != root) node.push_back(i);
+	fto (i, 1, n) if (i != root) node.pb(i);
 	shuffleVec(node);
 	vector<pair<ii, int>> res;
 	auto push = [&](int from) {
-		res.push_back({{from, node.back()}, rand(l, r)});
-		used.push_back(node.back());
+		res.pb(ii(from, node.back()), rand(l, r));
+		used.pb(node.back());
 		node.pop_back();
 	};
 	while (--minDepth) push(used.back());
@@ -103,7 +108,7 @@ void outp(ofstream &f, Type var) {
 template<typename Type>
 void outp(ofstream &f, vector<Type> &vec, bool nl = 0) {
 	fto1 (i, 0, sz(vec)) {
-		f << vec[i] << " \n"[i < sz(vec)-1];
+		f << vec[i] << " \n"[i == sz(vec)-1];
 	}
 }
 
