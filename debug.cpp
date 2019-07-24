@@ -41,7 +41,7 @@ double const pi = acos(-1);
 mt19937 rg(chrono::steady_clock::now().time_since_epoch().count());
 
 int rand() {
-	return uniform_int_distribution<>(1, maxn)(rg);
+	return uniform_int_distribution<>(0, maxn)(rg);
 }
 
 int rand(int l, int r) {
