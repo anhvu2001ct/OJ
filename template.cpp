@@ -35,16 +35,17 @@ template<class T> ostream& operator<< (ostream &os, vector<T> const &v) {
 
 template<typename T> void read(T &val) {
     char c; for (c = getchar(); c != '-' && (c < '0' || c > '9'); c = getchar());
-    bool neg = (c == '-'); if (neg) *val = 0; else *val = c - '0';
-    for (c = getchar(); c >= '0' && c <= '9'; c = getchar()) *val = *val*10 + c - '0';
-    if (neg) *val = -*val;
+    bool neg = (c == '-'); if (neg) val = 0; else val = c - '0';
+    for (c = getchar(); c >= '0' && c <= '9'; c = getchar()) val = val*10 + c - '0';
+    if (neg) val = -val;
 }
+
+template<typename T, typename... Args> void read(T &val, Args&... args) { read(val); read(args...); }
 
 double const pi = acos(-1);
 #define oo 1000000007
 #define OO 1000000000000000003LL
 #define maxn 100003
-
 
 
 int main() {
@@ -53,8 +54,7 @@ int main() {
 		freopen("main.out", "w", stdout);
 	#endif
 	//ios_base::sync_with_stdio(0); cin.tie(nullptr);
-	
-	
+
 	
 	#ifdef KITTENS
 		cerr << 0.001*clock() << endl;
