@@ -8,10 +8,10 @@ using namespace std;
 #define fit(var, it) for(auto it = (var).begin(); it != (var).end(); ++it)
 #define frit(var, it) for(auto it = (var).rbegin(); it != (var).rend(); ++it)
 
-#define newl '\n'
-#define bug1(x, i) cout << #x << '[' << i << "] = " << x[i] << newl
-#define bug2(x, i, j) cout << #x << '[' << i << "][" << j << "] = " << x[i][j] << newl
-#define bug3(x, i, j, k) cout << #x << '[' << i << "][" << j << "][" << k << "] = " << x[i][j][k] << newl
+#define endl '\n'
+#define bug1(x, i) cout << #x << '[' << i << "] = " << x[i] << endl
+#define bug2(x, i, j) cout << #x << '[' << i << "][" << j << "] = " << x[i][j] << endl
+#define bug3(x, i, j, k) cout << #x << '[' << i << "][" << j << "][" << k << "] = " << x[i][j][k] << endl
 
 #define bc __builtin_popcountll
 #define y1 ansdj
@@ -103,7 +103,7 @@ vector<pair<ii, int>> genWTree(int n, int root = 1, int minDepth = 1, Type l = 1
 
 template<typename Type>
 void outp(ofstream &f, Type var) {
-	f << var << newl;
+	f << var << endl;
 }
 
 template<typename Type>
@@ -163,6 +163,6 @@ int main() {
 		//validTest(iTest);
 	}
 
-	cerr << 0.001*clock() << newl;
+	cerr << 0.001*clock() << endl;
 	return 0;
 }
