@@ -41,7 +41,6 @@ void read(string &s) {
 	for (__c = getchar(); __c == ' ' || __c == '\n'; __c = getchar());
 	if (__c != EOF) s += __c; for (__c = getchar(); __c != ' ' && __c != '\n' && __c != EOF; __c = getchar()) s += __c;
 }
-
 template<typename T, typename... Args> void read(T &val, Args&... args) { read(val); read(args...); }
 
 double const pi = acos(-1);
