@@ -116,10 +116,7 @@ void outf(ofstream &f, vector<Type> &vec, bool nl = 0) {
 void genTest() {
 	ofstream inp(Name".inp");
 	#define outp(x) outf(inp, x)
-	auto n = rand(1000000, 1000000);
-	auto vec = genVec(n);
-	outp(n);
-	outp(vec);
+	
 }
 
 void runTest() {
@@ -161,7 +158,7 @@ int main() {
 
 	fto (iTest, 1, nTest) {
 		genTest();
-		validTest(iTest);
+		//validTest(iTest);
 	}
 
 	return 0;

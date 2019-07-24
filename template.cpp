@@ -30,23 +30,23 @@ template<class T1, class T2> ostream& operator<< (ostream &os, pair<T1, T2> cons
 }
 
 char __c; 
-template<typename T> void read(T &val) {
+template<typename T> void scan(T &val) {
     for (__c = getchar(); __c != '-' && (__c < '0' || __c > '9'); __c = getchar());
     bool neg = (__c == '-'); if (neg) val = 0; else val = __c - '0';
     for (__c = getchar(); __c >= '0' && __c <= '9'; __c = getchar()) val = val*10 + __c - '0';
     if (neg) val = -val;
 }
-void read(char &c) { c = getchar(); }
-void read(string &s) {
-	for (__c = getchar(); __c == ' ' || __c == '\n'; __c = getchar());
+void scan(char &c) { c = getchar(); }
+void scan(string &s) {
+	s = ""; for (__c = getchar(); __c == ' ' || __c == '\n'; __c = getchar());
 	if (__c != EOF) s += __c; for (__c = getchar(); __c != ' ' && __c != '\n' && __c != EOF; __c = getchar()) s += __c;
 }
-template<typename T, typename... Args> void read(T &val, Args&... args) { read(val); read(args...); }
+template<typename T, typename... Args> void scan(T &val, Args&... args) { scan(val); scan(args...); }
 
 double const pi = acos(-1);
 #define oo 1000000007
 #define OO 1000000000000000003LL
-#define maxn 1000003
+#define maxn 100003
 
 
 
@@ -56,9 +56,9 @@ int main() {
 		freopen("main.out", "w", stdout);
 	#endif
 	ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
-
-
 	
+	
+
 	#ifdef KITTENS
 		cerr << 0.001*clock() << endl;
 	#endif
