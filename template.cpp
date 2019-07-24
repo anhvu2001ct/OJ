@@ -53,7 +53,7 @@ int main() {
 		freopen("main.inp", "r", stdin);
 		freopen("main.out", "w", stdout);
 	#endif
-	//ios_base::sync_with_stdio(0); cin.tie(nullptr);
+	//ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
 
 	
 	#ifdef KITTENS

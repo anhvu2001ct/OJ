@@ -102,12 +102,12 @@ vector<pair<ii, int>> genWTree(int n, int root = 1, int minDepth = 1, Type l = 1
 }
 
 template<typename Type>
-void outp(ofstream &f, Type var) {
+void outf(ofstream &f, Type var) {
 	f << var << endl;
 }
 
 template<typename Type>
-void outp(ofstream &f, vector<Type> &vec, bool nl = 0) {
+void outf(ofstream &f, vector<Type> &vec, bool nl = 0) {
 	fto1 (i, 0, sz(vec)) {
 		f << vec[i] << (i == sz(vec)-1 ? "" : (nl ? "\n" : " "));
 	}
@@ -115,10 +115,11 @@ void outp(ofstream &f, vector<Type> &vec, bool nl = 0) {
 
 void genTest() {
 	ofstream inp(Name".inp");
-	auto n = rand(7, 10);
-	auto v = genTree(n, 1, n);
-	outp(inp, n);
-	outp(inp, v, 1);
+	#define outp(x) outf(inp, x)
+	auto n = rand(1000000, 1000000);
+	auto vec = genVec(n);
+	outp(n);
+	outp(vec);
 }
 
 void runTest() {
@@ -156,13 +157,12 @@ void validTest(int iTest) {
 }
 
 int main() {
-	ios_base::sync_with_stdio(0); cin.tie(nullptr);
+	ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
 
 	fto (iTest, 1, nTest) {
 		genTest();
-		//validTest(iTest);
+		validTest(iTest);
 	}
 
-	cerr << 0.001*clock() << endl;
 	return 0;
 }
