@@ -30,34 +30,33 @@ template<class T1, class T2> ostream& operator<< (ostream &os, pair<T1, T2> cons
 }
 
 char __c; 
-template<typename T> void scan(T &val) {
-    for (__c = getchar(); __c != '-' && (__c < '0' || __c > '9'); __c = getchar());
+template<class T> bool scan(T &val) {
+    for (__c = getchar(); __c != '-' && __c != EOF && (__c < '0' || __c > '9'); __c = getchar()); if (__c == EOF) return 0;
     bool neg = (__c == '-'); if (neg) val = 0; else val = __c - '0';
     for (__c = getchar(); __c >= '0' && __c <= '9'; __c = getchar()) val = val*10 + __c - '0';
-    if (neg) val = -val;
+    if (neg) val = -val; return 1;
 }
-void scan(char &c) { c = getchar(); }
-void scan(string &s) {
-	s = ""; for (__c = getchar(); __c == ' ' || __c == '\n'; __c = getchar());
-	if (__c != EOF) s += __c; for (__c = getchar(); __c != ' ' && __c != '\n' && __c != EOF; __c = getchar()) s += __c;
+bool scan(char &c) { c = getchar(); return c != EOF; }
+bool scan(string &s) {
+	s = ""; for (__c = getchar(); __c == ' ' || __c == '\n'; __c = getchar()); if (__c == EOF) return 0;
+	s += __c; for (__c = getchar(); __c != ' ' && __c != '\n' && __c != EOF; __c = getchar()) s += __c; return 1;
 }
-template<typename T, typename... Args> void scan(T &val, Args&... args) { scan(val); scan(args...); }
+template<class T, class... Args> bool scan(T &val, Args&... args) { scan(val); return scan(args...); }
 
 double const pi = acos(-1);
 #define oo 1000000007
 #define OO 1000000000000000003LL
 #define maxn 100003
 
-
-
+ 
 int main() {
 	#ifdef KITTENS
 		freopen("main.inp", "r", stdin);
 		freopen("main.out", "w", stdout);
 	#endif
 	ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
-	
-	
+
+
 
 	#ifdef KITTENS
 		cerr << 0.001*clock() << endl;
