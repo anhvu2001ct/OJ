@@ -18,13 +18,13 @@ using namespace std;
 
 #define ll long long
 #define ii pair<int, int>
-#define ff first
-#define ss second
+#define x first
+#define y second
 #define pb emplace_back
 #define sz(v) int((v).size())
 
 template<typename T1, typename T2> ostream& operator<< (ostream &os, pair<T1, T2> const &v) {
-	return os << v.ff << ' ' << v.ss;
+	return os << v.x << ' ' << v.y;
 }
 
 char* sfm(const char *sf, ...) {
@@ -115,11 +115,11 @@ void outf(ofstream &f, vector<Type> &vec, bool nl = 0) {
 
 void genTest() {
 	ofstream inp(Name".inp");
-	#define outp(x) outf(inp, x)
+	#define outp(args...) outf(inp, args)
 	outp(1);
 	auto n = rand(1, 200000), k = rand(1, n);
 	auto v = genVec(n);
-	outp(n); outp(k); outp(v);
+	outp(n); outp(k); outp(v, 1);
 }
 
 void runTest() {
@@ -162,7 +162,7 @@ int main() {
 
 	fto (iTest, 1, nTest) {
 		genTest();
-		validTest(iTest);
+		//validTest(iTest);
 	}
 
 	return 0;

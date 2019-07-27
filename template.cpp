@@ -20,8 +20,8 @@ using namespace std;
 
 #define ll long long
 #define ii pair<int, int>
-#define ff first
-#define ss second
+#define x first
+#define y second
 #define pb push_back
 #define sz(v) int((v).size())
 
@@ -48,7 +48,8 @@ double const pi = acos(-1);
 #define OO 1000000000000000003LL
 #define maxn 100003
 
- 
+
+
 int main() {
 	#ifdef KITTENS
 		freopen("main.inp", "r", stdin);
