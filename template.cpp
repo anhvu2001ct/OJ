@@ -26,29 +26,17 @@ using namespace std;
 #define sz(v) int((v).size())
 
 template<class T1, class T2> ostream& operator<< (ostream &os, pair<T1, T2> const &v) {
-	return os << '(' << v.ff << ", " << v.ss << ')';
+	return os << '(' << v.x << ", " << v.y << ')';
 }
 
-char __c; 
-template<class T> bool scan(T &val) {
-    for (__c = getchar(); __c != '-' && __c != EOF && (__c < '0' || __c > '9'); __c = getchar()); if (__c == EOF) return 0;
-    bool neg = (__c == '-'); if (neg) val = 0; else val = __c - '0';
-    for (__c = getchar(); __c >= '0' && __c <= '9'; __c = getchar()) val = val*10 + __c - '0';
-    if (neg) val = -val; return 1;
+char* sfm(const char *fmt, ...) {
+	static char res[256];va_list args;va_start(args, fmt);vsnprintf(res, 100, fmt, args);va_end(args);return res;
 }
-bool scan(char &c) { c = getchar(); return c != EOF; }
-bool scan(string &s) {
-	s = ""; for (__c = getchar(); __c == ' ' || __c == '\n'; __c = getchar()); if (__c == EOF) return 0;
-	s += __c; for (__c = getchar(); __c != ' ' && __c != '\n' && __c != EOF; __c = getchar()) s += __c; return 1;
-}
-template<class T, class... Args> bool scan(T &val, Args&... args) { scan(val); return scan(args...); }
 
 double const pi = acos(-1);
 #define oo 1000000007
 #define OO 1000000000000000003LL
-#define maxn 100003
-
-
+#define maxn 1000003
 
 int main() {
 	#ifdef KITTENS

@@ -34,7 +34,7 @@ char* sfm(const char *sf, ...) {
 #define oo 1000000007
 #define OO 1000000000000000003LL
 #define maxn 1000000
-#define nTest 50
+#define nTest 100
 #define Name "main"
 
 double const pi = acos(-1);
@@ -116,10 +116,10 @@ void outf(ofstream &f, vector<Type> &vec, bool nl = 0) {
 void genTest() {
 	ofstream inp(Name".inp");
 	#define outp(args...) outf(inp, args)
-	outp(1);
-	auto n = rand(1, 200000), k = rand(1, n);
-	auto v = genVec(n);
-	outp(n); outp(k); outp(v, 1);
+	int n = rand(3, 4);
+	int b = rand(1, 10);
+	outp(n); outp(b);
+	fto (i, 1, n) inp << rand(1, 10) << ' ' << rand(1, 10) << ' ' << rand(1, 10) << '\n';
 }
 
 void runTest() {
@@ -128,7 +128,6 @@ void runTest() {
 }
 
 string& removeSpace(string &str) {
-	if (str != "YES" && str != "NO") str = "";
 	for (int i = sz(str)-1; i >= 0; --i) {
 		if (str[i] != ' ') return str.erase(i);
 	}
@@ -162,7 +161,7 @@ int main() {
 
 	fto (iTest, 1, nTest) {
 		genTest();
-		//validTest(iTest);
+		validTest(iTest);
 	}
 
 	return 0;
