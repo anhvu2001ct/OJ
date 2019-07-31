@@ -27,8 +27,8 @@ template<typename T1, typename T2> ostream& operator<< (ostream &os, pair<T1, T2
 	return os << v.x << ' ' << v.y;
 }
 
-char* sfm(const char *sf, ...) {
-	static char res[100];va_list args;va_start(args, sf);vsnprintf(res, 100, sf, args);va_end(args);return res;
+char* sfm(const char *fmt, ...) {
+	static char res[256];va_list args;va_start(args, fmt);vsnprintf(res, 256, fmt, args);va_end(args);return res;
 }
 
 #define oo 1000000007
