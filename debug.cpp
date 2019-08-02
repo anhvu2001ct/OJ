@@ -34,7 +34,7 @@ char* sfm(const char *fmt, ...) {
 #define oo 1000000007
 #define OO 1000000000000000003LL
 #define maxn 1000000
-#define nTest 100
+#define nTest 1
 #define Name "main"
 
 double const pi = acos(-1);
@@ -65,6 +65,12 @@ void shuffleVec(vector<Type> &vec) {
 template<typename Type = int>
 vector<Type> genVec(int n, Type l = 1, Type r = maxn) {
 	vector<Type> res(n); fit (res, it) *it = rand(l, r);
+	return res;
+}
+
+template<typename T1 = int, typename T2 = int>
+vector<pair<T1, T2>> genPair(int n, T1 l1 = 1, T1 r1 = maxn, T2 l2 = 1, T2 r2 = maxn) {
+	vector<pair<T1, T2>> res(n); fit (res, it) it->x = rand(l1, r1), it->y = rand(l2, r2);
 	return res;
 }
 
@@ -113,13 +119,12 @@ void outf(ofstream &f, vector<Type> &vec, bool nl = 0) {
 	}
 }
 
+/***** --[[ Generating will start here ]]-- *****/
 void genTest() {
-	ofstream inp(Name".inp");
+	#define inp input
 	#define outp(args...) outf(inp, args)
-	int n = rand(3, 4);
-	int b = rand(1, 10);
-	outp(n); outp(b);
-	fto (i, 1, n) inp << rand(1, 10) << ' ' << rand(1, 10) << ' ' << rand(1, 10) << '\n';
+	ofstream inp(Name".inp");
+	
 }
 
 void runTest() {
@@ -136,7 +141,6 @@ string& removeSpace(string &str) {
 
 void validTest(int iTest) {
 	runTest();
-
 	ifstream out(Name".out"), ans(Name".ans");
 	static string answer, output;
 
