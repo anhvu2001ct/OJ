@@ -5,8 +5,9 @@ using namespace std;
 #define fto(i, s, e) for(int i = (s); i <= (e); ++i)
 #define fto1(i, s, e) for(int i = (s); i < (e); ++i)
 #define fdto(i, s, e) for(int i = (s); i >= (e); --i)
-#define fit(var, it) for(auto it = (var).begin(); it != (var).end(); ++it)
-#define frit(var, it) for(auto it = (var).rbegin(); it != (var).rend(); ++it)
+#define forit(it, l, r) for(auto it = (l); it != (r); ++it)
+#define fit(it, var) forit(it, (var).begin(), (var).end())
+#define frit(it, var) forit(it, (var).rbegin(), (var).rend())
 
 #define endl '\n'
 #define bug1(x, i) cout << #x << '[' << i << "] = " << x[i] << endl
@@ -64,13 +65,13 @@ void shuffleVec(vector<Type> &vec) {
 
 template<typename Type = int>
 vector<Type> genVec(int n, Type l = 1, Type r = maxn) {
-	vector<Type> res(n); fit (res, it) *it = rand(l, r);
+	vector<Type> res(n); fit (it, res) *it = rand(l, r);
 	return res;
 }
 
 template<typename T1 = int, typename T2 = int>
 vector<pair<T1, T2>> genPair(int n, T1 l1 = 1, T1 r1 = maxn, T2 l2 = 1, T2 r2 = maxn) {
-	vector<pair<T1, T2>> res(n); fit (res, it) it->x = rand(l1, r1), it->y = rand(l2, r2);
+	vector<pair<T1, T2>> res(n); fit (it, res) it->x = rand(l1, r1), it->y = rand(l2, r2);
 	return res;
 }
 

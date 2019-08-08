@@ -37,7 +37,32 @@ char* sfm(const char *fmt, ...) {
 double const pi = acos(-1);
 #define oo 1000000007
 #define OO 1000000000000000003LL
-#define maxn 1000003
+#define maxn 100003
+
+int n, q;
+int a[maxn], b[maxn];
+vector<int> f[4*maxn];
+
+void build(int id, int l, int r, int *al, int *ar) {
+	int mid = (l + r)/2;
+	auto comp = [&](int x) { return x <= mid;};
+	f[id].reserve(ar - al); f[id].pb(0);
+	forit (it, al, ar) {
+		f[id].pb(f[id].back() + comp(*it));
+	}
+	if (l == r) return;
+	int *am = stable_partition(al, ar, comp);
+	build(2*id, l, mid, al, am);
+	build(2*id+1, mid+1, r, am, ar);
+}
+
+int query(int id, int l, int r, int ql, int qr, int k) {
+	if (l == r) return l;
+	int mid = (l+r)/2;
+	int cnt = f[id][qr] - f[id][ql];
+	if (cnt >= k) return query(2*id, l, mid, f[id][ql], f[id][qr], k);
+	return query(2*id+1, mid+1, r, ql - f[id][ql], qr - f[id][qr], k - cnt);
+}
 
 int main() {
 	#ifdef KITTENS
@@ -45,8 +70,26 @@ int main() {
 		freopen("main.out", "w", stdout);
 	#endif
 	ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
+	
+	scanf("%d%d", &n, &q);
 
+	fto (i, 1, n) {
+		scanf("%d", &a[i]);
+		b[i] = a[i];
+	}
 
+	sort(b + 1, b + 1 + n);
+	int N = unique(b + 1, b + 1 + n) - b - 1;
+
+	fto (i, 1, n) a[i] = lower_bound(b + 1, b + 1 + N, a[i]) - b;
+
+	build(1, 1, N, a + 1, a + 1 + n);
+
+	int u, v, k;
+	fto (i, 1, q) {
+		scanf("%d%d%d", &u, &v, &k);
+		printf("%d\n", b[query(1, 1, N, u-1, v, k)]);
+	}
 
 	#ifdef KITTENS
 		cerr << 0.001*clock() << endl;
