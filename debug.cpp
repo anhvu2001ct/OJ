@@ -81,7 +81,7 @@ vector<ii> genTree(int n, int root = 1, int minDepth = 1) {
 	fto (i, 1, n) if (i != root) node.pb(i);
 	shuffleVec(node);
 	vector<ii> res;
-	auto push = [&](int from) {
+	static auto push = [&](int from) {
 		res.pb(from, node.back());
 		used.pb(node.back());
 		node.pop_back();
@@ -98,7 +98,7 @@ vector<pair<ii, int>> genWTree(int n, int root = 1, int minDepth = 1, Type l = 1
 	fto (i, 1, n) if (i != root) node.pb(i);
 	shuffleVec(node);
 	vector<pair<ii, int>> res;
-	auto push = [&](int from) {
+	static auto push = [&](int from) {
 		res.pb(ii(from, node.back()), rand(l, r));
 		used.pb(node.back());
 		node.pop_back();
@@ -116,7 +116,7 @@ void outf(ofstream &f, Type var) {
 template<typename Type>
 void outf(ofstream &f, vector<Type> &vec, bool nl = 0) {
 	fto1 (i, 0, sz(vec)) {
-		f << vec[i] << (i == sz(vec)-1 ? "" : (nl ? "\n" : " "));
+		f << vec[i] << (i == sz(vec)-1 ? '\n' : (nl ? '\n' : ' '));
 	}
 }
 
@@ -125,7 +125,10 @@ void genTest() {
 	#define inp input
 	#define outp(args...) outf(inp, args)
 	ofstream inp(Name".inp");
-	
+	auto n = rand(2, 5);
+	auto v = genTree(n);
+	outp(n);
+	outp(v, 1);
 }
 
 void runTest() {
@@ -166,7 +169,7 @@ int main() {
 
 	fto (iTest, 1, nTest) {
 		genTest();
-		validTest(iTest);
+		//validTest(iTest);
 	}
 
 	return 0;
