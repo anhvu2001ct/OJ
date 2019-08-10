@@ -30,14 +30,15 @@ template<class T1, class T2> ostream& operator<< (ostream &os, pair<T1, T2> cons
 	return os << '(' << v.x << ", " << v.y << ')';
 }
 
-char* sfm(const char *fmt, ...) {
-	static char res[256];va_list args;va_start(args, fmt);vsnprintf(res, 256, fmt, args);va_end(args);return res;
-}
+template<class T> const T& max(const T &a, const T &b, const T &c) { return a > b ? max(a, c) : max(b, c); }
+template<class T, class... Args> const T& max(const T &a, const T &b, const Args&... args) { return a > b ? max(a, args...) : max(b, args...); }
+template<class T> const T& min(const T &a, const T &b, const T &c) { return a > b ? min(a, c) : min(b, c); }
+template<class T, class... Args> const T& min(const T &a, const T &b, const Args&... args) { return a > b ? min(a, args...) : min(b, args...); }
 
 double const pi = acos(-1);
 #define oo 1000000007
 #define OO 1000000000000000003LL
-#define maxn 1000003
+#define maxn 100003
 
 int main() {
 	#ifdef KITTENS
@@ -45,8 +46,8 @@ int main() {
 		freopen("main.out", "w", stdout);
 	#endif
 	ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
-
-
+	
+	
 
 	#ifdef KITTENS
 		cerr << 0.001*clock() << endl;
