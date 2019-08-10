@@ -32,8 +32,8 @@ template<class T1, class T2> ostream& operator<< (ostream &os, pair<T1, T2> cons
 
 template<class T> const T& max(const T &a, const T &b, const T &c) { return a > b ? max(a, c) : max(b, c); }
 template<class T, class... Args> const T& max(const T &a, const T &b, const Args&... args) { return a > b ? max(a, args...) : max(b, args...); }
-template<class T> const T& min(const T &a, const T &b, const T &c) { return a > b ? min(a, c) : min(b, c); }
-template<class T, class... Args> const T& min(const T &a, const T &b, const Args&... args) { return a > b ? min(a, args...) : min(b, args...); }
+template<class T> const T& min(const T &a, const T &b, const T &c) { return a < b ? min(a, c) : min(b, c); }
+template<class T, class... Args> const T& min(const T &a, const T &b, const Args&... args) { return a < b ? min(a, args...) : min(b, args...); }
 
 double const pi = acos(-1);
 #define oo 1000000007
