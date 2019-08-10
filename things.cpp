@@ -17,3 +17,7 @@ bool scan(string &s) {
 	s += __c; for (__c = getchar(); __c != ' ' && __c != '\n' && __c != EOF; __c = getchar()) s += __c; return 1;
 }
 template<class T, class... Args> bool scan(T &val, Args&... args) { scan(val); return scan(args...); }
+
+char* sfm(const char *fmt, ...) {
+	static char res[256];va_list args;va_start(args, fmt);vsnprintf(res, 256, fmt, args);va_end(args);return res;
+}
