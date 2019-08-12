@@ -35,7 +35,7 @@ char* sfm(const char *fmt, ...) {
 #define oo 1000000007
 #define OO 1000000000000000003LL
 #define maxn 1000000
-#define nTest 1
+#define nTest 100
 #define Name "main"
 
 double const pi = acos(-1);
@@ -45,7 +45,8 @@ int rand() {
 	return uniform_int_distribution<>(0, maxn)(rg);
 }
 
-int rand(int l, int r) {
+template<typename T = int>
+T rand(T l, T r) {
 	return uniform_int_distribution<>(l, r)(rg);
 }
 
@@ -125,10 +126,12 @@ void genTest() {
 	#define inp input
 	#define outp(args...) outf(inp, args)
 	ofstream inp(Name".inp");
-	auto n = rand(2, 5);
-	auto v = genTree(n);
-	outp(n);
-	outp(v, 1);
+	int t = rand(10, 100);
+	while (t--) {
+		auto n = rand(1LL, (1LL << 31) - 1LL);
+		auto k = rand(0, 31);
+		inp << n << ' ' << k << endl;
+	}
 }
 
 void runTest() {
@@ -169,7 +172,7 @@ int main() {
 
 	fto (iTest, 1, nTest) {
 		genTest();
-		//validTest(iTest);
+		validTest(iTest);
 	}
 
 	return 0;
