@@ -33,8 +33,10 @@ template<class T1, class T2> ostream& operator<< (ostream &os, pair<T1, T2> cons
 double const pi = acos(-1);
 #define oo 1000000007
 #define OO 1000000000000000003LL
+#define maxn 100003
 
-
+int l, r;
+vector<ll> a;
 
 int main() {
 	#ifdef KITTENS
@@ -43,7 +45,34 @@ int main() {
 	#endif
 	ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
 	
+	fto (i, 1, 9) {
+		fto1 (j, 0, 1 << i) {
+			ll x = 0;
+			fdto (k, i-1, 0) {
+				x = x*10 + (onb(j, k) ? 7 : 4);
+			}
+			a.pb(x);
+		}
+	}
 
+	a.pb(4444444444);
+	
+	scanf("%d%d", &l, &r);
+
+	int p = lower_bound(a.begin(), a.end(), l) - a.begin();
+
+	if (a[p] >= r) printf("%lld\n", a[p]*(r-l+1));
+	else {
+		ll ans = a[p]*(a[p] - l + 1);
+		fto1 (i, p+1, sz(a)) {
+			if (a[i] >= r) {
+				ans += a[i]*(r - a[i-1]);
+				break;
+			}
+			ans += a[i] * (a[i] - a[i-1]);
+		}
+		printf("%lld\n", ans);
+	}
 
 	#ifdef KITTENS
 		cerr << 0.001*clock() << endl;
