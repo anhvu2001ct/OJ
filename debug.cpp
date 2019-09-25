@@ -35,7 +35,7 @@ char* sfm(const char *fmt, ...) {
 #define oo 1000000007
 #define OO 1000000000000000003LL
 #define maxn 1000000
-#define nTest 100
+#define nTest 1
 #define Name "main"
 
 double const pi = acos(-1);
