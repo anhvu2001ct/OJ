@@ -129,18 +129,7 @@ void genTest() {
 	ofstream inp(Name".inp");
 	int n = rand(2, 5), m = rand(2, 5);
 	outp(n, m);
-	while (n--) {
-		int k = rand(2, 5);
-		outp(k);
-		auto v = genVec(k, 0, 1);
-		outp(v);
-	}
-	while (m--) {
-		int k = rand(2, 5);
-		outp(k);
-		auto v = genVec(k, 0, 1);
-		outp(v);
-	}
+	
 }
 
 void runTest() {
