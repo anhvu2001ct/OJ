@@ -93,12 +93,12 @@ vector<ii> genTree(int n, int root = 1, int minDepth = 1) {
 }
 
 template<typename Type = int>
-vector<pair<ii, int>> genWTree(int n, int root = 1, int minDepth = 1, Type l = 1, Type r = maxn) {
+vector<pair<ii, Type>> genWTree(int n, int root = 1, int minDepth = 1, Type l = 1, Type r = maxn) {
 	minDepth = max(min(minDepth, n), 1);
 	vector<int> node, used(1, root);
 	fto (i, 1, n) if (i != root) node.pb(i);
 	shuffleVec(node);
-	vector<pair<ii, int>> res;
+	vector<pair<ii, Type>> res;
 	static auto push = [&](int from) {
 		res.pb(ii(from, node.back()), rand(l, r));
 		used.pb(node.back());
@@ -126,12 +126,7 @@ void genTest() {
 	#define inp input
 	#define outp(args...) outf(inp, args)
 	ofstream inp(Name".inp");
-	int t = rand(10, 100);
-	while (t--) {
-		auto n = rand(1LL, (1LL << 31) - 1LL);
-		auto k = rand(0, 31);
-		inp << n << ' ' << k << endl;
-	}
+	
 }
 
 void runTest() {
