@@ -28,10 +28,6 @@ template<typename T1, typename T2> ostream& operator<< (ostream &os, pair<T1, T2
 	return os << v.x << ' ' << v.y;
 }
 
-char* sfm(const char *fmt, ...) {
-	static char res[256];va_list args;va_start(args, fmt);vsnprintf(res, 256, fmt, args);va_end(args);return res;
-}
-
 #define oo 1000000007
 #define OO 1000000000000000003LL
 #define maxn 1000000
@@ -110,8 +106,14 @@ vector<pair<ii, Type>> genWTree(int n, int root = 1, int minDepth = 1, Type l = 
 }
 
 template<typename Type>
-void outf(ofstream &f, Type var) {
+void outf(ofstream &f, Type &var) {
 	f << var << endl;
+}
+
+template<typename Type, typename... Args>
+void outf(ofstream &f, Type &var, Args&... args) {
+	f << var << ' ';
+	outf(f, args...);
 }
 
 template<typename Type>
@@ -123,10 +125,22 @@ void outf(ofstream &f, vector<Type> &vec, bool nl = 0) {
 
 /***** --[[ Generating will start here ]]-- *****/
 void genTest() {
-	#define inp input
 	#define outp(args...) outf(inp, args)
 	ofstream inp(Name".inp");
-	
+	int n = rand(2, 5), m = rand(2, 5);
+	outp(n, m);
+	while (n--) {
+		int k = rand(2, 5);
+		outp(k);
+		auto v = genVec(k, 0, 1);
+		outp(v);
+	}
+	while (m--) {
+		int k = rand(2, 5);
+		outp(k);
+		auto v = genVec(k, 0, 1);
+		outp(v);
+	}
 }
 
 void runTest() {
@@ -136,7 +150,7 @@ void runTest() {
 
 string& removeSpace(string &str) {
 	for (int i = sz(str)-1; i >= 0; --i) {
-		if (str[i] != ' ') return str.erase(i);
+		if (str[i] != ' ') return i == sz(str)-1 ? str : str.erase(i+1);
 	}
 	return str;
 }
