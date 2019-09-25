@@ -110,12 +110,6 @@ void outf(ofstream &f, Type &var) {
 	f << var << endl;
 }
 
-template<typename Type, typename... Args>
-void outf(ofstream &f, Type &var, Args&... args) {
-	f << var << ' ';
-	outf(f, args...);
-}
-
 template<typename Type>
 void outf(ofstream &f, vector<Type> &vec, bool nl = 0) {
 	fto1 (i, 0, sz(vec)) {
@@ -123,12 +117,17 @@ void outf(ofstream &f, vector<Type> &vec, bool nl = 0) {
 	}
 }
 
+template<typename Type, typename... Args>
+void outf(ofstream &f, Type &var, Args&... args) {
+	f << var << ' ';
+	outf(f, args...);
+}
+
 /***** --[[ Generating will start here ]]-- *****/
 void genTest() {
 	#define outp(args...) outf(inp, args)
 	ofstream inp(Name".inp");
-	int n = rand(2, 5), m = rand(2, 5);
-	outp(n, m);
+	int n = rand(2, 5);
 	
 }
 
@@ -170,7 +169,7 @@ int main() {
 
 	fto (iTest, 1, nTest) {
 		genTest();
-		validTest(iTest);
+		//validTest(iTest);
 	}
 
 	return 0;
