@@ -161,10 +161,18 @@ void validTest(int const &iTest) {
 	cerr << "OK.\n";
 }
 
-#define nTest 1
 
-/***** --[[ Generating will start here ]]-- *****/
+
+/**
+ *  --[[ Generating will start here ]]--
+ * **** Examples: ****
+ * @single param -> outp(int);
+ * @vector -> outp(vector);
+ * @multi params -> outp(int, pair, string, vector, ...);
+ * @using inp -> inp << char << double << pair << vector;
+**/
 void genTest() {
+	#define nTest 2
 	#define outp(args...) outf(inp, args)
 	#define outv(vec) outvec(inp, v)
 	ofstream inp(Name".inp");
