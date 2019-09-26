@@ -28,10 +28,17 @@ template<typename T1, typename T2> ostream& operator<< (ostream &os, pair<T1, T2
 	return os << v.x << ' ' << v.y;
 }
 
+template<typename T> ostream& operator<< (ostream &os, vector<T> const &vec) {
+	fto1 (i, 0, sz(vec)) {
+		os << vec[i];
+		if (i < sz(vec)-1) os << ' ';
+	}
+	return os;
+}
+
 #define oo 1000000007
 #define OO 1000000000000000003LL
 #define maxn 1000000
-#define nTest 1
 #define Name "main"
 
 double const pi = acos(-1);
@@ -106,29 +113,19 @@ vector<pair<ii, Type>> genWTree(int n, int root = 1, int minDepth = 1, Type l = 
 }
 
 template<typename Type>
-void outf(ofstream &f, Type &var) {
+void outf(ofstream &f, Type const &var) {
 	f << var << endl;
 }
 
-template<typename Type>
-void outf(ofstream &f, vector<Type> &vec, bool nl = 0) {
-	fto1 (i, 0, sz(vec)) {
-		f << vec[i] << (i == sz(vec)-1 ? '\n' : (nl ? '\n' : ' '));
-	}
-}
-
 template<typename Type, typename... Args>
-void outf(ofstream &f, Type &var, Args&... args) {
+void outf(ofstream &f, Type const &var, Args const &... args) {
 	f << var << ' ';
 	outf(f, args...);
 }
 
-/***** --[[ Generating will start here ]]-- *****/
-void genTest() {
-	#define outp(args...) outf(inp, args)
-	ofstream inp(Name".inp");
-	int n = rand(2, 5);
-	
+template<typename Type>
+void outvec(ofstream &f, vector<Type> const &vec) {
+	fto1 (i, 0, sz(vec)) f << vec[i] << endl;
 }
 
 void runTest() {
@@ -136,14 +133,14 @@ void runTest() {
 	system(Name"_debug.exe");
 }
 
-string& removeSpace(string &str) {
+string& formatted(string &str) {
 	for (int i = sz(str)-1; i >= 0; --i) {
 		if (str[i] != ' ') return i == sz(str)-1 ? str : str.erase(i+1);
 	}
 	return str;
 }
 
-void validTest(int iTest) {
+void validTest(int const &iTest) {
 	runTest();
 	ifstream out(Name".out"), ans(Name".ans");
 	static string answer, output;
@@ -151,7 +148,7 @@ void validTest(int iTest) {
 	cerr << iTest << ": ";
 
 	for (int i = 1; getline(ans, answer); ++i) {
-		if (getline(out, output) && removeSpace(answer) == removeSpace(output)) continue;
+		if (getline(out, output) && formatted(answer) == formatted(output)) continue;
 		cerr << "Wrong answer on line " << i << ".\n";
 		exit(0);
 	}
@@ -162,6 +159,16 @@ void validTest(int iTest) {
 	}
 
 	cerr << "OK.\n";
+}
+
+#define nTest 1
+
+/***** --[[ Generating will start here ]]-- *****/
+void genTest() {
+	#define outp(args...) outf(inp, args)
+	#define outv(vec) outvec(inp, v)
+	ofstream inp(Name".inp");
+	int n = rand(2, 5);
 }
 
 int main() {
