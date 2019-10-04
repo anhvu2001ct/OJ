@@ -15,7 +15,7 @@ using namespace std;
 #define bug3(x, i, j, k) cout << #x << '[' << i << "][" << j << "][" << k << "] = " << x[i][j][k] << endl
 
 #define bc __builtin_popcountll
-#define onb(x, bit) ((x & (1 << bit)) != 0)
+#define onb(x, bit) (x & (1 << bit))
 #define gcd __gcd
 #define y1 ansdj
 
@@ -30,14 +30,23 @@ template<class T1, class T2> ostream& operator<< (ostream &os, pair<T1, T2> cons
 	return os << '(' << v.x << ", " << v.y << ')';
 }
 
-template<class T> void bug(T const &v) { cout << v << endl; }
-template<class T, class... Args> void bug(T const &v, Args const&... args) { cout << v << ' '; bug(args...); }
-
 double const pi = acos(-1);
 #define oo 1000000007
 #define OO 1000000000000000003LL
 
+int n, k;
+int cnt[200003];
+string s, rgb = "RGB";
+string pt[3];
 
+int calc(string &str) {
+	int res = oo;
+	fto (i, 1, n) cnt[i] = cnt[i-1] + (s[i] != str[i-1]);
+	fto (i, k, n) {
+		res = min(res, cnt[i] - cnt[i-k]);
+	}
+	return res;
+}
 
 int main() {
 	#ifdef KITTENS
@@ -46,7 +55,20 @@ int main() {
 	#endif
 	ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
 	
-	
+	int q; cin >> q;
+	while (q--) {
+		cin >> n >> k >> s;
+		s = " " + s;
+		fto (i, 0, 2) pt[i].clear();
+		fto1 (i, 0, n) {
+			pt[0] += rgb[i%3];
+			pt[1] += rgb[(i+1)%3];
+			pt[2] += rgb[(i+2)%3];
+		}
+		int ans = oo;
+		fto (i, 0, 2) ans = min(ans, calc(pt[i]));
+		cout << ans << endl;
+	}
 
 	#ifdef KITTENS
 		cerr << 0.001*clock() << endl;

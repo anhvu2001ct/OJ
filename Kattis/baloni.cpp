@@ -30,14 +30,21 @@ template<class T1, class T2> ostream& operator<< (ostream &os, pair<T1, T2> cons
 	return os << '(' << v.x << ", " << v.y << ')';
 }
 
-template<class T> void bug(T const &v) { cout << v << endl; }
-template<class T, class... Args> void bug(T const &v, Args const&... args) { cout << v << ' '; bug(args...); }
-
 double const pi = acos(-1);
 #define oo 1000000007
 #define OO 1000000000000000003LL
 
+int n, ans;
+int a[1000003];
+set<int> s[1000003];
 
+int calc(int h, int id) {
+	if (s[h].empty()) return -1;
+	auto res = s[h].upper_bound(id);
+	int ans = -1;
+	if (res != s[h].end()) ans = *res, s[h].erase(res);
+	return ans;
+}
 
 int main() {
 	#ifdef KITTENS
@@ -46,7 +53,27 @@ int main() {
 	#endif
 	ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
 	
-	
+	scanf("%d", &n);
+
+	fto1 (i, 0, n) {
+		scanf("%d", &a[i]);
+		s[a[i]].insert(i+1);
+	}
+
+	sort(a, a + n, greater<int>()); a[n] = 0;
+
+	fto (i, 0, n) {
+		if (a[i] != a[i-1]) fit (it, s[a[i-1]]) {
+			int idx = *it;
+			fdto (j, a[i-1]-1, 1) {
+				idx = calc(j, idx);
+				if (idx == -1) break;
+			}
+			++ans;
+		}
+	}
+
+	cout << ans << endl;
 
 	#ifdef KITTENS
 		cerr << 0.001*clock() << endl;

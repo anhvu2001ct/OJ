@@ -27,29 +27,62 @@ using namespace std;
 #define sz(v) int((v).size())
 
 template<class T1, class T2> ostream& operator<< (ostream &os, pair<T1, T2> const &v) {
-	return os << '(' << v.x << ", " << v.y << ')';
+    return os << '(' << v.x << ", " << v.y << ')';
 }
-
-template<class T> void bug(T const &v) { cout << v << endl; }
-template<class T, class... Args> void bug(T const &v, Args const&... args) { cout << v << ' '; bug(args...); }
 
 double const pi = acos(-1);
 #define oo 1000000007
 #define OO 1000000000000000003LL
 
+int n, k;
+ll S;
+ll a[200];
+ll f[200][200];
 
+ll power(ll a, int n) {
+    ll b = 1;
+    while (n) {
+        if (n%2) b = (b * a) % oo;
+        a = (a * a) % oo;
+        n >>= 1;
+    }
+    return b;
+}
 
 int main() {
-	#ifdef KITTENS
-		freopen("main.inp", "r", stdin);
-		freopen("main.out", "w", stdout);
-	#endif
-	ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
-	
-	
+    #ifdef KITTENS
+        freopen("main.inp", "r", stdin);
+        freopen("main.out", "w", stdout);
+    #endif
+    //ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
+    
+    scanf("%d", &n);
 
-	#ifdef KITTENS
-		cerr << 0.001*clock() << endl;
-	#endif
-	return 0;
+    fto (i, 1, n) f[i][0] = 1;
+
+    fto (i, 1, n) {
+        printf("1 1 %d\n", i);
+        fflush(stdout);
+        scanf("%d%lld", &k, &S);
+        if (i == 1) {
+            a[1] = f[1][1] = S;
+            continue;
+        }
+        S -= f[i-1][k];
+        if (S < 0) S += oo;
+        a[i] = S * power(f[i-1][k-1], oo-2);
+        a[i] %= oo;
+        fto (j, 1, n) {
+            f[i][j] = f[i-1][j] + a[i]*f[i-1][j-1];
+            f[i][j] %= oo;
+        }
+    }
+
+    printf("2");
+    fto (i, 1, n) printf(" %lld", a[i]);
+
+    #ifdef KITTENS
+        cerr << 0.001*clock() << endl;
+    #endif
+    return 0;
 }
