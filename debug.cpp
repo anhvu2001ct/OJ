@@ -172,20 +172,17 @@ void validTest(int const &iTest) {
  * @using inp -> inp << char << double << pair << vector;
 **/
 void genTest() {
-	#define nTest 1
+	#define nTest 5
 	#define outp(args...) outf(inp, args)
 	#define outv(vec) outvec(inp, v)
 	ofstream inp(Name".inp");
-	int t = rand(1, 50);
+	int t = rand(1, 1);
 	outp(t);
 	fto(i, 1, t) {
-		int n = rand(1, 50);
-		int m = rand(1, 50);		
-		auto a = genVec(n, 1, 1000000000);
-		auto b = genVec(m, 1, 1000000000);
-		outp(n, m);
+		int n = rand(1, 6);		
+		auto a = genVec(n, 1, 5);
+		outp(n);
 		outp(a);
-		outp(b);
 	}
 }
 
@@ -194,7 +191,7 @@ int main() {
 
 	fto (iTest, 1, nTest) {
 		genTest();
-		//validTest(iTest);
+		validTest(iTest);
 	}
 
 	return 0;

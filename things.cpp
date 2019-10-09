@@ -1,7 +1,7 @@
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
 using namespace __gnu_pbds;
-template<typename T, Cmp = less<T>>
+template<typename T, typename Cmp = less<T>>
 using oss = tree<T, null_type, Cmp, rb_tree_tag, tree_order_statistics_node_update>;
 
 char __c;
