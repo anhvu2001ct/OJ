@@ -37,6 +37,37 @@ double const pi = acos(-1);
 #define OO 1000000000000000003LL
 #define maxn 100003
 
+int n;
+ii ans[maxn];
+bool visited[maxn];
+vector<int> a[maxn];
+
+void bfs(int x) {
+	queue<int> q;
+	vector<int> vec;
+	q.push(x);
+	visited[x] = 1;
+	ans[x] = {1, 2};
+	int cnt = 2;
+
+	while (!q.empty()) {
+		int u = q.front();
+		q.pop();
+		bool flag = 1;
+		fit (it, a[u]) {
+			int v = *it;
+			if (visited[v]) continue;
+			visited[v] = 1;
+			vec.pb(v);
+			ans[v].x = ++cnt;
+			ans[v].y = flag ? ans[u].x : ans[u].y;
+			flag ^= 1;
+		}
+		if (q.empty()) {
+			while (!vec.empty()) q.push(vec.back()), vec.pop_back();
+		}
+	}
+}
 
 int main() {
 	#ifdef KITTENS
@@ -45,7 +76,20 @@ int main() {
 	#endif
 	ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
 	
-	
+	cin >> n;
+
+	int u, v;
+	fto1 (i, 1, n) {
+		cin >> u >> v;
+		a[u].pb(v);
+		a[v].pb(u);
+	}
+
+	bfs(1);
+
+	fto (i, 1, n) {
+		bug(ans[i].x, ans[i].y);
+	}
 
 	#ifdef KITTENS
 		cerr << 0.001*clock() << endl;

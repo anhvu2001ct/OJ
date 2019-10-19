@@ -176,13 +176,10 @@ void genTest() {
 	#define outp(args...) outf(inp, args)
 	#define outv(vec) outvec(inp, v)
 	ofstream inp(Name".inp");
-	int t = rand(1, 1);
-	outp(t);
-	fto(i, 1, t) {
-		int n = rand(1, 6);		
-		auto a = genVec(n, 1, 5);
-		outp(n);
-		outp(a);
+	int n = rand(3, 5);
+	outp(n);
+	fto (i, 1, n) {
+		outp(rand(-100, 100), rand(-100, 100), rand(-100, 100));
 	}
 }
 

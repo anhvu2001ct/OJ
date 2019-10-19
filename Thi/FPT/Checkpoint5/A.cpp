@@ -37,6 +37,35 @@ double const pi = acos(-1);
 #define OO 1000000000000000003LL
 #define maxn 100003
 
+int a[5];
+set<int> s;
+
+void solve(int n) {
+	if (n == 1) {
+		s.insert(a[0]);
+		return;
+	}
+	int b[n], c[n];
+	fto1 (i, 0, n) b[i] = i, c[i] = a[i];
+	do {
+		fto1 (i, 0, n) a[i] = c[b[i]];
+		int v0 = a[0], v1 = a[1];
+		a[0] = v0+v1;
+		a[1] = a[n-1];
+		solve(n-1);
+		a[0] = v0-v1;
+		solve(n-1);
+		a[0] = v0*v1;
+		solve(n-1);
+		if (v1 && v0%v1 == 0) {
+			a[0] = v0/v1;
+			solve(n-1);
+		}
+		a[0] = v0;
+		a[1] = v1;
+	} while (next_permutation(b, b+n));
+	fto1 (i, 0, n) a[i] = c[i];
+}
 
 int main() {
 	#ifdef KITTENS
@@ -44,8 +73,22 @@ int main() {
 		freopen("main.out", "w", stdout);
 	#endif
 	ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
-	
-	
+
+	int test = 0;
+	while (cin >> a[0] >> a[1] >> a[2] >> a[3]) {
+		if (!a[0]) break;
+		s.clear();
+		cout << "Case " << (++test) << ": ";
+		solve(4);
+		ii cur = {-oo, -oo}, ans = {-oo, -oo-1};
+		fit (it, s) {
+			if (*it != cur.y+1) {
+				cur = {*it, *it};
+			} else cur.y = *it;
+			if (ans.y - ans.x + 1 <= cur.y - cur.x + 1) ans = cur;
+		}
+		cout << ans.x << " to " << ans.y << endl;
+	}
 
 	#ifdef KITTENS
 		cerr << 0.001*clock() << endl;

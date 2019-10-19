@@ -37,6 +37,10 @@ double const pi = acos(-1);
 #define OO 1000000000000000003LL
 #define maxn 100003
 
+int a[3000];
+ll f[10];
+ll s[10005]; 
+int n;
 
 int main() {
 	#ifdef KITTENS
@@ -45,7 +49,28 @@ int main() {
 	#endif
 	ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
 	
+	cin >> n;
+	fto (i, 1, n) cin >> a[i];
 	
+	sort(a+1, a+1+n);
+	
+	fto (i, 1, n) s[i] = (ll)a[i]*a[i];
+
+	fto (i, 1, n-2) {
+		fto1 (j, i+1, n) {
+			int k = lower_bound(a+j+1, a+1+n, a[i]+a[j])-a-1;
+			if (k == j) continue;
+			int vuong = upper_bound(s+j+1, s+1+k, s[i]+s[j])-lower_bound(s+j+1, s+1+k, s[i]+s[j]);
+			int tu = k-(upper_bound(s+j+1, s+1+k, s[i]+s[j])-s)+1;
+			int nhon = k-vuong-tu-j;
+			f[0] += nhon;
+			f[1] += vuong;
+			f[2] += tu;
+			//bug(k, vuong, tu, nhon);
+		}
+	}
+
+	bug(f[0], f[1], f[2]);
 
 	#ifdef KITTENS
 		cerr << 0.001*clock() << endl;
