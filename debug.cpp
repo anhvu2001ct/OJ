@@ -48,9 +48,13 @@ int rand() {
 	return uniform_int_distribution<>(0, maxn)(rg);
 }
 
-template<typename T = int>
+ll randi(ll l, ll r) {
+	return uniform_int_distribution<ll>(l, r)(rg);
+}
+
+template<typename T>
 T rand(T l, T r) {
-	return uniform_int_distribution<>(l, r)(rg);
+	return uniform_int_distribution<T>(l, r)(rg);
 }
 
 double rand(double l, double r) {
@@ -70,6 +74,12 @@ void shuffleVec(vector<Type> &vec) {
 template<typename Type = int>
 vector<Type> genVec(int n, Type l = 1, Type r = maxn) {
 	vector<Type> res(n); fit (it, res) *it = rand(l, r);
+	return res;
+}
+template<typename Type>
+vector<Type> genPermu(Type n) {
+	vector<Type> res(n); fto1 (i, 0, n) res[i] = i+1;
+	shuffleVec(res);
 	return res;
 }
 
@@ -161,8 +171,6 @@ void validTest(int const &iTest) {
 	cerr << "OK.\n";
 }
 
-
-
 /**
  *  --[[ Generating will start here ]]--
  * **** Examples: ****
@@ -172,15 +180,15 @@ void validTest(int const &iTest) {
  * @using inp -> inp << char << double << pair << vector;
 **/
 void genTest() {
-	#define nTest 5
+	#define nTest 1
 	#define outp(args...) outf(inp, args)
 	#define outv(vec) outvec(inp, v)
 	ofstream inp(Name".inp");
-	int n = rand(3, 5);
+	int n = randi(1e5, 1e6);
+	auto vec = genPermu(n);
+
 	outp(n);
-	fto (i, 1, n) {
-		outp(rand(-100, 100), rand(-100, 100), rand(-100, 100));
-	}
+	outp(vec);
 }
 
 int main() {
@@ -188,7 +196,7 @@ int main() {
 
 	fto (iTest, 1, nTest) {
 		genTest();
-		validTest(iTest);
+		//validTest(iTest);
 	}
 
 	return 0;
