@@ -133,11 +133,6 @@ void outf(ofstream &f, Type const &var, Args const &... args) {
 	outf(f, args...);
 }
 
-template<typename Type>
-void outvec(ofstream &f, vector<Type> const &vec) {
-	fto1 (i, 0, sz(vec)) f << vec[i] << endl;
-}
-
 void runTest() {
 	system(Name".exe");
 	system(Name"_debug.exe");
@@ -182,7 +177,6 @@ void validTest(int const &iTest) {
 void genTest() {
 	#define nTest 1
 	#define outp(args...) outf(inp, args)
-	#define outv(vec) outvec(inp, v)
 	ofstream inp(Name".inp");
 	int n = randi(1e5, 1e6);
 	auto vec = genPermu(n);

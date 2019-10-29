@@ -25,7 +25,7 @@ template<class T1, class T2> ostream& operator<< (ostream &os, pair<T1, T2> cons
 }
 
 template<class T> ostream& operator<< (ostream &os, vector<T> const &v) {
-	os << '['; for (int i = 0; i < sz(v); ++i) { os << v[i]; if (i < sz(v)-1) os << ' '; }
+	os << sz(v) << '['; for (int i = 0; i < sz(v); ++i) { os << v[i]; if (i < sz(v)-1) os << ' '; }
 	return os << ']';
 }
 
@@ -37,7 +37,22 @@ double const pi = acos(-1);
 #define OO 1000000000000000003LL
 int const maxn = 1e5+3;
 
+int n, m;
+bool ok[maxn];
+int p[maxn];
 
+int Par(int u) {
+	return p[u] < 0 ? u : p[u] = Par(p[u]);
+}
+
+void Union(int u, int v) {
+	u = Par(u); v = Par(v);
+	if (u == v) { ok[u] = 1; return; }
+	if (p[u] > p[v]) swap(u, v);
+	p[u] += p[v];
+	ok[u] |= ok[v];
+	p[v] = u;
+}
 
 int main() {
 	#ifdef KITTENS
@@ -46,7 +61,20 @@ int main() {
 	#endif
 	ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
 
+	cin >> n >> m;
+	fto (i, 1, n) p[i] = -1;
+	int u, v;
+	fto (i, 1, m) {
+		cin >> u >> v;
+		Union(u, v);
+	}
 
+	set<int> s;
+	fto (i, 1, n) s.insert(Par(i));
+
+	int ans = 0;
+	fit (it, s) ans += ok[*it]^1;
+	bug(ans);
 
 	#ifdef KITTENS
 		cerr << 0.001*clock() << endl;
