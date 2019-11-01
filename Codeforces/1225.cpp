@@ -40,7 +40,46 @@ double const pi = acos(-1);
 #define OO 1000000000000000003LL
 int const maxn = 1e5+3;
 
+int n, k;
+int a[maxn], cnt[maxn];
+ll ans;
+vector<ii> prime;
 
+ll power(ll a, int n) {
+	ll res = 1;
+	while (n) {
+		if (n%2) res *= a;
+		a *= a;
+		n >>= 1;
+	}
+	return res;
+}
+
+void calc(int idx, ll &cur, ll &N) {
+	if (cur > 1e5) return;
+	if (idx == sz(prime)) {
+		if (cur == N/cur) ans += (ll)cnt[cur]*(cnt[cur]-1)/2;
+		else if (cur < N/cur && N/cur <= 1e5) ans += (ll)cnt[cur] * cnt[N/cur];
+		return;
+	}
+	ll tmp = cur;
+	fto (i, 0, prime[idx].y) {
+		if (i) cur *= prime[idx].x;
+		calc(idx+1, cur, N);
+	}
+	cur = tmp;
+}
+
+vector<int> p;
+bool isP[maxn];
+
+void sieve(int n) {
+	for (int i = 2; (ll)i*i <= n; ++i) {
+		if (!isP[i]) for (int j = i*i; j <= n; j += i) isP[j] = 1;
+		if (i > 2) ++i;
+	}
+	fto (i, 2, n) if (!isP[i]) p.pb(i);
+}
 
 int main() {
 	#ifdef KITTENS
@@ -49,7 +88,30 @@ int main() {
 	#endif
 	ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
 
+	cin >> n >> k;
+	fto (i, 1, n) {
+		cin >> a[i];
+		++cnt[a[i]];
+	}
 
+	int lim = pow(1e10, 1.0/k);
+
+	sieve(1e5);
+
+	fto (i, 2, lim) {
+		ll val = power(i, k), tmp = val;
+		prime.clear();
+		for (int j = 0, v = p[j]; j < sz(p) && (ll)v*v <= tmp; v = p[++j]) {
+			if (tmp%v == 0) {
+				prime.pb({v, 0});
+				while (tmp%v == 0) ++prime.back().y, tmp /= v;
+			}
+		}
+		ll cur = 1;
+		calc(0, cur, val);
+	}
+
+	bug(ans + (ll)cnt[1]*(cnt[1]-1)/2);
 
 	#ifdef KITTENS
 		cerr << 0.001*clock() << endl;
