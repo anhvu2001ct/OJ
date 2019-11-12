@@ -12,9 +12,7 @@ using namespace __gnu_pbds;
 #define frit(it, var) for(auto it = (var).rbegin(); it != (var).rend(); ++it)
 
 #define bc __builtin_popcountll
-#define isb(x, bit) (((x >> bit) & 1) != 0)
-#define onb(x, bit) (x | (1LL << bit))
-#define offb(x, bit) (x & ~(1LL << bit))
+#define onb(x, bit) (((x >> bit) & 1) != 0)
 #define y1 ansdj
 
 #define ll long long
@@ -42,9 +40,20 @@ template<class T, class... Args> void bug(T const &v, Args const&... args) { cou
 double const pi = acos(-1);
 #define oo 1000000007
 #define OO 1000000000000000003LL
-int const maxn = 1e5+3;
+int const maxn = 2e5+3;
 
+int n, q;
+int in[maxn], out[maxn], pos[maxn];
+vector<int> vec, ke[maxn];
 
+void dfs(int u) {
+	static int timer;
+	in[u] = ++timer;
+	pos[u] = sz(vec);
+	vec.pb(u);
+	fit (it, ke[u]) dfs(*it);
+	out[u] = ++timer;	
+}
 
 int main() {
 	#ifdef KITTENS
@@ -53,7 +62,21 @@ int main() {
 	#endif
 	ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
 
+	cin >> n >> q;
+	int u;
+	fto (i, 2, n) {
+		cin >> u;
+		ke[u].pb(i);
+	}
 
+	dfs(1);
+
+	int k;
+	while (q--) {
+		cin >> u >> k; --k;
+		if (pos[u] + k < sz(vec) && out[vec[pos[u]+k]] <= out[u]) bug(vec[pos[u]+k]);
+		else bug(-1);
+	}
 
 	#ifdef KITTENS
 		cerr << 0.001*clock() << endl;

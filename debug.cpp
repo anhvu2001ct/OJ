@@ -177,10 +177,11 @@ void validTest(int const &iTest) {
 void genTest() {
 	#define nTest 1
 	#define outp(args...) outf(inp, args)
-	ofstream inp(Name".inp");
-	int n = randi(1e5, 1e6);
+	ofstream inp(Name".inp")
+	int n = rand(3, 10);
+	int m = rand(3, 10);
 	auto vec = genPermu(n);
-
+	
 	outp(n);
 	outp(vec);
 }
