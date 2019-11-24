@@ -48,7 +48,7 @@ struct bignum {
 	vector<ll> a;
 	short sign;
 
-	static const int base     = 1000000000;
+	static int const base     = 1000000000;
 	static const short digits = 9;
 
 	bignum() { a.clear(); sign = 1; }
@@ -89,13 +89,12 @@ struct bignum {
 		trim(); return *this;
 	}
 
-	bignum& operator-=(bignum const &v) {
-		bignum tmp = v;
-		tmp.sign *= -1;
-		return (*this) += tmp;
+	bignum& operator-=(bignum v) {
+		v.sign *= -1;
+		return (*this) += v;
 	}
 
-	bignum& operator*=(const int v) {
+	bignum& operator*=(int const v) {
 		if (v < 0) sign = -sign;
 		fto1 (i, 0, sz(a)) a[i] *= v;
 		trim(); return *this;
@@ -144,15 +143,15 @@ struct bignum {
 		return 0;
 	}
 	
-	bool operator<(bignum const v) const {
+	bool operator<(bignum const &v) const {
 		return (sign != v.sign) ? (sign < v.sign) : less_abs(v, sign);
 	}
 
-	bool operator>(bignum const v) const { return v < *this; }
+	bool operator>(bignum const &v) const { return v < *this; }
 
-	bool operator<=(bignum const v) const { return !(*this > v); }
+	bool operator<=(bignum const &v) const { return !(*this > v); }
 
-	bool operator>=(bignum const v) const { return !(*this < v); }
+	bool operator>=(bignum const &v) const { return !(*this < v); }
 
 	void trim() {
 		a.pb(0);
@@ -170,16 +169,16 @@ struct bignum {
 
 	friend bignum operator*(bignum l, bignum const &r) { return l *= r; }
 
-	friend bignum operator*(bignum l, const int r) { return l *= r; }
+	friend bignum operator*(bignum l, int const r) { return l *= r; }
 
 	friend bignum abs(bignum v) { v.sign = 1; return v; }
 
-	friend istream& operator>>(istream &stream, bignum& v) {
+	friend istream& operator>>(istream &stream, bignum &v) {
 		string tmp; stream >> tmp; v = bignum(tmp);
 		return stream;
 	}
 
-	friend ostream& operator<<(ostream &stream, bignum const& v) {
+	friend ostream& operator<<(ostream &stream, bignum const &v) {
 		if (!sz(v.a)) return stream << 0;
 		if (v.sign == -1) stream << '-';
 		stream << v.a.back();

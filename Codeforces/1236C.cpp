@@ -13,12 +13,10 @@ using namespace __gnu_pbds;
 #define frit(it, var) for(auto it = (var).rbegin(); it != (var).rend(); ++it)
 
 #define bc __builtin_popcountll
-#define isbit(x, bit) (((x >> bit) & 1) != 0)
-#define onbit(x, bit) (x | (1LL << bit))
-#define offbit(x, bit) (x & ~(1LL << bit))
+#define isb(x, bit) (((x >> bit) & 1) != 0)
+#define onb(x, bit) (x | (1LL << bit))
+#define offb(x, bit) (x & ~(1LL << bit))
 #define y1 ansdj
-#define endl '\n'
-#define _bugl(...) bug(__func__, __LINE__, __VA_ARGS__)
 
 #define ll long long
 #define ii pair<int, int>
@@ -39,7 +37,7 @@ template<class T> ostream& operator<<(ostream &os, vector<T> const &v) {
 	return os;
 }
 
-template<class T> void buga(T const &v, int l, int r) { fto (i, l, r) { cout << v[i] << " \n"[i == r]; } }
+template<class T> void buga(const T &v, int l, int r) { fto (i, l, r) { cout << v[i] << " \n"[i == r]; } }
 
 template<class T> void bug(T const &v) { cout << v << endl; }
 template<class T, class... Args> void bug(T const &v, Args const&... args) { cout << v << ' '; bug(args...); }
@@ -49,7 +47,9 @@ double const pi = acos(-1);
 #define OO 1000000000000000003LL
 int const maxn = 2e5+3;
 
-
+int n;
+oss<int> s;
+vector<int> ans[maxn];
 
 int main() {
 	#ifdef KITTENS
@@ -58,7 +58,41 @@ int main() {
 	#endif
 	ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
 	
-	
+	cin >> n;
+	fto (i, 1, n*n) s.insert(i);
+
+	fto (i, 1, n) {
+		if (n%2) {
+			int tmp = n;
+			while (tmp > 1) {
+				if (tmp%2 == 0) {
+					ans[i].pb(*s.rbegin());
+					s.erase(s.rbegin());
+				} else {
+					ans[i].pb(*s.begin());
+					s.erase(s.begin());
+				}
+				--tmp;
+			}
+			auto it = s.find_by_order(sz(s)/2 - (sz(s)%2 == 0));
+			ans[i].pb(*it);
+			s.erase(it);
+		} else {
+			int tmp = n;
+			while (tmp) {
+				if (tmp%2) {
+					ans[i].pb(*s.rbegin());
+					s.erase(s.rbegin());
+				} else {
+					ans[i].pb(*s.begin());
+					s.erase(s.begin());
+				}
+				--tmp;
+			}
+		}
+	}
+
+	fto (i, 1, n) bug(ans[i]);
 
 	#ifdef KITTENS
 		cerr << 0.001*clock() << endl;
