@@ -14,13 +14,14 @@ using namespace __gnu_pbds;
 
 #define bc __builtin_popcountll
 #define isbit(x, bit) (((x >> bit) & 1) != 0)
-#define onbit(x, bit) (x | (1LL << bit))
-#define offbit(x, bit) (x & ~(1LL << bit))
+#define onbit(x, bit) (x | (1LL << (bit)))
+#define offbit(x, bit) (x & ~(1LL << (bit)))
 #define y1 ansdj
 #define endl '\n'
-#define _bugl(...) bug(__func__, __LINE__, __VA_ARGS__)
+#define _bug(...) bug(__func__, __LINE__, __VA_ARGS__)
 
 #define ll long long
+#define cd complex<double>
 #define ii pair<int, int>
 #define x first
 #define y second

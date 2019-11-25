@@ -8,22 +8,28 @@ using namespace __gnu_pbds;
 #define fto(i, s, e) for(int i = (s); i <= (e); ++i)
 #define fto1(i, s, e) for(int i = (s); i < (e); ++i)
 #define fdto(i, s, e) for(int i = (s); i >= (e); --i)
+#define fat(i, a) for(auto i : a)
 #define fit(it, var) for(auto it = (var).begin(); it != (var).end(); ++it)
 #define frit(it, var) for(auto it = (var).rbegin(); it != (var).rend(); ++it)
 
 #define bc __builtin_popcountll
-#define isb(x, bit) (((x >> bit) & 1) != 0)
-#define onb(x, bit) (x | (1LL << bit))
-#define offb(x, bit) (x & ~(1LL << bit))
+#define isbit(x, bit) (((x >> bit) & 1) != 0)
+#define onbit(x, bit) (x | (1LL << bit))
+#define offbit(x, bit) (x & ~(1LL << bit))
 #define y1 ansdj
+#define endl '\n'
+#define _bug(...) bug(__func__, __LINE__, __VA_ARGS__)
 
 #define ll long long
+#define cd complex<double>
 #define ii pair<int, int>
 #define x first
 #define y second
 #define pb push_back
 #define sz(v) int((v).size())
 #define all(v) (v).begin(), (v).end()
+
+template<class T, class Cmp = less<T>> using oss = tree<T, null_type, Cmp, rb_tree_tag, tree_order_statistics_node_update>;
 
 template<class T1, class T2> ostream& operator<<(ostream &os, pair<T1, T2> const &v) {
 	return os << '(' << v.x << ", " << v.y << ')';
@@ -34,7 +40,7 @@ template<class T> ostream& operator<<(ostream &os, vector<T> const &v) {
 	return os;
 }
 
-template<class T> void buga(const T &v, int l, int r) { fto (i, l, r) { cout << v[i] << " \n"[i == r]; } }
+template<class T> void buga(T const &v, int l, int r) { fto (i, l, r) { cout << v[i] << " \n"[i == r]; } }
 
 template<class T> void bug(T const &v) { cout << v << endl; }
 template<class T, class... Args> void bug(T const &v, Args const&... args) { cout << v << ' '; bug(args...); }
@@ -48,8 +54,8 @@ struct bignum {
 	vector<ll> a;
 	short sign;
 
-	static int const base     = 1000000000;
-	static const short digits = 9;
+	static int const base     = 1000;
+	static const short digits = 3;
 
 	bignum() { a.clear(); sign = 1; }
 
@@ -100,40 +106,53 @@ struct bignum {
 		trim(); return *this;
 	}
 
-	#define _multi(index, value) res.a[index] += value, res.a[index+1] += res.a[index]/base, res.a[index] %= base
-
-	bignum multiply(bignum const &v) const {
-		bignum res;
-		res.a.resize(sz(a) + sz(v.a));
-		fto1 (i, 0, sz(a)) fto1 (j, 0, sz(v.a)) _multi(i+j, a[i] * v.a[j]);
-		res.trim(); return res;
+	static void prefft(bignum const &v1, bignum const &v2, vector<cd> &a1, vector<cd> &a2) {
+		int n = sz(v1.a) + sz(v2.a), N = 1;
+		while (N <= n) N <<= 1;
+		a1.resize(N); a2.resize(N);
+		fto1 (i, 0, sz(v1.a)) a1[i] = v1.a[i];
+		fto1 (i, 0, sz(v2.a)) a2[i] = v2.a[i];
 	}
 
-	static bignum karatsuba(bignum x, bignum y) {
-		int n = max(sz(x.a), sz(y.a));
-		if (n <= 40) return x.multiply(y);
-		while (sz(x.a) < n) x.a.pb(0);
-		while (sz(y.a) < n) y.a.pb(0);
-		int m = n >> 1;
-		bignum x0, x1, y0, y1;
-		x0.a.assign(x.a.begin(), x.a.begin() + m);
-		x1.a.assign(x.a.begin() + m, x.a.end());
-		y0.a.assign(y.a.begin(), y.a.begin() + m);
-		y1.a.assign(y.a.begin() + m, y.a.end());
-		bignum a = karatsuba(x0, y0), c = karatsuba(x1, y1);
-		bignum b = karatsuba(x1+x0, y1+y0) - a - c;
-		bignum res;
-		res.a.resize(n+n);
-		fto1 (i, 0, sz(a.a)) _multi(i, a.a[i]);
-		fto1 (i, 0, sz(b.a)) _multi(i+m, b.a[i]);
-		fto1 (i, 0, sz(c.a)) _multi(i+m+m, c.a[i]);
-		res.trim(); return res;
+	static int reverse(int num, int lg) {
+		int res = 0;
+		fto1 (i, 0, lg) if (isbit(num, i)) res = onbit(res, lg-i-1);
+		return res;
+	}
+	static void fft(vector<cd> &a, bool invert = 0) {
+		int N = sz(a), lg = __builtin_ctz(N);
+		fto1 (i, 0, N) {
+			int j = reverse(i, lg);
+			if (i < j) swap(a[i], a[j]);
+		}
+
+		double ang = pi * (invert ? -2 : 2);
+		for (int step = 2; step <= N; step <<= 1) {
+			cd wk(cos(ang/step), sin(ang/step));
+			for (int i = 0; i < N; i += step) {
+				cd w(1);
+				fto1 (j, 0, step/2) {
+					cd u = a[i+j], v = w * a[i+j+step/2];
+					a[i+j] = u+v;
+					a[i+j+step/2] = u-v;
+					w *= wk;
+				}
+			}
+		}
+
+		if (invert) fto1 (i, 0, N) a[i] /= N;
 	}
 
 	bignum& operator*=(bignum const &v) {
-		short s = sign * v.sign;
-		*this = karatsuba(*this, v);
-		this->sign = s;
+		if (!sz(a) || !sz(v.a)) return *this = bignum();
+		vector<cd> v1, v2; prefft(*this, v, v1, v2);
+		fft(v1); fft(v2);
+		fto1 (i, 0, sz(v1)) v1[i] *= v2[i];
+		fft(v1, 1);
+		a.resize(sz(v1));
+		fto1 (i, 0, sz(v1)) a[i] = round(v1[i].real());
+		trim();
+		sign *= v.sign;
 		return *this;
 	}
 
@@ -160,7 +179,7 @@ struct bignum {
 			else a[i+1] += a[i]/base, a[i] %= base;
 		}
 		while (sz(a) && a.back() == 0) a.pop_back();
-		if (!sz(a)) sign = 1;
+		if (a.empty()) sign = 1;
 	}
 
 	friend bignum operator+(bignum l, bignum const &r) { return l += r; }
@@ -169,7 +188,7 @@ struct bignum {
 
 	friend bignum operator*(bignum l, bignum const &r) { return l *= r; }
 
-	friend bignum operator*(bignum l, int const r) { return l *= r; }
+	friend bignum operator*(bignum l, int const &r) { return l *= r; }
 
 	friend bignum abs(bignum v) { v.sign = 1; return v; }
 
@@ -194,9 +213,12 @@ int main() {
 	#endif
 	ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
 
+	int t; cin >> t;
 	bignum a, b;
-	cin >> a >> b;
-	bug(a+b, (a*b).tostring());
+	while (t--) {
+		cin >> a >> b;
+		bug(a*b);
+	}
 
 	#ifdef KITTENS
 		cerr << 0.001*clock() << endl;
