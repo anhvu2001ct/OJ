@@ -1,6 +1,5 @@
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
-#include <ext/pb_ds/tree_policy.hpp>
 
 using namespace std;
 using namespace __gnu_pbds;
@@ -23,6 +22,7 @@ using namespace __gnu_pbds;
 #define ll long long
 #define cd complex<double>
 #define ii pair<int, int>
+#define pl pair<ll, ll>
 #define x first
 #define y second
 #define pb push_back
@@ -58,8 +58,8 @@ int main() {
 		freopen("main.out", "w", stdout);
 	#endif
 	ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
-	
-	
+
+
 
 	#ifdef KITTENS
 		cerr << 0.001*clock() << endl;
