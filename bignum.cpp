@@ -23,6 +23,7 @@ using namespace __gnu_pbds;
 #define ll long long
 #define cd complex<double>
 #define ii pair<int, int>
+#define pll pair<ll, ll>
 #define x first
 #define y second
 #define pb push_back
@@ -50,18 +51,16 @@ double const pi = acos(-1);
 #define OO 1000000000000000003LL
 int const maxn = 2e5+3;
 
-struct bignum {
+template<int digits, int base>
+struct bigint {
 	vector<ll> a;
 	short sign;
 
-	static int const base     = 1000;
-	static const short digits = 3;
+	bigint() { a.clear(); sign = 1; }
 
-	bignum() { a.clear(); sign = 1; }
-
-	bignum(string const &s) {
+	bigint(string const &s) {
 		int pos = 0;
-		*this = bignum();
+		*this = bigint();
 		if (s[0] == '-') sign = -1, ++pos;
 		for (int i = sz(s)-1; i >= pos; i -= digits) {
 			int num = 0;
@@ -75,38 +74,38 @@ struct bignum {
 		return s.str();
 	}
 
-	void plus(bignum const &v) {
+	void plus(bigint const &v) {
 		a.resize(max(sz(a), sz(v.a)));
 		fto1 (i, 0, sz(v.a)) a[i] += v.a[i];
 	}
 
-	void minus(bignum const &v) {
+	void minus(bigint const &v) {
 		a.resize(max(sz(a), sz(v.a)));
 		fto1 (i, 0, sz(v.a)) a[i] -= v.a[i];
 	}
 
-	bignum& operator+=(bignum const &v) {
+	bigint& operator+=(bigint const &v) {
 		if (sign == v.sign) plus(v);
 		else if (less_abs(v, 1)) {
-				bignum tmp = v;
+				bigint tmp = v;
 				tmp.minus(*this);
 				sign *= -1, a = tmp.a;
 		} else minus(v);
 		trim(); return *this;
 	}
 
-	bignum& operator-=(bignum v) {
+	bigint& operator-=(bigint v) {
 		v.sign *= -1;
 		return (*this) += v;
 	}
 
-	bignum& operator*=(int const v) {
+	bigint& operator*=(int const v) {
 		if (v < 0) sign = -sign;
 		fto1 (i, 0, sz(a)) a[i] *= v;
 		trim(); return *this;
 	}
 
-	static void prefft(bignum const &v1, bignum const &v2, vector<cd> &a1, vector<cd> &a2) {
+	static void prefft(bigint const &v1, bigint const &v2, vector<cd> &a1, vector<cd> &a2) {
 		int n = sz(v1.a) + sz(v2.a), N = 1;
 		while (N <= n) N <<= 1;
 		a1.resize(N); a2.resize(N);
@@ -143,8 +142,8 @@ struct bignum {
 		if (invert) fto1 (i, 0, N) a[i] /= N;
 	}
 
-	bignum& operator*=(bignum const &v) {
-		if (!sz(a) || !sz(v.a)) return *this = bignum();
+	bigint& operator*=(bigint const &v) {
+		if (!sz(a) || !sz(v.a)) return *this = bigint();
 		vector<cd> v1, v2; prefft(*this, v, v1, v2);
 		fft(v1); fft(v2);
 		fto1 (i, 0, sz(v1)) v1[i] *= v2[i];
@@ -156,21 +155,21 @@ struct bignum {
 		return *this;
 	}
 
-	bool less_abs(bignum const &v, short sign) const {
+	bool less_abs(bigint const &v, short sign) const {
 		if (sz(a) != sz(v.a)) return sz(a) * sign < sz(v.a) * sign;
 		fdto (i, sz(a)-1, 0) if (a[i] != v.a[i]) return a[i] * sign < v.a[i] * sign;
 		return 0;
 	}
 	
-	bool operator<(bignum const &v) const {
+	bool operator<(bigint const &v) const {
 		return (sign != v.sign) ? (sign < v.sign) : less_abs(v, sign);
 	}
 
-	bool operator>(bignum const &v) const { return v < *this; }
+	bool operator>(bigint const &v) const { return v < *this; }
 
-	bool operator<=(bignum const &v) const { return !(*this > v); }
+	bool operator<=(bigint const &v) const { return !(*this > v); }
 
-	bool operator>=(bignum const &v) const { return !(*this < v); }
+	bool operator>=(bigint const &v) const { return !(*this < v); }
 
 	void trim() {
 		a.pb(0);
@@ -182,29 +181,29 @@ struct bignum {
 		if (a.empty()) sign = 1;
 	}
 
-	friend bignum operator+(bignum l, bignum const &r) { return l += r; }
+	friend bigint operator+(bigint l, bigint const &r) { return l += r; }
 	
-	friend bignum operator-(bignum l, bignum const &r) { return l -= r; }
+	friend bigint operator-(bigint l, bigint const &r) { return l -= r; }
 
-	friend bignum operator*(bignum l, bignum const &r) { return l *= r; }
+	friend bigint operator*(bigint l, bigint const &r) { return l *= r; }
 
-	friend bignum operator*(bignum l, int const &r) { return l *= r; }
+	friend bigint operator*(bigint l, int const &r) { return l *= r; }
 
-	friend bignum abs(bignum v) { v.sign = 1; return v; }
+	friend bigint abs(bigint v) { v.sign = 1; return v; }
 
-	friend istream& operator>>(istream &stream, bignum &v) {
-		string tmp; stream >> tmp; v = bignum(tmp);
+	friend istream& operator>>(istream &stream, bigint &v) {
+		string tmp; stream >> tmp; v = bigint(tmp);
 		return stream;
 	}
 
-	friend ostream& operator<<(ostream &stream, bignum const &v) {
+	friend ostream& operator<<(ostream &stream, bigint const &v) {
 		if (!sz(v.a)) return stream << 0;
 		if (v.sign == -1) stream << '-';
 		stream << v.a.back();
 		fdto (i, sz(v.a)-2, 0) stream << setfill('0') << setw(digits) << v.a[i];
 		return stream;
 	}
-};
+}; typedef bigint<3, 1000> bignum;
 
 int main() {
 	#ifdef KITTENS
@@ -213,12 +212,8 @@ int main() {
 	#endif
 	ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
 
-	int t; cin >> t;
-	bignum a, b;
-	while (t--) {
-		cin >> a >> b;
-		bug(a*b);
-	}
+	bignum a, b; cin >> a >> b;
+	bug(a+b); bug(a-b); bug(a*b);
 
 	#ifdef KITTENS
 		cerr << 0.001*clock() << endl;

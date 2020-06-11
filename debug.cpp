@@ -1,21 +1,17 @@
 #include <bits/stdc++.h>
+#include <ext/pb_ds/assoc_container.hpp>
 
 using namespace std;
+using namespace __gnu_pbds;
 
 #define fto(i, s, e) for(int i = (s); i <= (e); ++i)
 #define fto1(i, s, e) for(int i = (s); i < (e); ++i)
 #define fdto(i, s, e) for(int i = (s); i >= (e); --i)
-#define forit(it, l, r) for(auto it = (l); it != (r); ++it)
-#define fit(it, var) forit(it, (var).begin(), (var).end())
-#define frit(it, var) forit(it, (var).rbegin(), (var).rend())
-
-#define endl '\n'
-#define bug1(x, i) cout << #x << '[' << i << "] = " << x[i] << endl
-#define bug2(x, i, j) cout << #x << '[' << i << "][" << j << "] = " << x[i][j] << endl
-#define bug3(x, i, j, k) cout << #x << '[' << i << "][" << j << "][" << k << "] = " << x[i][j][k] << endl
+#define fat(i, a) for(auto i : (a))
 
 #define bc __builtin_popcountll
 #define y1 ansdj
+#define endl '\n'
 
 #define ll long long
 #define ii pair<int, int>
@@ -23,6 +19,7 @@ using namespace std;
 #define y second
 #define pb emplace_back
 #define sz(v) int((v).size())
+#define all(v) (v).begin(), (v).end()
 
 template<typename T1, typename T2> ostream& operator<< (ostream &os, pair<T1, T2> const &v) {
 	return os << v.x << ' ' << v.y;
@@ -38,54 +35,38 @@ template<typename T> ostream& operator<< (ostream &os, vector<T> const &vec) {
 
 #define oo 1000000007
 #define OO 1000000000000000003LL
-#define maxn 1000000
 #define Name "main"
 
+int const maxn = 1e7+3;
 double const pi = acos(-1);
 mt19937 rg(chrono::steady_clock::now().time_since_epoch().count());
 
-int rand() {
-	return uniform_int_distribution<>(0, maxn)(rg);
+ll rand(ll first = 0, ll last = maxn) {
+	return uniform_int_distribution<>(first, last)(rg);
 }
 
-ll randi(ll l, ll r) {
-	return uniform_int_distribution<ll>(l, r)(rg);
+double randf(double first = 0.0, double last = maxn) {
+	return uniform_real_distribution<>(first, last)(rg);
 }
 
-template<typename T>
-T rand(T l, T r) {
-	return uniform_int_distribution<T>(l, r)(rg);
-}
-
-double rand(double l, double r) {
-	return uniform_real_distribution<>(l, r)(rg);
-}
-
-template<typename Type>
-Type rand(vector<Type> &vec) {
-	return vec[rand(0, sz(vec)-1)];
+template<class T>
+T rand(vector<T> const &v) {
+	return v[rand(0, sz(v)-1)];
 }
 
 template<typename Type>
 void shuffleVec(vector<Type> &vec) {
-	shuffle(vec.begin(), vec.end(), rg);
+	shuffle(all(vec), rg);
 }
 
-template<typename Type = int>
-vector<Type> genVec(int n, Type l = 1, Type r = maxn) {
-	vector<Type> res(n); fit (it, res) *it = rand(l, r);
+vector<ll> genVec(int n, ll l = 1, ll r = maxn) {
+	vector<ll> res(n); fat (&v, res) v = rand(l, r);
 	return res;
 }
-template<typename Type>
-vector<Type> genPermu(Type n) {
-	vector<Type> res(n); fto1 (i, 0, n) res[i] = i+1;
+
+vector<int> genPermu(int n) {
+	vector<int> res(n); fto1 (i, 0, n) res[i] = i+1;
 	shuffleVec(res);
-	return res;
-}
-
-template<typename T1 = int, typename T2 = int>
-vector<pair<T1, T2>> genPair(int n, T1 l1 = 1, T1 r1 = maxn, T2 l2 = 1, T2 r2 = maxn) {
-	vector<pair<T1, T2>> res(n); fit (it, res) it->x = rand(l1, r1), it->y = rand(l2, r2);
 	return res;
 }
 
@@ -102,16 +83,16 @@ vector<ii> genTree(int n, int root = 1, int minDepth = 1) {
 	};
 	while (--minDepth) push(used.back());
 	while (!node.empty()) push(rand(used));
+	shuffleVec(res);
 	return res;
 }
 
-template<typename Type = int>
-vector<pair<ii, Type>> genWTree(int n, int root = 1, int minDepth = 1, Type l = 1, Type r = maxn) {
+vector<pair<ii, ll>> genWTree(int n, int root = 1, int minDepth = 1, ll l = 1, ll r = maxn) {
 	minDepth = max(min(minDepth, n), 1);
 	vector<int> node, used(1, root);
 	fto (i, 1, n) if (i != root) node.pb(i);
 	shuffleVec(node);
-	vector<pair<ii, Type>> res;
+	vector<pair<ii, ll>> res;
 	static auto push = [&](int from) {
 		res.pb(ii(from, node.back()), rand(l, r));
 		used.pb(node.back());
@@ -119,18 +100,19 @@ vector<pair<ii, Type>> genWTree(int n, int root = 1, int minDepth = 1, Type l = 
 	};
 	while (--minDepth) push(used.back());
 	while (!node.empty()) push(rand(used));
+	shuffleVec(res);
 	return res;
 }
 
 template<typename Type>
-void outf(ofstream &f, Type const &var) {
-	f << var << endl;
+void outf(ostream &os, Type const &var) {
+	os << var << endl;
 }
 
 template<typename Type, typename... Args>
-void outf(ofstream &f, Type const &var, Args const &... args) {
-	f << var << ' ';
-	outf(f, args...);
+void outf(ostream &os, Type const &var, Args const &... args) {
+	os << var << ' ';
+	outf(os, args...);
 }
 
 void runTest() {
@@ -172,25 +154,39 @@ void validTest(int const &iTest) {
  * @single param -> outp(int);
  * @vector -> outp(vector);
  * @multi params -> outp(int, pair, string, vector, ...);
- * @using inp -> inp << char << double << pair << vector;
+ * @using inp -> inp << string << double << pair << vector;
 **/
+
+void moveTest(string id, string tid) {
+	system(("mkdir " + tid).c_str());
+	system(Name".exe");
+	system(("copy "Name".inp " + id + ".inp").c_str());
+	system(("copy "Name".out " + id + ".out").c_str());
+	system(("move " + id + ".inp " + tid).c_str());
+	system(("move " + id + ".out " + tid).c_str());
+}
+
+string makeID(string id, int n, int num) {
+	ostringstream ss; ss << id << setw(num) << setfill('0') << n;
+	return ss.str();
+}
+
 void genTest() {
-	#define nTest 1
 	#define outp(args...) outf(inp, args)
-	ofstream inp(Name".inp")
-	int n = rand(3, 10);
-	int m = rand(3, 10);
-	auto vec = genPermu(n);
-	
-	outp(n);
-	outp(vec);
+	ofstream inp(Name".inp");
+	int n = 1e2, m = 1e9;
+	outp(n, m);
+	outp(genVec(n, 1, 1e5));
+	outp(n*(n+1)/2);
+	fto (i, 1, n) fto (j, i, n) outp(i, j);
 }
 
 int main() {
 	ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
 
-	fto (iTest, 1, nTest) {
+	fto (iTest, 10, 10) {
 		genTest();
+		moveTest("I", makeID("test", iTest, 2));
 		//validTest(iTest);
 	}
 
