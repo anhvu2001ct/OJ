@@ -1,0 +1,15 @@
+{
+    "contest": "-1",
+    "alias": {
+        "Codeforces": [
+            0,
+            "cf"
+        ],
+        "HackerRank": [
+            "hr"
+        ],
+        "Kattis": [
+            "kt"
+        ]
+    }
+}

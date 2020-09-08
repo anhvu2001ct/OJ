@@ -57,7 +57,7 @@ void _bugn(string const &s, Args const &... args) {
 	ostringstream os; _bug(os, args...);
 	string tmp = os.str(); tmp.pop_back(); 
 	vector<string> v1 = split(s, ", "), v2 = split(tmp, " ");
-	fto1 (i, 0, sz(v1)) cout << '[' << v1[i] << ": " << v2[i] << "]" << " \n"[i == sz(v1)-1];
+	fto1 (i, 0, sz(v1)) cerr << '[' << v1[i] << ": " << v2[i] << "]" << " \n"[i == sz(v1)-1];
 }
 
 double const pi = acos(-1);
@@ -65,9 +65,28 @@ double const pi = acos(-1);
 #define OO 1000000000000000003LL
 int const maxn = 1e5+3;
 
-#define multi_testcase 1
+int n, k;
+string s;
+
 void _main() {
-	
+	cin >> n >> k;
+	cin >> s;
+	fto1 (i, 0, k) {
+		map<char, bool> check;
+		for (int j = i; j < n; j += k) {
+			check[s[j]] = 1;
+		}
+		if (check['0'] && check['1']) {
+			bug("NO");
+			return;
+		} else {
+			if (check['0']) s[i] = '0';
+			else if (check['1']) s[i] = '1';
+		}
+	}
+	map<char, int> cnt;
+	fto1 (i, 0, k) ++cnt[s[i]];
+	bug((cnt['0'] > k/2 || cnt['1'] > k/2) ? "NO" : "YES");
 }
 
 int main() {
@@ -78,7 +97,7 @@ int main() {
 	ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
 
 	int t = 1;
-	if (multi_testcase) cin >> t;
+	cin >> t;
 	while (t--) {
 		_main();
 	}

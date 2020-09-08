@@ -18,56 +18,75 @@ template<class T, class Cmp = less<T>> using oss = tree<T, null_type, Cmp, rb_tr
 #define bc __builtin_popcountll
 #define y1 ansdj
 #define endl '\n'
-#define ff first
-#define ss second
+#define x first
+#define y second
 #define sz(v) int((v).size())
 #define all(v) (v).begin(), (v).end()
-#define bug(...) _bug(cout, __VA_ARGS__)
-#define bugn(...) _bugn(#__VA_ARGS__, __VA_ARGS__)
-#define buga(a, s, e) cout << '{'; fto (i, s, e) cout << a[i] << " }"[i == e]; cout << endl
+#define buga(a, s, e) cout << '{'; fto (i, s, e) cout << a[i] << " }"[i==e]; cout << endl
+#define gn(a) #a << ": " << a << ", " <<
 
 template<class T1, class T2> ostream& operator<<(ostream &os, pair<T1, T2> const &v) {
-	return os << '(' << v.ff << ", " << v.ss << ')';
+	return os << '(' << v.x << ", " << v.y << ')';
 }
 
 template<typename T>
-void _bug(ostream &os, T const &var) { os << var << endl; }
+void bug(T const &var) { cout << var << endl; }
 
-template<typename T, typename... Args>
-void _bug(ostream &os, T const &var, Args const &... args) {
-	os << var << ' ';
-	_bug(os, args...);
-}
-
-template<typename... Args>
-void _bugn(string const &s, Args const &... args) {
-	auto split = [](string const &s, string const &delim) {
-		int next, pos = 0;
-		vector<string> res;
-		while (1) {
-			next = s.find(delim, pos);
-			if (next == string::npos) break;
-			res.push_back(s.substr(pos, next-pos));
-			pos = next+sz(delim);
-		}
-		res.push_back(s.substr(pos));
-		return res;
-	};
-
-	ostringstream os; _bug(os, args...);
-	string tmp = os.str(); tmp.pop_back(); 
-	vector<string> v1 = split(s, ", "), v2 = split(tmp, " ");
-	fto1 (i, 0, sz(v1)) cout << '[' << v1[i] << ": " << v2[i] << "]" << " \n"[i == sz(v1)-1];
+template<typename Type, typename... Args>
+void bug(Type const &var, Args const &... args) {
+	cout << var << ' ';
+	bug(args...);
 }
 
 double const pi = acos(-1);
 #define oo 1000000007
 #define OO 1000000000000000003LL
-int const maxn = 1e5+3;
+int const maxn = 1e6+3;
 
-#define multi_testcase 1
+int n, m;
+ii a[maxn];
+int ft[maxn];
+
+void update(int idx, int val) {
+	for (; idx <= 1e6; idx += idx & -idx)
+		ft[idx] += val;
+}
+
+int get(int idx) {
+	int res = 0;
+	for (; idx; idx -= idx & -idx)
+		res += ft[idx];
+	return res;
+}
+
 void _main() {
-	
+	cin >> n >> m;
+	ll ans = 1;
+	vector<pair<ii, int>> c;
+	fto (i, 1, n) {
+		int y, l, r; cin >> y >> l >> r;
+		if (l == 0 && r == 1e6) ++ans;
+		a[i] = {l, r};
+		c.push_back({{y, 1}, i});
+	}
+	fto (i, 1, m) {
+		int x, l, r; cin >> x >> l >> r;
+		if (l == 0 && r == 1e6) ++ans;
+		c.push_back({{l, 0}, x});
+		c.push_back({{r, 2}, x});
+	}
+	sort(all(c));
+	fat (&v, c) {
+		if (v.x.y == 1) {
+			ans += get(a[v.y].y);
+			if (a[v.y].x > 1) ans -= get(a[v.y].x-1);
+		} else if (v.x.y == 0) {
+			update(v.y, 1);
+		} else {
+			update(v.y, -1);
+		}
+	}
+	bug(ans);
 }
 
 int main() {
@@ -78,7 +97,7 @@ int main() {
 	ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
 
 	int t = 1;
-	if (multi_testcase) cin >> t;
+	// cin >> t;
 	while (t--) {
 		_main();
 	}
