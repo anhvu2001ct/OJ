@@ -1,6 +1,6 @@
 {
     "contest": -1,
-    "default": "1",
+    "default": 0,
     "alias": {
         "Codeforces": [
             0,
@@ -17,7 +17,6 @@
             "spoj"
         ],
         ".": [
-            ".",
             "cur"
         ]
     }
