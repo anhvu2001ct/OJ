@@ -1,5 +1,6 @@
 {
-    "contest": "-1",
+    "contest": -1,
+    "default": "1",
     "alias": {
         "Codeforces": [
             0,
@@ -10,6 +11,14 @@
         ],
         "Kattis": [
             "kt"
+        ],
+        "Spoj": [
+            1,
+            "spoj"
+        ],
+        ".": [
+            ".",
+            "cur"
         ]
     }
 }

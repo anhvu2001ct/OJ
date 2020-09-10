@@ -65,11 +65,40 @@ double const pi = acos(-1);
 #define OO 1000000000000000003LL
 int const maxn = 1e5+3;
 
+int n, a, b, da, db, d;
+int h[maxn];
+vector<int> adj[maxn];
 
+int dfs(int u, int p) {
+    h[u] = h[p]+1;
+    ii cnt;
+    fat (v, adj[u]) {
+        if (v == p) continue;
+        int val = dfs(v, u)+1;
+        if (cnt.ff < val) cnt = {val, cnt.ff};
+        else cnt.ss = max(cnt.ss, val);
+        d = max(d, cnt.ff + cnt.ss);
+    }
+    return cnt.ff;
+}
 
 #define multi_test 1
 void _main() {
-	
+    cin >> n >> a >> b >> da >> db;
+    fto (i, 1, n) {
+        adj[i].clear();
+    }
+    fto1 (i, 1, n) {
+        int u, v; cin >> u >> v;
+        adj[u].push_back(v);
+        adj[v].push_back(u);
+    }
+    h[0] = -1;
+    d = 0;
+    dfs(a, 0);
+    if (h[b] <= da) bug("Alice");
+    else if (2*da >= d) bug("Alice");
+    else bug(db > 2*da ? "Bob" : "Alice");
 }
 
 int main() {

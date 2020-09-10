@@ -63,13 +63,67 @@ void _bugn(string const &s, Args const &... args) {
 double const pi = acos(-1);
 #define oo 1000000007
 #define OO 1000000000000000003LL
-int const maxn = 1e5+3;
+int const maxn = 5e5+3;
 
+int n;
+int ipos[maxn], sa[maxn], lcp[maxn];
+string s, s1, s2;
 
+// ipos: invert position of suffix array (ipos[i] = position of i-th suffix in `sa`)
+// sa: suffix array
+void buildSA() {
+	vector<ii> tmp(n);
+	fto1 (i, 0, n) {
+		tmp[i] = {s[i]-'a', -1};
+		sa[i] = i;
+	}
+	for (int step = 1; ;step <<= 1) {
+		sort(sa, sa+n, [&tmp](int l, int r) {
+			return tmp[l] < tmp[r];
+		});
+		ipos[sa[0]] = 0;
+		fto1 (i, 1, n) ipos[sa[i]] = ipos[sa[i-1]] + (tmp[sa[i]] > tmp[sa[i-1]]);
+		if (step >= n) break;
+		fto1 (i, 0, n) tmp[i] = {ipos[i], (i+step < n) ? ipos[i+step] : -1};
+	}
+}
 
-#define multi_test 1
-void _main() {
-	
+// lcp[i] = Longest common prefix(sa[i], sa[i+1])
+void buildLCP() {
+	int k = 0;
+	fto1 (i, 0, n) {
+		int j = ipos[i];
+		if (j == n-1) continue;
+		j = sa[ipos[i]+1];
+		while (s[i+k] == s[j+k]) ++k;
+		lcp[ipos[i]] = k;
+		if (k) --k;
+	}
+}
+
+int cnt[maxn];
+
+#define multi_test 0
+void _main() { // spoj LCS
+	cin >> s1 >> s2;
+	s = s1 + "!" + s2;
+	n = sz(s);
+
+	fto1 (i, 0, n) {
+		if (i <= sz(s1)) cnt[i] = 1;
+		else cnt[i] = 2;
+	}
+
+	buildSA();
+	buildLCP();
+
+	int ans = 0;
+	fto1 (i, 1, n) {
+		if (cnt[sa[i]] != cnt[sa[i-1]]) {
+			ans = max(ans, lcp[i-1]);
+		}
+	}
+	bug(ans);
 }
 
 int main() {
