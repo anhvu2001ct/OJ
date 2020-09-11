@@ -27,11 +27,15 @@ def get_src_name(name):
 
 if __name__ == "__main__":
     args = sys.argv[1:]
-    if len(args) == 1: args.insert(0, str(config["default"]))
-    if len(args) == 2: args.append("main")
-    path = get_path(args[0])
-    src = f"{path}{get_src_name(args[1])}.cpp"
-    des = args[2] + ".cpp"
-    print("{} -> {}".format(src, copy(src, des)))
+    if len(args) == 0:
+        src, des = "template.cpp", "main.cpp"
+        print("{} -> {}".format(src, copy(src, des)))
+    else:
+        if len(args) == 1: args.insert(0, str(config["default"]))
+        if len(args) == 2: args.append("main")
+        path = get_path(args[0])
+        src = f"{path}{get_src_name(args[1])}.cpp"
+        des = args[2] + ".cpp"
+        print("{} -> {}".format(src, copy(src, des)))
     
     
