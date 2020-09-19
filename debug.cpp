@@ -39,7 +39,7 @@ template<typename T> ostream& operator<< (ostream &os, vector<T> const &vec) {
 
 int const maxn = 1e7+3;
 double const pi = acos(-1);
-mt19937 rg(chrono::steady_clock::now().time_since_epoch().count());
+mt19937_64 rg(chrono::steady_clock::now().time_since_epoch().count());
 
 ll rand(ll first = 0, ll last = maxn) {
 	return uniform_int_distribution<>(first, last)(rg);

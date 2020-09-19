@@ -1,6 +1,6 @@
 {
-    "contest": "1407",
-    "default": 0,
+    "contest": "1419",
+    "default": "0",
     "alias": {
         "Codeforces": [
             0,
@@ -13,11 +13,12 @@
             "kt"
         ],
         "Spoj": [
-            1,
+            2,
             "spoj"
         ],
-        ".": [
-            "cur"
+        "AtCoder": [
+            1,
+            "ac"
         ]
     }
 }
