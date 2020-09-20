@@ -25,19 +25,31 @@ def get_prefix(name: str):
         if name[i].isalpha():
             return name[:i]
 
+def get_files(path):
+    files = [f for f in os.listdir(path) if os.path.isfile(path+f)]
+    files.sort()
+    return files
+
 if __name__ == "__main__":
     args = sys.argv[1:]
     path = get_path(args[0])
-    files = [f for f in os.listdir(path) if os.path.isfile(path+f)]
+    files = get_files(path)
     prefixes = defaultdict(list)
-    for f in files: prefixes[get_prefix(f)].append(f)
-    print("{} file(s) need to be packed".format(len(files)))
-    print("{} folder(s) will be created".format(len(prefixes)))
+
+    cnt = set()
+    for f in files:
+        prefix = get_prefix(f)
+        prefixes[prefix].append(f)
+        if not os.path.exists(path+prefix): cnt.add(prefix)
+    print("-> {} file(s) need to be packed".format(len(files)))
+    print("-> {} folder(s) will be created".format(len(cnt)))
+
+    for prefix in cnt:
+        os.makedirs(path+prefix)
 
     for prefix, files in prefixes.items():
-        print("Packing {} .. ".format(prefix), end="")
-        if not os.path.exists(path+prefix):
-            os.makedirs(path+prefix)
+        names = tuple((f.split('.')[0][len(prefix):] for f in files))
+        print("---> Packing {}{}... ".format(prefix, names), end="")
         for f in files:
             move(path+f, path+prefix)
         print("Done.")
