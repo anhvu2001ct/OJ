@@ -1,6 +1,6 @@
 {
-    "contest": "1419",
-    "default": "0",
+    "contest": -1,
+    "default": 0,
     "alias": {
         "Codeforces": [
             0,
