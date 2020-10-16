@@ -1,0 +1,20 @@
+Euler's theorem:
+    a * a^(phi(n) - 1) ≡ 1 (mod n)
+    a, n: co_prime
+    phi(n): totient function
+
+Euler's totient function:
+    phi(n) = n * MUL(p: prime divisor of n, 1 - 1/p)
+
+Extended euclidean algorithm:
+    a*x + n*y = gcd(a, n)
+    if a and n are co_prime then:
+        a*x + n*y = 1
+        a*x ≡ 1 (mod n)
+
+Legendre's fomula:
+    v(p, n) = largest x so that p^x divide n
+    v(p, n) = SUM(i: 1 -> ∞, n/p^i)
+    p: prime
+    n: positive integer
+

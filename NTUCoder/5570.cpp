@@ -1,8 +1,6 @@
 #include <bits/stdc++.h>
-#include <ext/pb_ds/assoc_container.hpp>
 
 using namespace std;
-using namespace __gnu_pbds;
 
 #define fto(i, s, e) for (int i = (s); i <= (e); ++i)
 #define fto1(i, s, e) for (int i = (s); i < (e); ++i)
@@ -13,7 +11,7 @@ using namespace __gnu_pbds;
 #define ll long long
 #define ii pair<int, int>
 #define pll pair<ll, ll>
-template<class T, class Cmp = less<T>> using oss = tree<T, null_type, Cmp, rb_tree_tag, tree_order_statistics_node_update>;
+//template<class T, class Cmp = less<T>> using oss = tree<T, null_type, Cmp, rb_tree_tag, tree_order_statistics_node_update>;
 
 #define bc __builtin_popcountll
 #define y1 ansdj
@@ -65,18 +63,45 @@ double const pi = acos(-1);
 #define OO 1000000000000000003LL
 int const maxn = 1e5+3;
 
+int n, k;
+ll ans;
+int p[maxn], f[maxn];
+vector<int> adj[maxn];
 
+void update(int idx, int val) {
+    for (; idx <= n; idx += idx & -idx) f[idx] += val;
+}
 
-#define multi_test 1
+int get(int idx) {
+    int res = 0;
+    for (; idx; idx -= idx & -idx) res += f[idx];
+    return res;
+}
+
+void dfs(int u) {   
+    ans += get(u);
+    update(max(1, u-k), 1);
+    if (u+k < n) update(u+k+1, -1);
+    fat (v, adj[u]) {
+        dfs(v);
+    }
+    update(max(1, u-k), -1);
+    if (u+k < n) update(u+k+1, 1);
+}
+
+#define multi_test 0
 void _main() {
-    
+    cin >> n >> k;
+    fto1 (i, 1, n) {
+        int u, v; cin >> u >> v;
+        adj[u].push_back(v);
+        p[v] = u;
+    }
+    fto (i, 1, n) if (!p[i]) dfs(i);
+    bug(ans);
 }
 
 int main() {
-    #ifdef KITTENS
-        freopen("main.inp", "r", stdin);
-        freopen("main.out", "w", stdout);
-    #endif
     ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
 
     int t = 1;

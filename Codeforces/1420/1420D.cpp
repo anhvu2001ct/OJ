@@ -63,13 +63,50 @@ void _bugn(string const &s, Args const &... args) {
 double const pi = acos(-1);
 #define oo 1000000007
 #define OO 1000000000000000003LL
-int const maxn = 1e5+3;
+int const maxn = 3e5+3;
 
+int n, k, mod = 998244353;
+ll fac[maxn];
+ii a[maxn];
+vector<ii> t;
 
+ll power(ll a, ll n) {
+    ll res = 1;
+    while (n) {
+        if (n%2) res = res * a % mod;
+        a = a * a % mod;
+        n >>= 1;
+    }
+    return res;
+}
 
-#define multi_test 1
+ll calc(int k, int n) {
+    if (k > n) return 0;
+    return (fac[n] * power(fac[k], mod-2) % mod) * power(fac[n-k], mod-2) % mod;
+}
+
+#define multi_test 0
 void _main() {
-    
+    cin >> n >> k;
+    fac[0] = 1;
+    fto (i, 1, n) {
+        cin >> a[i].ff >> a[i].ss;
+        t.push_back({a[i].ff, 0});
+        t.push_back({a[i].ss, 1});
+        fac[i] = fac[i-1] * i % mod;
+    }
+    sort(all(t));
+    int cnt = 0;
+    ll ans = 0;
+    fat (&e, t) {
+        if (!e.ss) {
+            ans += calc(k-1, cnt++);
+            ans %= mod;
+        } else {
+            --cnt;
+        }
+    }
+    bug(ans);
 }
 
 int main() {

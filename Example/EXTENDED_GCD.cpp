@@ -65,11 +65,24 @@ double const pi = acos(-1);
 #define OO 1000000000000000003LL
 int const maxn = 1e5+3;
 
+void gcd(int a, int b, int &x, int &y) {
+    if (b == 0) {
+        x = 1;
+        y = 0;
+    } else {
+        gcd(b, a%b, x, y);
+        int x1 = x;
+        x = y;
+        y = x1 - a/b*y;
+    }
+}
 
-
-#define multi_test 1
+#define multi_test 0
 void _main() {
-    
+    int a = 9, b = 3;
+    int x, y;
+    gcd(a, b, x, y);
+    bug(x, y);
 }
 
 int main() {

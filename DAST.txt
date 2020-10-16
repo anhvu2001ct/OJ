@@ -1,0 +1,3 @@
+Suffix Array
+    - Number of unique substring
+    - Longest common subsequence

@@ -69,7 +69,14 @@ int const maxn = 1e5+3;
 
 #define multi_test 1
 void _main() {
-    
+    int n, m; cin >> n >> m;
+    bool flag = 0;
+    fto (i, 1, n) {
+        int a, b, c, d;
+        cin >> a >> b >> c >> d;
+        if (b == c) flag = 1;
+    }
+    bug ((m%2 == 0 && flag) ? "YES" : "NO");
 }
 
 int main() {

@@ -24,7 +24,7 @@ template<class T, class Cmp = less<T>> using oss = tree<T, null_type, Cmp, rb_tr
 #define all(v) (v).begin(), (v).end()
 #define bug(...) _bug(cout, __VA_ARGS__)
 #define bugn(...) _bugn(#__VA_ARGS__, __VA_ARGS__)
-#define buga(a, s, e) cout << '{'; fto (__i, s, e) cout << a[__i] << " }"[__i == e]; cout << endl
+#define buga(a, s, e) cout << '{'; fto (i, s, e) cout << a[i] << " }"[i == e]; cout << endl
 
 template<class T1, class T2> ostream& operator<<(ostream &os, pair<T1, T2> const &v) {
     return os << '(' << v.ff << ", " << v.ss << ')';
@@ -69,7 +69,20 @@ int const maxn = 1e5+3;
 
 #define multi_test 1
 void _main() {
-    
+    int n; cin >> n;
+    map<int, int> cnt;
+    ll ans = 0;
+    fto (i, 1, n) {
+        int v; cin >> v;
+        fdto (j, 29, 0) {
+            if (v & (1 << j)) {
+                ans += cnt[j];
+                ++cnt[j];
+                break;
+            }
+        }
+    }
+    bug(ans);
 }
 
 int main() {
