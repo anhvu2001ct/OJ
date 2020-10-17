@@ -43,7 +43,7 @@ namespace validate {
             cerr << "Wrong answer on line " << sz(output)+1 << "\n";
             exit(0);
         } else {
-            fto (i, 0, sz(answer)) if (answer[i] != output[i]) {
+            fto1 (i, 0, sz(answer)) if (answer[i] != output[i]) {
                 cerr << "Wrong answer on line " << i+1 << "\n";
                 exit(0);
             }
@@ -54,6 +54,6 @@ namespace validate {
     void validTest(int const &iTest) {
         ifstream out("main.out"), ans("main.ans");
         cerr << iTest << ": ";
-        // validByLine(out, ans);
+        validByLine(out, ans);
     }
 }
