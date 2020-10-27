@@ -63,13 +63,51 @@ void _bugn(string const &s, Args const &... args) {
 double const pi = acos(-1);
 #define oo 1000000007
 #define OO 1000000000000000003LL
-int const maxn = 1e5+3;
+int const maxn = 1e2+3;
 
+vector<int> vec[maxn];
+int a[maxn][maxn], g[maxn][maxn], ans[maxn][maxn];
+int f[maxn][maxn][maxn];
 
 
 #define multi_test 0
 void _main() {
-    
+    int n, m, k;
+    cin >> n >> m >> k;
+    fto (i, 1, n) {
+        fto (j, 1, m) {
+            cin >> a[i][j];
+        }
+
+        fto (j, 0, m) fto (c, 0, m/2) fto1 (d, 0, k) {
+            if (c == 0 && d == 0) continue;
+            f[j][c][d] = -1;
+        }
+
+        fto (j, 1, m) {
+            fto (c, 1, m/2) {
+                fto1 (d, 0, k) {
+                    int need = ((d - a[i][j])%k + k)%k;
+                    f[j][c][d] = f[j-1][c][d];
+                    if (f[j-1][c-1][need] != -1) {
+                        f[j][c][d] = max(f[j][c][d], f[j-1][c-1][need] + a[i][j]);
+                    }
+                }
+            }
+        }
+
+        fto (c, 1, m/2) fto1 (d, 0, k) g[i][d] = max(g[i][d], f[m][c][d]);
+
+        fto1 (d, 0, k) {
+            ans[i][d] = ans[i-1][d];
+            fto1 (j, 0, k) {
+                if (!g[i][j]) continue;
+                int need = ((d-j)%k + k)%k;
+                if (ans[i-1][need] || need == 0) ans[i][d] = max(ans[i][d], ans[i-1][need] + g[i][j]);
+            }
+        }
+    }
+    bug(ans[n][0]);
 }
 
 int main() {

@@ -65,11 +65,17 @@ double const pi = acos(-1);
 #define OO 1000000000000000003LL
 int const maxn = 1e5+3;
 
-
+ll fac[30];
 
 #define multi_test 0
 void _main() {
-    
+    int n; cin >> n;
+    fac[0] = 1;
+    fto (i, 1, n) fac[i] = fac[i-1] * i;
+    int m = n/2;
+    ll ans = fac[n-1]/fac[m-1]/fac[n-1-m+1];
+    ans *= fac[m-1] * fac[m-1];
+    bug(ans);
 }
 
 int main() {

@@ -63,13 +63,96 @@ void _bugn(string const &s, Args const &... args) {
 double const pi = acos(-1);
 #define oo 1000000007
 #define OO 1000000000000000003LL
-int const maxn = 1e5+3;
+int const maxn = 1e3+3;
 
+int n, q;
+int a[maxn][maxn];
+int st[4*maxn][4*maxn];
 
+void buildy(int rid, int rl, int rr, int id, int l, int r) {
+    if (l == r) {
+        if (rl == rr) st[rid][id] = a[l][rl];
+        else st[rid][id] = st[2*rid][id] + st[2*rid+1][id];
+        return;
+    }
+    int mid = (l+r)/2;
+    buildy(rid, rl, rr, 2*id, l, mid);
+    buildy(rid, rl, rr, 2*id+1, mid+1, r);
+    st[rid][id] = st[rid][2*id] + st[rid][2*id+1];
+}
+
+void buildx(int id, int l, int r) {
+    if (l == r) {
+        buildy(id, l, r, 1, 1, n);
+        return;
+    }
+    int mid = (l+r)/2;
+    buildx(2*id, l, mid);
+    buildx(2*id+1, mid+1, r);
+    buildy(id, l, r, 1, 1, n);
+}
+
+int queryy(int rid, int id, int l, int r, int ql, int qr) {
+    if (r < ql || l > qr) return 0;
+    if (ql <= l && qr >= r) return st[rid][id];
+    int mid = (l+r)/2;
+    return queryy(rid, 2*id, l, mid, ql, qr) + queryy(rid, 2*id+1, mid+1, r, ql, qr);
+}
+
+int queryx(int id, int l, int r, int qy1, int qx1, int qy2, int qx2) {
+    if (r < qx1 || l > qx2) return 0;
+    if (qx1 <= l && qx2 >= r) return queryy(id, 1, 1, n, qy1, qy2);
+    int mid = (l+r)/2;
+    return queryx(2*id, l, mid, qy1, qx1, qy2, qx2) + queryx(2*id+1, mid+1, r, qy1, qx1, qy2, qx2);
+}
+
+void updatey(int rid, int rl, int rr, int id, int l, int r, int y) {
+    if (y < l || y > r) return;
+    if (l == r) {
+        if (rl == rr) st[rid][id] ^= 1;
+        else st[rid][id] = st[2*rid][id] + st[2*rid+1][id];
+        return;
+    }
+    int mid = (l+r)/2;
+    updatey(rid, rl, rr, 2*id, l, mid, y);
+    updatey(rid, rl, rr, 2*id+1, mid+1, r, y);
+    st[rid][id] = st[rid][2*id] + st[rid][2*id+1];
+}
+
+void updatex(int id, int l, int r, int y, int x) {
+    if (x < l || x > r) return;
+    if (l == r) {
+        updatey(id, l, r, 1, 1, n, y);
+        return;
+    }
+    int mid = (l+r)/2;
+    updatex(2*id, l, mid, y, x);
+    updatex(2*id+1, mid+1, r, y, x);
+    updatey(id, l, r, 1, 1, n, y);
+}
 
 #define multi_test 0
 void _main() {
-    
+    cin >> n >> q;
+    string s;
+    fto (i, 1, n) {
+        cin >> s;
+        fto1 (j, 0, n) {
+            a[i][j+1] = (s[j] == '*');
+        }
+    }
+    buildx(1, 1, n);
+    while (q--) {
+        int t; cin >> t;
+        if (t == 2) {
+            int x1, y1, x2, y2;
+            cin >> y1 >> x1 >> y2 >> x2;
+            bug(queryx(1, 1, n, y1, x1, y2, x2));
+        } else {
+            int x, y; cin >> y >> x;
+            updatex(1, 1, n, y, x);
+        }
+    }
 }
 
 int main() {

@@ -67,9 +67,38 @@ int const maxn = 1e5+3;
 
 
 
-#define multi_test 0
+#define multi_test 1
 void _main() {
-    
+    int n; string s;
+    cin >> n >> s; s += " ";
+    set<ii> a;
+    vector<int> vec;
+    int cnt = 1, res = 0;
+    fto1 (i, 1, sz(s)) {
+        if (s[i] != s[i-1]) {
+            if (cnt > 1) a.insert({sz(vec), cnt});
+            else ++res;
+            vec.push_back(cnt);
+            cnt = 1;
+        } else ++cnt;
+    }
+    cnt = 0;
+    int ans = 0;
+    while (!a.empty()) {
+        auto it = a.begin();
+        if (it->ff == cnt) a.erase(it);
+        else {
+            --res;
+            ii tmp = {it->ff, it->ss-1};
+            a.erase(it);
+            if (tmp.ss == 1) ++res;
+            else a.insert(tmp);
+        }
+        ++cnt;
+        ++ans;
+    }
+    ans += (res+1)/2;
+    bug(ans);
 }
 
 int main() {

@@ -63,13 +63,40 @@ void _bugn(string const &s, Args const &... args) {
 double const pi = acos(-1);
 #define oo 1000000007
 #define OO 1000000000000000003LL
-int const maxn = 1e5+3;
+int const maxn = 2e5+3;
 
 
 
-#define multi_test 0
+#define multi_test 1
 void _main() {
-    
+    int n; cin >> n;
+    map<int, vector<int>> pos;
+    fto (i, 1, n) {
+        int x; cin >> x;
+        pos[x].push_back(i);
+    }
+    if (sz(pos) == 1) bug("NO");
+    else {
+        bug("YES");
+        ii mini = {oo, 0};
+        fat (p, pos) {
+            mini = min(mini, {sz(p.ss), p.ff});
+        }
+        vector<int> tmp;
+        int u = pos[mini.ss][0];
+        fat (p, pos) {
+            if (p.ff == mini.ss) continue;
+            fat (v, p.ss) {
+                bug(u, v);
+                tmp.push_back(v);
+            }
+        }
+        auto vec = pos[mini.ss];
+        fto1 (i, 1, sz(vec)) {
+            bug(tmp.back(), vec[i]);
+            tmp.pop_back();
+        }
+    }
 }
 
 int main() {

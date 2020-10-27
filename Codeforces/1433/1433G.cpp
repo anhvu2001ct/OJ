@@ -63,13 +63,56 @@ void _bugn(string const &s, Args const &... args) {
 double const pi = acos(-1);
 #define oo 1000000007
 #define OO 1000000000000000003LL
-int const maxn = 1e5+3;
+int const maxn = 1e3+3;
 
+int n, m, k;
+int d[maxn][maxn];
+ii a[maxn];
+vector<ii> adj[maxn];
 
+void dijkstra(int root) {
+    fto (i, 1, n) d[root][i] = oo;
+    d[root][root] = 0;
+    priority_queue<ii, vector<ii>, greater<ii>> q;
+    q.push({0, root});
+    while (!q.empty()) {
+        int u = q.top().ss;
+        q.pop();
+        fat (e, adj[u]) {
+            int v = e.ff;
+            int total = d[root][u] + e.ss;
+            if (d[root][v] > total) {
+                d[root][v] = total;
+                q.push({total, v});
+            }
+        }
+    }
+}
 
 #define multi_test 0
 void _main() {
-    
+    cin >> n >> m >> k;
+    vector<ii> edge;
+    fto (i, 1, m) {
+        int u, v, w;
+        cin >> u >> v >> w;
+        adj[u].push_back({v, w});
+        adj[v].push_back({u, w});
+        edge.push_back({u, v});
+    }
+    fto (i, 1, k) cin >> a[i].ff >> a[i].ss;
+    fto (i, 1, n) dijkstra(i);
+    ll ans = OO;
+    fto1 (i, 0, m) {
+        ll res = 0;
+        int u = edge[i].ff, v = edge[i].ss;
+        fto (j, 1, k) {
+            int s = a[j].ff, t = a[j].ss;
+            res += min(d[s][t], min(d[s][u] + d[v][t], d[s][v] + d[u][t]));
+        }
+        ans = min(ans, res);
+    }
+    bug(ans);
 }
 
 int main() {

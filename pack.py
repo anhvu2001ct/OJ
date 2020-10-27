@@ -32,7 +32,7 @@ def get_files(path):
 
 if __name__ == "__main__":
     args = sys.argv[1:]
-    path = get_path(args[0])
+    path = get_path("0" if len(args) == 0 else args[0])
     files = get_files(path)
     prefixes = defaultdict(list)
 

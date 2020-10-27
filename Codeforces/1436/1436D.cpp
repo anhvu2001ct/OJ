@@ -63,13 +63,49 @@ void _bugn(string const &s, Args const &... args) {
 double const pi = acos(-1);
 #define oo 1000000007
 #define OO 1000000000000000003LL
-int const maxn = 1e5+3;
+int const maxn = 2e5+3;
 
+int n;
+int a[maxn], leaves[maxn];
+vector<int> adj[maxn];
 
+pll dfs(int u) {
+    bool leaf = 1;
+    pll maxi = {0, 0};
+    fat (v, adj[u]) {
+        leaf = 0;
+        pll child = dfs(v);
+        if (child.ff > maxi.ff) {
+            maxi.ss += child.ss + leaves[u]*(child.ff - maxi.ff);
+            maxi.ff = child.ff;
+        } else if (child.ff == maxi.ff) maxi.ss += child.ss;
+        else maxi.ss += child.ss + leaves[v]*(maxi.ff - child.ff);
+        leaves[u] += leaves[v];
+    }
+    leaves[u] += leaf;
+    maxi.ss -= a[u];
+    if (maxi.ss < 0) {
+        ll remain = -maxi.ss;
+        if (remain%leaves[u] == 0) {
+            maxi.ff += remain/leaves[u];
+            maxi.ss = 0;
+        } else {
+            maxi.ff += remain/leaves[u] + 1;
+            maxi.ss = leaves[u] - (remain%leaves[u]);
+        }
+    }
+    return maxi;
+}
 
 #define multi_test 0
 void _main() {
-    
+    n; cin >> n;
+    fto (v, 2, n) {
+        int u; cin >> u;
+        adj[u].push_back(v);
+    }
+    fto (i, 1, n) cin >> a[i];
+    bug(dfs(1).ff);
 }
 
 int main() {
