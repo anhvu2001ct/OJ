@@ -29,11 +29,11 @@ namespace validate {
     void getLines(ifstream &f, vector<string> &vec) {
         static string tmp;
         vec.clear();
-        while (getline(f, tmp)) vec.push_back(formatted(tmp));
-        while (vec.back() == "") vec.pop_back();
+        while (f.good() && getline(f, tmp)) vec.push_back(formatted(tmp));
+        while (!vec.empty() && vec.back() == "") vec.pop_back();
     }
 
-    void validByLine(ifstream &out, ifstream &ans) {
+    void validByLines(ifstream &out, ifstream &ans) {
         static vector<string> answer, output;
         getLines(ans, answer); getLines(out, output);
         if (sz(output) > sz(answer)) {
@@ -54,6 +54,7 @@ namespace validate {
     void validTest(int const &iTest) {
         ifstream out("main.out"), ans("main.ans");
         cerr << iTest << ": ";
-        validByLine(out, ans);
+        validByLines(out, ans);
+        
     }
 }

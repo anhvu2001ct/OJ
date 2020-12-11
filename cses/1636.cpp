@@ -1,11 +1,7 @@
-#ifdef _LOCAL
-    #include "cp_debug.hpp"
-#else
-    #include <bits/stdc++.h>
-    using namespace std;
-#endif
+#include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
 
+using namespace std;
 using namespace __gnu_pbds;
 
 #define fto(i, s, e) for (int i = (s); i <= (e); ++i)
@@ -27,7 +23,8 @@ template<class T, class Cmp = less<T>> using oss = tree<T, null_type, Cmp, rb_tr
 #define sz(v) int((v).size())
 #define all(v) (v).begin(), (v).end()
 #define bug(...) _bug(cout, __VA_ARGS__)
-#define buga(a, s, e) cout << '{'; if (e < s) cout << '}'; else fto (__i, s, e) cout << a[__i] << " }"[__i == e]; cout << endl
+#define bugn(...) _bugn(#__VA_ARGS__, __VA_ARGS__)
+#define buga(a, s, e) cout << '{'; fto (__i, s, e) cout << a[__i] << " }"[__i == e]; cout << endl
 
 template<class T1, class T2> ostream& operator<<(ostream &os, pair<T1, T2> const &v) {
     return os << '(' << v.ff << ", " << v.ss << ')';
@@ -42,20 +39,52 @@ void _bug(ostream &os, T const &var, Args const &... args) {
     _bug(os, args...);
 }
 
+template<typename... Args>
+void _bugn(string const &s, Args const &... args) {
+    auto split = [](string const &s, string const &delim) {
+        int next, pos = 0;
+        vector<string> res;
+        while (1) {
+            next = s.find(delim, pos);
+            if (next == string::npos) break;
+            res.push_back(s.substr(pos, next-pos));
+            pos = next+sz(delim);
+        }
+        res.push_back(s.substr(pos));
+        return res;
+    };
+
+    ostringstream os; _bug(os, args...);
+    string tmp = os.str(); tmp.pop_back(); 
+    vector<string> v1 = split(s, ", "), v2 = split(tmp, " ");
+    fto1 (i, 0, sz(v1)) cout << '[' << v1[i] << ": " << v2[i] << "]" << " \n"[i == sz(v1)-1];
+}
+
 double const pi = acos(-1);
 #define oo 1000000007
 #define OO 1000000000000000003LL
-int const maxn = 1e5+3;
+int const maxn = 1e6+3;
 
-
+int a[maxn];
+int f[maxn][103];
 
 #define multi_test 0
 void _main() {
-    
+    int n, x; cin >> n >> x;
+    fto (i, 1, n) cin >> a[i];
+    fto (i, 0, n) f[0][i] = 1;
+    fto (i, 1, x) {
+        fto (j, 1, n) {
+            f[i][j] = f[i][j-1];
+            if (i >= a[j]) f[i][j] += f[i - a[j]][j];
+            f[i][j] %= oo;
+        }
+    }
+    bug(f[x][n]);
 }
 
 int main() {
-    #ifdef _LOCAL
+    #ifdef KITTENS
         freopen("main.inp", "r", stdin);
         freopen("main.out", "w", stdout);
     #endif
@@ -67,7 +96,7 @@ int main() {
         _main();
     }
 
-    #ifdef _DEBUG
+    #ifdef KITTENS
         cerr << 0.001*clock() << endl;
     #endif
     return 0;
