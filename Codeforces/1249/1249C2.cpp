@@ -47,11 +47,48 @@ double const pi = acos(-1);
 #define OO 1000000000000000003LL
 int const maxn = 1e5+3;
 
-
+ll p[40];
 
 #define multi_test 0
 void _main() {
-    
+    p[0] = 1;
+    fto (i, 1, 38) p[i] = p[i-1] * 3;
+
+    int mx = 38;
+    int N = mx/2;
+
+    vector<ll> v1, v2;
+    vector<pair<ll, int>> v;
+    fto1 (i, 0, 1 << N) {
+        ll sum1 = 0, sum2 = 0;
+        fto1 (j, 0, N) {
+            if (i & (1 << j)) {
+                sum1 += p[j];
+                sum2 += p[j+N];
+            }
+        }
+        v1.push_back(sum1);
+        v2.push_back(sum2);
+    }
+
+    v2.push_back(p[38]);
+
+    v.reserve(sz(v1) + sz(v2));
+    fto1 (i, 0, sz(v1)) v.push_back({v1[i], 1});
+    fto1 (i, 0, sz(v2)) v.push_back({v2[i], 2});
+
+    int q; cin >> q;
+    while (q--) {
+        ll n; cin >> n;
+        auto query = upper_bound(all(v), pair<ll, int>(n, 0))-1;
+        if (query->ff == n) bug(n);
+        else if (query->ss == 1) bug((++query)->ff);
+        else {
+            auto it = lower_bound(all(v1), n - query->ff);
+            if (it == v1.end()) bug((++query)->ff);
+            else bug(query->ff + *it);
+        }
+    }
 }
 
 int main() {

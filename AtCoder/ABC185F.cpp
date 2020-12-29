@@ -45,13 +45,38 @@ void _bug(ostream &os, T const &var, Args const &... args) {
 double const pi = acos(-1);
 #define oo 1000000007
 #define OO 1000000000000000003LL
-int const maxn = 1e5+3;
+int const maxn = 3e5+3;
 
+int n, q;
+int a[maxn], ft[maxn];
 
+void update(int idx, int val) {
+    for (; idx <= n; idx += idx & -idx) ft[idx] ^= val;
+}
+
+int get(int idx) {
+    int res = 0;
+    for (; idx; idx -= idx & -idx) res ^= ft[idx];
+    return res;
+}
 
 #define multi_test 0
 void _main() {
-    
+    cin >> n >> q;
+    fto (i, 1, n) {
+        cin >> a[i];
+        update(i, a[i]);
+    }
+
+    int t, x, y;
+    fto (i, 1, q) {
+        cin >> t >> x >> y;
+        if (t == 1) update(x, y);
+        else {
+            if (x == 1) bug(get(y));
+            else bug(get(y) ^ get(x-1));
+        }
+    }
 }
 
 int main() {

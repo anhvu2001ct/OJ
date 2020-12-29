@@ -1,5 +1,5 @@
 #ifdef _LOCAL
-    #include "local_include.hpp"
+    #include "cp_debug.hpp"
 #else
     #include <bits/stdc++.h>
     using namespace std;
@@ -45,28 +45,42 @@ void _bug(ostream &os, T const &var, Args const &... args) {
 double const pi = acos(-1);
 #define oo 1000000007
 #define OO 1000000000000000003LL
-int const maxn = 1e5+3;
-
-
-
+int const maxn = 1e2+3;
+ 
+double ans[maxn][maxn][maxn];
+ 
 #define multi_test 0
 void _main() {
-    
+    int a, b, c;
+    cin >> a >> b >> c;
+    fdto (i, 100, 0) {
+        fdto (j, 100, 0) {
+            fdto (k, 100, 0) {
+                if (i == 100 || j == 100 || k == 100 || i+j+k == 0) continue;
+                int sum = i+j+k;
+                ans[i][j][k] = (ans[i+1][j][k] + 1)*(1.0*i / sum);
+                ans[i][j][k] += (ans[i][j+1][k] + 1)*(1.0*j / sum);
+                ans[i][j][k] += (ans[i][j][k+1] + 1)*(1.0*k / sum);
+            }
+        }
+    }
+    cout << fixed << setprecision(9);
+    bug(ans[a][b][c]);
 }
-
+ 
 int main() {
     #ifdef _LOCAL
         freopen("main.inp", "r", stdin);
         freopen("main.out", "w", stdout);
     #endif
     ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
-
+ 
     int t = 1;
     if (multi_test) cin >> t;
     while (t--) {
         _main();
     }
-
+ 
     #ifdef _LOCAL
         cerr << 0.001*clock() << endl;
     #endif

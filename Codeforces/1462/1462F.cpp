@@ -45,13 +45,79 @@ void _bug(ostream &os, T const &var, Args const &... args) {
 double const pi = acos(-1);
 #define oo 1000000007
 #define OO 1000000000000000003LL
-int const maxn = 1e5+3;
+int const maxn = 2e5+3;
 
+int n;
+ii a[maxn];
+int st[8*maxn], lazy[8*maxn];
 
+void push(int id, int l, int r) {
+    if (lazy[id] == oo) return;
+    st[id] = min(st[id], lazy[id]);
+    if (l < r) {
+        lazy[2*id] = min(lazy[2*id], lazy[id]);
+        lazy[2*id+1] = min(lazy[2*id+1], lazy[id]);
+    }
+    lazy[id] = oo;
+}
 
-#define multi_test 0
+void update(int id, int l, int r, int ql, int qr, int val) {
+    push(id, l, r);
+    if (ql > r || qr < l) return;
+    if (ql <= l && qr >= r) {
+        lazy[id] = min(lazy[id], val);
+        push(id, l, r);
+        return;
+    }
+    int mid = (l+r)/2;
+    update(2*id, l, mid, ql, qr, val);
+    update(2*id+1, mid+1, r, ql, qr, val);
+    st[id] = min(st[2*id], st[2*id+1]);
+}
+
+int query(int id, int l, int r, int pos) {
+    push(id, l, r);
+    if (pos > r || pos < l) return oo;
+    if (l == r) return st[id];
+    int mid = (l+r)/2;
+    return min(query(2*id, l, mid, pos), query(2*id+1, mid+1, r, pos));
+}
+
+#define multi_test 1
 void _main() {
-    
+    cin >> n;
+    vector<int> b;
+
+    fto (i, 1, n) {
+        cin >> a[i].ff >> a[i].ss;
+        b.push_back(a[i].ff);
+        b.push_back(a[i].ss);
+    }
+
+    sort(all(b));
+    b.erase(unique(all(b)), b.end());
+
+    fto (i, 1, n) {
+        a[i].ff = lower_bound(all(b), a[i].ff) - b.begin()+1;
+        a[i].ss = lower_bound(all(b), a[i].ss) - b.begin()+1;
+    }
+
+    fto (i, 1, 8*n) st[i] = lazy[i] = oo;
+    sort(a+1, a+1+n);
+
+    int cnt = 0;
+    oss<ii> s;
+
+    int ans = 0;
+    fto (i, 1, n) {
+        int pos = query(1, 1, 2*n, a[i].ff);
+        if (pos == oo) ans = max(ans, 1);
+        else ans = max(ans, (int)(i - s.order_of_key(ii(pos, 0))));
+        update(1, 1, 2*n, a[i].ff, a[i].ss, a[i].ff);
+        s.insert({a[i].ss, ++cnt});
+    }
+
+    bug(n - ans);
 }
 
 int main() {

@@ -13,6 +13,7 @@ def get_config():
 config = get_config()
 
 def get_path(folder):
+    folder = str(folder)
     if folder in config["alias"]:
         folder = config["alias"][folder]
     path = f"{folder}/"
@@ -32,7 +33,7 @@ def get_files(path):
 
 if __name__ == "__main__":
     args = sys.argv[1:]
-    path = get_path("0" if len(args) == 0 else args[0])
+    path = get_path(config["default"] if len(args) == 0 else args[0])
     files = get_files(path)
     prefixes = defaultdict(list)
 

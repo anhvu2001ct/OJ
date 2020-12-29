@@ -45,13 +45,24 @@ void _bug(ostream &os, T const &var, Args const &... args) {
 double const pi = acos(-1);
 #define oo 1000000007
 #define OO 1000000000000000003LL
-int const maxn = 1e5+3;
+int const maxn = 2e5+3;
 
-
+int a[maxn], cnt[maxn];
 
 #define multi_test 0
 void _main() {
-    
+    int n, k; cin >> n >> k;
+    fto (i, 1, n) {
+        cin >> a[i];
+        ++cnt[a[i]%k];
+    }
+
+    int ans = 0;
+    fto (i, 0, k/2) {
+        if (i == 0 || (k%2 == 0 && i == k/2)) ans += cnt[i]/2;
+        else ans += min(cnt[i], cnt[k-i]);
+    }
+    bug(ans*2);
 }
 
 int main() {

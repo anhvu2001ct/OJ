@@ -47,11 +47,26 @@ double const pi = acos(-1);
 #define OO 1000000000000000003LL
 int const maxn = 1e5+3;
 
+int n;
+int a[maxn];
 
-
-#define multi_test 0
+#define multi_test 1
 void _main() {
+    int n; cin >> n;
+    fto (i, 1, n) {
+        cin >> a[i];
+    }
     
+    vector<int> ans;
+    fto (i, 1, n/2) {
+        ans.push_back(a[i]);
+        ans.push_back(a[n-i+1]);
+    }
+
+    if (n%2) ans.push_back(a[n/2+1]);
+
+    fto1 (i, 0, sz(ans)) cout << ans[i] << ' ';
+    bug("");
 }
 
 int main() {

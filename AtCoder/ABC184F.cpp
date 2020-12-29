@@ -45,13 +45,40 @@ void _bug(ostream &os, T const &var, Args const &... args) {
 double const pi = acos(-1);
 #define oo 1000000007
 #define OO 1000000000000000003LL
-int const maxn = 1e5+3;
+int const maxn = 1e2+3;
 
-
+int n, T;
+int a[maxn];
+set<int> s;
 
 #define multi_test 0
 void _main() {
-    
+    cin >> n >> T;
+    fto1 (i, 0, n) cin >> a[i];
+    int N = n/2;
+    fto1 (i, 0, 1 << N) {
+        ll sum = 0;
+        fto1 (j, 0, N) {
+            if (i & (1 << j)) sum += a[j];
+        }
+        if (sum > T) continue;
+        s.insert(sum);
+    }
+
+    int N2 = n - N;
+    ll ans = 0;
+    fto1 (i, 0, 1 << N2) {
+        ll sum = 0;
+        fto1 (j, 0, N2) {
+            if (i & (1 << j)) sum += a[j+N];
+        }
+        if (sum > T) continue;
+        auto it = s.upper_bound(T - sum);
+        if (it == s.begin()) continue;
+        --it;
+        ans = max(ans, sum + *it);
+    }
+    bug(ans);
 }
 
 int main() {

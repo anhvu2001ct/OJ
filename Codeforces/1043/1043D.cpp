@@ -47,11 +47,28 @@ double const pi = acos(-1);
 #define OO 1000000000000000003LL
 int const maxn = 1e5+3;
 
-
+int a[maxn], adj[maxn], cnt[maxn];
 
 #define multi_test 0
 void _main() {
-    
+    int n, m;
+    cin >> n >> m;
+    fto (i, 1, m) {
+        a[n+1] = -1;
+        fto (j, 1, n) {
+            cin >> a[j];
+            cnt[j] = 1;
+            if (!adj[a[j-1]] || adj[a[j-1]] == a[j]) cnt[j] = cnt[j-1] + 1;
+        }
+        fto (j, 1, n) {
+            if (adj[a[j]] == 0) adj[a[j]] = a[j+1];
+            else if (adj[a[j]] != -1 && adj[a[j]] != a[j+1]) adj[a[j]] = -1;
+        }
+    }
+
+    ll ans = 0;
+    fto (i, 1, n) ans += cnt[i];
+    bug(ans);
 }
 
 int main() {

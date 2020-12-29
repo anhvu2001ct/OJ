@@ -47,11 +47,24 @@ double const pi = acos(-1);
 #define OO 1000000000000000003LL
 int const maxn = 1e5+3;
 
+ll dp[100][10];
 
-
-#define multi_test 0
+#define multi_test 1
 void _main() {
+    int x; cin >> x;
     
+    fto (i, 0, 9) dp[0][i] = 0;
+
+    fto (i, 1, x) fto (j, 0, 9) dp[i][j] = oo;
+
+    fto (i, 1, x) {
+        fto (j, 1, 9) {
+            dp[i][j] = dp[i][j-1];
+            if (j <= i) dp[i][j] = min(dp[i][j], dp[i - j][j-1] * 10 + j);
+        }
+    }
+
+    bug(dp[x][9] >= oo ? -1 : dp[x][9]);
 }
 
 int main() {

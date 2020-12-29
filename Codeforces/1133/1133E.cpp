@@ -45,13 +45,26 @@ void _bug(ostream &os, T const &var, Args const &... args) {
 double const pi = acos(-1);
 #define oo 1000000007
 #define OO 1000000000000000003LL
-int const maxn = 1e5+3;
+int const maxn = 5e3+3;
 
-
+int n, k;
+int a[maxn];
+int dp[maxn][maxn];
 
 #define multi_test 0
 void _main() {
-    
+    cin >> n >> k;
+    fto (i, 1, n) cin >> a[i];
+    sort(a+1, a+1+n);
+
+    fdto (i, n, 1) {
+        fto (j, 1, k) {
+            int pos = upper_bound(a+i, a+1+n, a[i]+5)-1-a;
+            dp[i][j] = max(dp[i+1][j], pos-i+1 + dp[pos+1][j-1]);
+        }
+    }
+
+    bug(dp[1][k]);
 }
 
 int main() {

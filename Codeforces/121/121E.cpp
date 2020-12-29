@@ -47,11 +47,56 @@ double const pi = acos(-1);
 #define OO 1000000000000000003LL
 int const maxn = 1e5+3;
 
+int n;
+int child[maxn];
+bool ans[maxn];
+vector<int> a[maxn];
 
+int dfs(int u, int p) {
+    child[u] = 1;
+    fat (v, a[u]) {
+        if (v == p) continue;
+        child[u] += dfs(v, u);
+    }
+
+    static vector<int> branch;
+    branch.clear();
+
+    fat (v, a[u]) {
+        if (v != p) branch.push_back(child[v]);
+    }
+
+    vector<bool> avail(n, 0), tmp;
+    avail[0] = 1;
+    fat (v, branch) {
+        tmp = avail;
+        fto1 (i, v, n) {
+            avail[i] = avail[i] | tmp[i-v];
+        }
+    }
+
+    fto1 (i, 1, n) ans[i] |= avail[i];
+
+    return child[u];
+}
 
 #define multi_test 0
 void _main() {
-    
+    cin >> n;
+    int u, v;
+    fto1 (i, 1, n) {
+        cin >> u >> v;
+        a[u].push_back(v);
+        a[v].push_back(u);
+    }
+
+    dfs(1, 0);
+
+    int cnt = 0;
+    fto1 (i, 1, n-1) if (ans[i]) ans[n-i-1] = 1;
+    fto1 (i, 1, n-1) cnt += ans[i];
+    bug(cnt);
+    fto1 (i, 1, n-1) if (ans[i]) bug(i, n-i-1);
 }
 
 int main() {

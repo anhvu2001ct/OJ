@@ -47,11 +47,55 @@ double const pi = acos(-1);
 #define OO 1000000000000000003LL
 int const maxn = 1e5+3;
 
+int n;
+pll a[maxn];
+bool check[maxn];
+vector<pair<pll, ii>> seg;
 
-
-#define multi_test 0
+#define multi_test 1
 void _main() {
+    cin >> n;
+    seg.clear();
+    fto (i, 1, n) {
+        cin >> a[i].ff >> a[i].ss;
+        check[i] = 0;
+    }
+
+    ll cur = 0, next_time = 0;
+    fto (i, 1, n) {
+        if (next_time <= a[i].ff) {
+            if (next_time+1 <= a[i].ff-1) seg.push_back({{next_time+1, a[i].ff-1}, {cur, cur}});
+            next_time = a[i].ff + abs(cur - a[i].ss);
+            seg.push_back({{a[i].ff, next_time}, {cur, a[i].ss}});
+            cur = a[i].ss;
+        }
+    }
+
+    a[n+1].ff = OO;
+    cur = 1;
+    fto1 (i, 0, sz(seg)) {
+        ll left = seg[i].ff.ff, right = seg[i].ff.ss;
+        ll start = seg[i].ss.ff;
+        int unit = 0;
+        if (seg[i].ss.ss > start) unit = 1;
+        else if (seg[i].ss.ss < start) unit = -1;
     
+        while (a[cur].ff <= right) {
+            if (a[cur+1].ff >= left) {
+                pll intersect = {max(left, a[cur].ff), min(right, a[cur+1].ff)};
+                ll v1 = start + (intersect.ff - left)*unit;
+                ll v2 = start + (intersect.ss - left)*unit;
+                if (v1 > v2) swap(v1, v2);
+                if (v1 <= a[cur].ss && v2 >= a[cur].ss) check[cur] = 1;
+            }
+            ++cur;
+        }
+        --cur;
+    }
+
+    int ans = 0;
+    fto (i, 1, n) ans += check[i];
+    bug(ans);
 }
 
 int main() {

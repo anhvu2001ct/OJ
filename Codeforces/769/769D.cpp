@@ -47,11 +47,30 @@ double const pi = acos(-1);
 #define OO 1000000000000000003LL
 int const maxn = 1e5+3;
 
-
+int a[maxn];
+int cnt[200][200][20];
 
 #define multi_test 0
 void _main() {
-    
+    int n, k;
+    cin >> n >> k;
+
+    int N = 7;
+    ll ans = 0;
+    fto (i, 1, n) {
+        cin >> a[i];
+        int first = a[i] >> N;
+        int last = a[i] & ((1 << N) - 1);
+        fto1 (j, 0, 1 << N) {
+            int diff = bc(first ^ j);
+            if (diff > k) continue;
+            diff = k - diff;
+            ans += cnt[last][j][diff];
+        }
+        fto1 (j, 0, 1 << N) ++cnt[j][first][bc(last ^ j)];
+    }
+
+    bug(ans);
 }
 
 int main() {

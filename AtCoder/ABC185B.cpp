@@ -47,11 +47,26 @@ double const pi = acos(-1);
 #define OO 1000000000000000003LL
 int const maxn = 1e5+3;
 
-
+ii a[maxn];
 
 #define multi_test 0
 void _main() {
-    
+    int cap, m, T;
+    cin >> cap >> m >> T;
+
+    ll n = cap;
+    fto (i, 1, m) {
+        cin >> a[i].ff >> a[i].ss;
+        n -= a[i].ff - a[i-1].ss;
+        if (n <= 0) {
+            bug("No");
+            return;
+        }
+        n = min(1LL*cap, n + (a[i].ss - a[i].ff));
+    }
+
+    n -= T - a[m].ss;
+    bug(n > 0 ? "Yes" : "No");
 }
 
 int main() {

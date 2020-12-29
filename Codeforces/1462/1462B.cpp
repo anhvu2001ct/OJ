@@ -27,7 +27,7 @@ template<class T, class Cmp = less<T>> using oss = tree<T, null_type, Cmp, rb_tr
 #define sz(v) int((v).size())
 #define all(v) (v).begin(), (v).end()
 #define bug(...) _bug(cout, __VA_ARGS__)
-#define buga(a, s, e) cout << '{'; if (e < s) cout << '}'; else fto (__i, s, e) cout << a[__i] << " }"[__i == e]; cout << endl
+#define buga(a, s, e) cout << '{'; if (e < s) cout << '}'; else fto (__i, s, e) cout << s[__i] << " }"[__i == e]; cout << endl
 
 template<class T1, class T2> ostream& operator<<(ostream &os, pair<T1, T2> const &v) {
     return os << '(' << v.ff << ", " << v.ss << ')';
@@ -49,9 +49,14 @@ int const maxn = 1e5+3;
 
 
 
-#define multi_test 0
+#define multi_test 1
 void _main() {
-    
+    int n; cin >> n;
+    string s; cin >> s;
+
+    if (s.substr(0, 4) == "2020" || s.substr(n-4, 4) == "2020") bug("YES");
+    else if (s[0] == '2' && s[n-1] == '0' && ((s[1] == '0' && s[2] == '2') || (s[n-3] == '0' && s[n-2] == '2') || (s[1] == '0' && s[n-2] == '2'))) bug("YES");
+    else bug("NO");
 }
 
 int main() {

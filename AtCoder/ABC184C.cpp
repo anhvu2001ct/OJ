@@ -1,5 +1,5 @@
 #ifdef _LOCAL
-    #include "local_include.hpp"
+    #include "cp_debug.hpp"
 #else
     #include <bits/stdc++.h>
     using namespace std;
@@ -46,27 +46,35 @@ double const pi = acos(-1);
 #define oo 1000000007
 #define OO 1000000000000000003LL
 int const maxn = 1e5+3;
-
-
-
+ 
+ 
+ 
 #define multi_test 0
 void _main() {
-    
+    int a, b, c, d;
+    cin >> a >> b >> c >> d;
+    if (a == c && b == d) bug(0);
+    else if (a+b == c+d || a-b == c-d || abs(a-c) + abs(b-d) <= 3) bug(1);
+    else if (abs(a-c) + abs(b-d) <= 6) bug(2);
+    else if (abs(a+b - (c+d)) <= 3) bug(2);
+    else if (abs(a-b - (c-d)) <= 3) bug(2);
+    else if (abs(a-b)%2 == abs(c-d)%2) bug(2);
+    else bug(3); 
 }
-
+ 
 int main() {
     #ifdef _LOCAL
         freopen("main.inp", "r", stdin);
         freopen("main.out", "w", stdout);
     #endif
     ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
-
+ 
     int t = 1;
     if (multi_test) cin >> t;
     while (t--) {
         _main();
     }
-
+ 
     #ifdef _LOCAL
         cerr << 0.001*clock() << endl;
     #endif

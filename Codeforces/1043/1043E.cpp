@@ -45,13 +45,45 @@ void _bug(ostream &os, T const &var, Args const &... args) {
 double const pi = acos(-1);
 #define oo 1000000007
 #define OO 1000000000000000003LL
-int const maxn = 1e5+3;
+int const maxn = 3e5+3;
 
-
+int n, m;
+int b[maxn];
+ll ans[maxn];
+ii a[maxn];
 
 #define multi_test 0
 void _main() {
-    
+    int n, m; cin >> n >> m;
+    fto (i, 1, n) {
+        cin >> a[i].ff >> a[i].ss;
+        b[i] = i;
+    }
+    sort(b+1, b+1+n, [](int l, int r) {
+        return a[l].ff - a[l].ss < a[r].ff - a[r].ss;
+    });
+
+    ll sum = 0;
+    fto (i, 1, n) {
+        ans[b[i]] = sum + (ll)a[b[i]].ss*(i-1);
+        sum += a[b[i]].ff;
+    }
+
+    sum = 0;
+    fdto (i, n, 1) {
+        ans[b[i]] += sum + (ll)a[b[i]].ff*(n-i);
+        sum += a[b[i]].ss;
+    }
+
+    int u, v;
+    fto (i, 1, m) {
+        cin >> u >> v;
+        int val = min(a[u].ff + a[v].ss, a[u].ss + a[v].ff);
+        ans[u] -= val;
+        ans[v] -= val;
+    }
+
+    fto (i, 1, n) cout << ans[i] << ' ';
 }
 
 int main() {
