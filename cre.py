@@ -12,6 +12,7 @@ def get_config():
 config = get_config()
 
 def get_path(folder):
+    folder = str(folder)
     if folder in config["alias"]:
         folder = config["alias"][folder]
     path = f"{folder}/"
