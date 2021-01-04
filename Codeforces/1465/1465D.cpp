@@ -42,11 +42,63 @@ double const pi = acos(-1);
 #define OO 1000000000000000003LL
 int const maxn = 1e5+3;
 
+int n, x, y;
+string s;
+int cnt0[maxn], cnt1[maxn];
+vector<int> pos;
 
+ll solve0() {
+    ll sum = 0;
+    fto1 (i, 0, sz(pos)) {
+        int p = pos[i];
+        sum += (ll)cnt0[p]*x;
+        sum += (ll)(cnt0[n] - cnt0[p])*y;
+    }
+    ll res = sum;
+    fto1 (i, 0, sz(pos)) {
+        int p = pos[i];
+        sum -= (ll)(cnt0[p]+i)*x;
+        sum -= (ll)(cnt0[n] - cnt0[p])*y;
+        sum += (ll)cnt1[p]*y;
+        sum += (ll)(cnt1[n] - cnt1[p] + sz(pos)-i-1)*x;
+        res = min(res, sum);
+    }
+    return res;
+}
+
+ll solve1() {
+    ll sum = 0;
+    fto1 (i, 0, sz(pos)) {
+        int p = pos[i];
+        sum += (ll)cnt1[p]*y;
+        sum += (ll)(cnt1[n] - cnt1[p])*x;
+    }
+    ll res = sum;
+    fto1 (i, 0, sz(pos)) {
+        int p = pos[i];
+        sum -= (ll)(cnt1[p]+i)*y;
+        sum -= (ll)(cnt1[n] - cnt1[p])*x;
+        sum += (ll)cnt0[p]*x;
+        sum += (ll)(cnt0[n] - cnt0[p] + sz(pos)-i-1)*y;
+        res = min(res, sum);
+    }
+    return res;
+}
 
 #define multi_test 0
 void _main() {
-    
+    cin >> s;
+    n = sz(s); s = " " + s;
+    cin >> x >> y;
+    ll ans = 0;
+    fto (i, 1, n) {
+        cnt0[i] = cnt0[i-1] + (s[i] == '0');
+        cnt1[i] = cnt1[i-1] + (s[i] == '1');
+        if (s[i] == '0') ans += (ll)cnt1[i]*y;
+        else if (s[i] == '1') ans += (ll)cnt0[i]*x;
+        else pos.push_back(i);
+    }
+    bug(ans + min(solve0(), solve1()));
 }
 
 int main() {

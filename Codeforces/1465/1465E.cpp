@@ -42,11 +42,36 @@ double const pi = acos(-1);
 #define OO 1000000000000000003LL
 int const maxn = 1e5+3;
 
-
+int n;
+ll T;
+string s;
+vector<int> a;
 
 #define multi_test 0
 void _main() {
-    
+    cin >> n >> T;
+    cin >> s;
+    T += (1 << (s[n-2] - 'a'));
+    T -= (1 << (s[n-1] - 'a'));
+
+    if (T < 0) T = -T;
+    fto1 (i, 0, n-2) {
+        a.push_back(1 << (s[i] - 'a'));
+        T -= a.back();
+    }
+
+    if (T == 0) bug("Yes");
+    else if (T > 0) bug("No");
+    else {
+        T = -T;
+        if (T%2) bug("No");
+        else {
+            T /= 2;
+            sort(all(a), greater<int>());
+            fat (val, a) if (T >= val) T -= val;
+            bug(T ? "No" : "Yes");
+        }
+    }
 }
 
 int main() {

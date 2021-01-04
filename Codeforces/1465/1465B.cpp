@@ -44,9 +44,20 @@ int const maxn = 1e5+3;
 
 
 
-#define multi_test 0
+#define multi_test 1
 void _main() {
-    
+    ll x; cin >> x;
+    for (; ; ++x) {
+        ll tmp = x;
+        bool found = 1;
+        while (tmp) {
+            int digit = tmp%10;
+            tmp /= 10;
+            if (digit && x%digit) found = 0;
+        }
+        if (found) break;
+    }
+    bug(x);
 }
 
 int main() {

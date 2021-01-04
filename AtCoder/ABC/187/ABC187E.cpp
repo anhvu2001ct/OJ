@@ -40,13 +40,57 @@ void bug(T const &var, Args const &... args) {
 double const pi = acos(-1);
 #define oo 1000000007
 #define OO 1000000000000000003LL
-int const maxn = 1e5+3;
+int const maxn = 2e5+3;
 
+int n;
+ll sum, cur;
+int p[maxn];
+ll cnt[maxn], ans[maxn];
+ii a[maxn];
+vector<int> adj[maxn];
 
+void dfs(int u) {
+    fat (v, adj[u]) {
+        if (v == p[u]) continue;
+        p[v] = u;
+        dfs(v);
+    }
+}
+
+void dfs2(int u) {
+    sum += cnt[u];
+    ans[u] = sum + cur;
+    fat (v, adj[u]) {
+        if (v == p[u]) continue;
+        dfs2(v);
+    }
+    sum -= cnt[u];
+}
 
 #define multi_test 0
 void _main() {
-    
+    cin >> n;
+    fto1 (i, 1, n) {
+        cin >> a[i].ff >> a[i].ss;
+        adj[a[i].ff].push_back(a[i].ss);
+        adj[a[i].ss].push_back(a[i].ff);
+    }
+    dfs(1);
+
+    int q; cin >> q;
+    while (q--) {
+        int t, e, x; cin >> t >> e >> x;
+        if (a[e].ff == p[a[e].ss]) {
+            if (t == 1) cur += x, cnt[a[e].ss] -= x;
+            else cnt[a[e].ss] += x;
+        } else {
+            if (t == 2) cur += x, cnt[a[e].ff] -= x;
+            else cnt[a[e].ff] += x;
+        }
+    }
+
+    dfs2(1);
+    fto (i, 1, n) bug(ans[i]);
 }
 
 int main() {

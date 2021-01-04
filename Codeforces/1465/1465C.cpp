@@ -42,11 +42,39 @@ double const pi = acos(-1);
 #define OO 1000000000000000003LL
 int const maxn = 1e5+3;
 
+int p[maxn];
+bool check[maxn], flag[maxn];
 
+int par(int u) {
+    return p[u] < 0 ? u : p[u] = par(p[u]);
+}
 
-#define multi_test 0
+bool Union(int u, int v) {
+    u = par(u); v = par(v);
+    if (u == v) return 0;
+    p[u] += p[v];
+    p[v] = u;
+    return 1;
+}
+
+#define multi_test 1
 void _main() {
-    
+    int n, m; cin >> n >> m;
+    int u, v;
+    fto (i, 1, n) p[i] = -1, check[i] = flag[i] = 0;
+    fto (i, 1, m) {
+        cin >> u >> v;
+        if (u == v) flag[u] = 1;
+        else if (!Union(u, v)) check[par(u)] = 1;
+    }
+    int ans = 0;
+    fto (i, 1, n) {
+        int root = par(i);
+        if (flag[root]) continue;
+        flag[root] = 1;
+        ans += -p[root] - 1 + 2*check[root];
+    }
+    bug(ans);
 }
 
 int main() {

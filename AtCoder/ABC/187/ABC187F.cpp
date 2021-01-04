@@ -40,13 +40,43 @@ void bug(T const &var, Args const &... args) {
 double const pi = acos(-1);
 #define oo 1000000007
 #define OO 1000000000000000003LL
-int const maxn = 1e5+3;
+int const maxn = 1e2+3;
 
-
+int n, m;
+int f[1 << 19];
+bool g[maxn][maxn];
+vector<int> a[maxn];
 
 #define multi_test 0
 void _main() {
-    
+    cin >> n >> m;
+    int u, v;
+    fto (i, 1, m) {
+        cin >> u >> v;
+        g[u][v] = g[v][u] = 1;
+    }
+
+    vector<int> cur;
+    fto1 (i, 1, 1 << n) {
+        cur.clear();
+        fto1 (j, 0, n) {
+            if (i & (1 << j)) cur.push_back(j+1);
+        }
+        f[i] = 1;
+        fat (u, cur) fat (v, cur) {
+            if (u != v && !g[u][v]) f[i] = oo;
+        }
+    }
+
+    fto1 (i, 1, 1 << n) {
+        if (f[i] == 1) continue;
+        for (int mask = i; mask; mask = (mask-1)&i) {
+            if (mask == i) continue;
+            f[i] = min(f[i], f[mask] + f[mask^i]);
+        }
+    }
+
+    bug(f[(1<<n)-1]);
 }
 
 int main() {
