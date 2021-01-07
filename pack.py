@@ -81,7 +81,7 @@ def pack_atcoder(path, files):
             names = tuple((f.split('.')[0][len(contest):] for f in files))
             print("----> Packing {}{}... ".format(contest, names), end="")
             for f in files:
-                move(path+f, path2)
+                move(path+f, path2+f)
             print("Done.")
 
 if __name__ == "__main__":
