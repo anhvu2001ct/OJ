@@ -49,7 +49,7 @@ def pack_codeforces(path, files):
         names = tuple((f.split('.')[0][len(contest):] for f in files))
         print("----> Packing {}{}... ".format(contest, names), end="")
         for f in files:
-            move(path+f, path+contest)
+            move(path+f, path+contest+'/'+f)
         print("Done.")
 
 def pack_atcoder(path, files):

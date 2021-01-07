@@ -52,6 +52,10 @@ template<class T> ostream& operator<<(ostream &os, vector<T> const &container) {
     cout_container(os, container); return os;
 }
 
+template<class T> ostream& operator<<(ostream &os, deque<T> const &container) {
+    cout_container(os, container); return os;
+}
+
 template<class T> ostream& operator<<(ostream &os, set<T> const &container) {
     cout_container(os, container); return os;
 }
