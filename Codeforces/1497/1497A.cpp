@@ -5,12 +5,14 @@
     using namespace std;
 #endif
 #include <ext/pb_ds/assoc_container.hpp>
+
 using namespace __gnu_pbds;
 
 #define fto(i, s, e) for (int i = (s); i <= (e); ++i)
 #define fto1(i, s, e) for (int i = (s); i < (e); ++i)
 #define fdto(i, s, e) for (int i = (s); i >= (e); --i)
 #define fit(it, a) for (auto it = (a).begin(); it != (a).end(); ++it)
+#define fat(i, a) for (auto i : (a))
 
 #define ll long long
 #define ii pair<int, int>
@@ -40,9 +42,18 @@ int const maxn = 1e5+5;
 
 
 
-#define multi_test 0
+#define multi_test 1
 void _main() {
-    
+    int n; cin >> n;
+    vector<int> ans, tmp, cnt(200, 0);
+    fto (i, 1, n) {
+        int x; cin >> x;
+        if (cnt[x]++) tmp.push_back(x);
+        else ans.push_back(x);
+    }
+    sort(all(ans));
+    fat (v, tmp) ans.push_back(v);
+    buga(ans, 0, n-1);
 }
 
 int main() {
@@ -50,10 +61,13 @@ int main() {
         freopen("main.inp", "r", stdin);
         freopen("main.out", "w", stdout);
     #endif
-    ios_base::sync_with_stdio(false); cin.tie(nullptr); cout.tie(nullptr);
+    ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
 
-    int t = 1; if (multi_test) cin >> t;
-    while (t--) _main();
+    int t = 1;
+    if (multi_test) cin >> t;
+    while (t--) {
+        _main();
+    }
 
     #ifdef _LOCAL
         cerr << 0.001*clock() << endl;

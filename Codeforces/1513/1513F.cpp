@@ -36,13 +36,44 @@ void bug(T const &var, Args const &... args) {
 double const pi = acos(-1);
 #define oo 1000000007
 #define OO 1000000000000000003LL
-int const maxn = 1e5+5;
+int const maxn = 2e5+5;
 
+int n;
+ii a[maxn];
+int pre[maxn];
+vector<ii> X, Y;
 
+ll calc(vector<ii> &X, vector<ii> &Y) {
+    pre[sz(Y)] = oo;
+    fdto (i, sz(Y)-1, 0) pre[i] = min(pre[i+1], Y[i].second);
+    
+    int res = 0;
+    for (auto &p: X) {
+        auto it = lower_bound(all(Y), ii(p.first, 0));
+        if (it != Y.end()) {
+            int val = max(p.second, pre[it - Y.begin()]);
+            if (val <= p.first) res = max(res, p.first - val);
+        }
+    }
+    return res*2;
+}
 
 #define multi_test 0
 void _main() {
-    
+    cin >> n;
+    fto (i, 1, n) cin >> a[i].first;
+    fto (i, 1, n) cin >> a[i].second;
+
+    ll ans = 0;
+    fto (i, 1, n) {
+        if (a[i].first < a[i].second) X.push_back({a[i].second, a[i].first});
+        else if (a[i].first > a[i].second) Y.push_back(a[i]);
+        ans += abs(a[i].second - a[i].first);
+    }
+    sort(all(X)); sort(all(Y));
+
+    ans -= max(calc(X, Y), calc(Y, X));
+    bug(ans);
 }
 
 int main() {

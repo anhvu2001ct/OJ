@@ -5,12 +5,14 @@
     using namespace std;
 #endif
 #include <ext/pb_ds/assoc_container.hpp>
+
 using namespace __gnu_pbds;
 
 #define fto(i, s, e) for (int i = (s); i <= (e); ++i)
 #define fto1(i, s, e) for (int i = (s); i < (e); ++i)
 #define fdto(i, s, e) for (int i = (s); i >= (e); --i)
 #define fit(it, a) for (auto it = (a).begin(); it != (a).end(); ++it)
+#define fat(i, a) for (auto i : (a))
 
 #define ll long long
 #define ii pair<int, int>
@@ -36,13 +38,36 @@ void bug(T const &var, Args const &... args) {
 double const pi = acos(-1);
 #define oo 1000000007
 #define OO 1000000000000000003LL
-int const maxn = 1e5+5;
+int const maxn = 3e5+5;
 
+int n, q;
+int a[maxn], t[maxn];
 
+deque<int>::iterator find(deque<int> &s, int x) {
+    fit (it, s) if (*it == x) return it;
+    return s.end();
+}
 
 #define multi_test 0
 void _main() {
-    
+    cin >> n >> q;
+    deque<int> s;
+    fto (i, 1, n) {
+        cin >> a[i];
+        if (!t[a[i]]) {
+            t[a[i]] = i;
+            s.push_back(a[i]);
+        }
+    }
+    while (q--) {
+        int c; cin >> c;
+        cout << t[c] << ' ';
+        auto it = find(s, c);
+        for (auto it2 = s.begin(); it2 != it; ++it2) ++t[*it2];
+        s.erase(it);
+        t[c] = 1;
+        s.push_front(c);
+    }
 }
 
 int main() {
@@ -50,10 +75,13 @@ int main() {
         freopen("main.inp", "r", stdin);
         freopen("main.out", "w", stdout);
     #endif
-    ios_base::sync_with_stdio(false); cin.tie(nullptr); cout.tie(nullptr);
+    ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
 
-    int t = 1; if (multi_test) cin >> t;
-    while (t--) _main();
+    int t = 1;
+    if (multi_test) cin >> t;
+    while (t--) {
+        _main();
+    }
 
     #ifdef _LOCAL
         cerr << 0.001*clock() << endl;

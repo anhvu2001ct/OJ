@@ -5,12 +5,14 @@
     using namespace std;
 #endif
 #include <ext/pb_ds/assoc_container.hpp>
+
 using namespace __gnu_pbds;
 
 #define fto(i, s, e) for (int i = (s); i <= (e); ++i)
 #define fto1(i, s, e) for (int i = (s); i < (e); ++i)
 #define fdto(i, s, e) for (int i = (s); i >= (e); --i)
 #define fit(it, a) for (auto it = (a).begin(); it != (a).end(); ++it)
+#define fat(i, a) for (auto i : (a))
 
 #define ll long long
 #define ii pair<int, int>
@@ -18,11 +20,13 @@ using namespace __gnu_pbds;
 template<class T, class Cmp = less<T>> using oss = tree<T, null_type, Cmp, rb_tree_tag, tree_order_statistics_node_update>;
 
 #define bc __builtin_popcountll
+#define y1 ansdj
 #define endl '\n'
+#define ff first
+#define ss second
 #define sz(v) int((v).size())
 #define all(v) (v).begin(), (v).end()
-#define buga(a, s, e) fto(__i, s, e) cout << a[__i] << " \n"[__i == e];
-#define bugar(a, s, e) cout << '{'; if (e < s) cout << '}'; else fto (__i, s, e) cout << a[__i] << " }"[__i == e]; cout << endl
+#define buga(a, s, e) cout << '{'; if (e < s) cout << '}'; else fto (__i, s, e) cout << a[__i] << " }"[__i == e]; cout << endl
 
 template<typename T>
 void bug(T const &var) { cout << var << endl; }
@@ -36,13 +40,35 @@ void bug(T const &var, Args const &... args) {
 double const pi = acos(-1);
 #define oo 1000000007
 #define OO 1000000000000000003LL
-int const maxn = 1e5+5;
+int const maxn = 3e5+3;
 
+int n;
+string s;
+int fl[maxn], fr[maxn];
 
-
-#define multi_test 0
+#define multi_test 1
 void _main() {
-    
+    cin >> n >> s; s = " " + s + " ";
+    fl[0] = 1;
+    fto (i, 1, n) {
+        fl[i] = 1;
+        if (s[i] == 'L') {
+            ++fl[i];
+            if (s[i-1] == 'R') fl[i] += fl[i-2];
+        }
+    }
+
+    fr[n] = 1;
+    fdto (i, n-1, 0) {
+        fr[i] = 1;
+        if (s[i+1] == 'R') {
+            ++fr[i];
+            if (s[i+2] == 'L') fr[i] += fr[i+2];
+        }
+    }
+
+    fto (i, 0, n) cout << fl[i] + fr[i] - 1 << ' ';
+    bug("");
 }
 
 int main() {
@@ -50,10 +76,13 @@ int main() {
         freopen("main.inp", "r", stdin);
         freopen("main.out", "w", stdout);
     #endif
-    ios_base::sync_with_stdio(false); cin.tie(nullptr); cout.tie(nullptr);
+    ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
 
-    int t = 1; if (multi_test) cin >> t;
-    while (t--) _main();
+    int t = 1;
+    if (multi_test) cin >> t;
+    while (t--) {
+        _main();
+    }
 
     #ifdef _LOCAL
         cerr << 0.001*clock() << endl;

@@ -5,12 +5,14 @@
     using namespace std;
 #endif
 #include <ext/pb_ds/assoc_container.hpp>
+
 using namespace __gnu_pbds;
 
 #define fto(i, s, e) for (int i = (s); i <= (e); ++i)
 #define fto1(i, s, e) for (int i = (s); i < (e); ++i)
 #define fdto(i, s, e) for (int i = (s); i >= (e); --i)
 #define fit(it, a) for (auto it = (a).begin(); it != (a).end(); ++it)
+#define fat(i, a) for (auto i : (a))
 
 #define ll long long
 #define ii pair<int, int>
@@ -38,11 +40,30 @@ double const pi = acos(-1);
 #define OO 1000000000000000003LL
 int const maxn = 1e5+5;
 
-
+int n, k;
+char check['z'+1]['z'+1];
+int cnt['z'+1];
 
 #define multi_test 0
 void _main() {
-    
+    cin >> n >> k;
+    int mx = 'a' + k - 1;
+    string s = "a";
+    while (1) {
+        char last = s.back();
+        bool flag = 0;
+        fto (i, 'a', mx) {
+            if (!check[last][i] && cnt[i] < k) {
+                check[last][i] = 1;
+                ++cnt[last];
+                s += i;
+                flag = 1;
+                break;
+            }
+        }
+        if (!flag) break;
+    }
+    fto1 (i, 0, n) cout << s[i%sz(s)];
 }
 
 int main() {
@@ -50,10 +71,13 @@ int main() {
         freopen("main.inp", "r", stdin);
         freopen("main.out", "w", stdout);
     #endif
-    ios_base::sync_with_stdio(false); cin.tie(nullptr); cout.tie(nullptr);
+    ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
 
-    int t = 1; if (multi_test) cin >> t;
-    while (t--) _main();
+    int t = 1;
+    if (multi_test) cin >> t;
+    while (t--) {
+        _main();
+    }
 
     #ifdef _LOCAL
         cerr << 0.001*clock() << endl;

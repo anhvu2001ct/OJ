@@ -17,4 +17,3 @@ Legendre's fomula:
     v(p, n) = SUM(i: 1 -> ∞, n/p^i)
     p: prime
     n: positive integer
-

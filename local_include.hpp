@@ -38,7 +38,7 @@ template<class T1, class T2> ostream& operator<<(ostream &os, pair<T1, T2> const
     return os << '(' << v.first << ", " << v.second << ')';
 }
 
-template<class T> void cout_container(ostream &os, T const &container) {
+template<class T> void out_container(ostream &os, T const &container) {
     if (container.empty()) {
         os << "{}";
         return;
@@ -49,21 +49,21 @@ template<class T> void cout_container(ostream &os, T const &container) {
 }
 
 template<class T> ostream& operator<<(ostream &os, vector<T> const &container) {
-    cout_container(os, container); return os;
+    out_container(os, container); return os;
 }
 
 template<class T> ostream& operator<<(ostream &os, deque<T> const &container) {
-    cout_container(os, container); return os;
+    out_container(os, container); return os;
 }
 
-template<class T> ostream& operator<<(ostream &os, set<T> const &container) {
-    cout_container(os, container); return os;
+template<class T1, class T2> ostream& operator<<(ostream &os, set<T1, T2> const &container) {
+    out_container(os, container); return os;
 }
 
-template<class T> ostream& operator<<(ostream &os, multiset<T> const &container) {
-    cout_container(os, container); return os;
+template<class T1, class T2> ostream& operator<<(ostream &os, multiset<T1, T2> const &container) {
+    out_container(os, container); return os;
 }
 
 template<class T1, class T2> ostream& operator<<(ostream &os, map<T1, T2> const &container) {
-    cout_container(os, container); return os;
+    out_container(os, container); return os;
 }

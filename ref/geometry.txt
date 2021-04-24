@@ -1,0 +1,3 @@
+Rotate(M(x, y), phi):
+    x' = xcos(phi) - ysin(phi)
+    y' = xsin(phi) + ycos(phi)
