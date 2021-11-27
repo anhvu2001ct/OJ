@@ -15,7 +15,6 @@ using namespace __gnu_pbds;
 #define ll long long
 #define ii pair<int, int>
 #define pll pair<ll, ll>
-#define eb emplace_back
 template<class T, class Cmp = less<T>> using oss = tree<T, null_type, Cmp, rb_tree_tag, tree_order_statistics_node_update>;
 
 #define bc __builtin_popcountll
@@ -38,13 +37,31 @@ double const pi = acos(-1);
 #define oo 1000000007
 #define OO 1000000000000000003LL
 int mod = oo;
-int const maxn = 2e5+3;
+int const maxn = 3e2+3;
 
+int n;
+int a[maxn], cnt[maxn];
+double f[maxn][maxn][maxn];
 
+double calc(int x, int y, int z) {
+	if (x < 0 || y < 0 || z < 0) return 0;
+	if (f[x][y][z] != -1) return f[x][y][z];
+	return f[x][y][z] = (n + calc(x-1, y, z)*x + calc(x+1, y-1, z)*y + calc(x, y+1, z-1)*z)/(x+y+z);
+}
 
 #define multi_test 0
 void _main() {
+	cin >> n;
+	fto (i, 1, n) {
+		cin >> a[i];
+		++cnt[a[i]];
+	}
+
+	fto1 (i, 0, maxn) fto1 (j, 0, maxn) fto1 (k, 0, maxn) f[i][j][k] = -1;
 	
+	f[0][0][0] = 0;
+	cout << fixed << setprecision(10);
+	bug(calc(cnt[1], cnt[2], cnt[3]));
 }
 
 int main() {
@@ -58,7 +75,7 @@ int main() {
 	while (t--) _main();
 
 	#ifdef _LOCAL
-		bugt;
+		cerr << 0.001*clock() << endl;
 	#endif
 	return 0;
 }

@@ -1,12 +1,3 @@
-#ifdef _LOCAL
-	#include "local_include.hpp"
-#else
-	#include <bits/stdc++.h>
-	using namespace std;
-#endif
-#include <ext/pb_ds/assoc_container.hpp>
-using namespace __gnu_pbds;
-
 #define fto(i, s, e) for (int i = (s); i <= (e); ++i)
 #define fto1(i, s, e) for (int i = (s); i < (e); ++i)
 #define fdto(i, s, e) for (int i = (s); i >= (e); --i)
@@ -16,7 +7,6 @@ using namespace __gnu_pbds;
 #define ii pair<int, int>
 #define pll pair<ll, ll>
 #define eb emplace_back
-template<class T, class Cmp = less<T>> using oss = tree<T, null_type, Cmp, rb_tree_tag, tree_order_statistics_node_update>;
 
 #define bc __builtin_popcountll
 #define endl '\n'
@@ -40,25 +30,16 @@ double const pi = acos(-1);
 int mod = oo;
 int const maxn = 2e5+3;
 
-
-
-#define multi_test 0
-void _main() {
-	
-}
-
-int main() {
-	#ifdef _LOCAL
-		freopen("main.inp", "r", stdin);
-		freopen("main.out", "w", stdout);
-	#endif
-	ios_base::sync_with_stdio(false); cin.tie(nullptr); cout.tie(nullptr);
-
-	int t = 1; if (multi_test) cin >> t;
-	while (t--) _main();
-
-	#ifdef _LOCAL
-		bugt;
-	#endif
-	return 0;
-}
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        int cur = oo, ans = 0;
+		fto1 (i, 0, sz(prices)) {
+			if (prices[i] > cur) {
+				ans += cur - prices[i];
+			}
+			cur = prices[i];
+		}
+		return ans;
+    }
+};

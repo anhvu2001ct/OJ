@@ -15,7 +15,6 @@ using namespace __gnu_pbds;
 #define ll long long
 #define ii pair<int, int>
 #define pll pair<ll, ll>
-#define eb emplace_back
 template<class T, class Cmp = less<T>> using oss = tree<T, null_type, Cmp, rb_tree_tag, tree_order_statistics_node_update>;
 
 #define bc __builtin_popcountll
@@ -40,11 +39,66 @@ double const pi = acos(-1);
 int mod = oo;
 int const maxn = 2e5+3;
 
+int n, m;
+int c[maxn], in[maxn], out[maxn], ett[maxn], big[maxn], cnt[maxn], ans[maxn];
+oss<ii> cur;
+vector<int> adj[maxn];
+vector<ii> que[maxn];
 
+int dfsInit(int u, int p) {
+	static int t = -1;
+	ett[in[u] = ++t] = u;
+	int size = 1, maxs = 0;
+	for (auto v: adj[u]) {
+		if (v == p) continue;
+		int cs = dfsInit(v, u);
+		if (maxs < cs) maxs = cs, big[u] = v;
+		size += cs;
+	}
+	out[u] = t;
+	return size;
+}
+
+void add(int u) {
+	cur.erase(ii(cnt[c[u]], c[u]));
+	cur.insert(ii(++cnt[c[u]], c[u]));
+}
+
+void dfs(int u, int p, bool keep) {
+	for (auto v: adj[u]) {
+		if (v == p || v == big[u]) continue;
+		dfs(v, u, 0);
+	}
+	if (big[u]) dfs(big[u], u, 1);
+	for (auto v: adj[u]) {
+		if (v == p || v == big[u]) continue;
+		fto (i, in[v], out[v]) add(ett[i]);
+	}
+	add(u);
+	for (auto &[id, k]: que[u]) ans[id] = sz(cur) - cur.order_of_key(ii(k, -1));
+	if (!keep) {
+		for (auto &[_, col]: cur) cnt[col] = 0;
+		cur.clear();
+	}
+}
 
 #define multi_test 0
 void _main() {
-	
+	cin >> n >> m;
+	fto (i, 1, n) cin >> c[i];
+	int u, v;
+	fto1 (i, 1, n) {
+		cin >> u >> v;
+		adj[u].emplace_back(v);
+		adj[v].emplace_back(u);
+	}
+	fto (i, 1, m) {
+		cin >> u >> v;
+		que[u].emplace_back(i, v);
+	}
+	dfsInit(1, 0);
+	dfs(1, 0, 1);
+	bugan(ans, 1, m);
 }
 
 int main() {
@@ -58,7 +112,7 @@ int main() {
 	while (t--) _main();
 
 	#ifdef _LOCAL
-		bugt;
+		cerr << 0.001*clock() << endl;
 	#endif
 	return 0;
 }

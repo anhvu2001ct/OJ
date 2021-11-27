@@ -40,11 +40,26 @@ double const pi = acos(-1);
 int mod = oo;
 int const maxn = 2e5+3;
 
-
+int n, m;
+int a[maxn], b[maxn];
 
 #define multi_test 0
 void _main() {
+	cin >> n;
+	fto (i, 1, n) cin >> a[i];
+	cin >> m;
+	fto (i, 1, m) cin >> b[i];
 	
+	sort(a+1, a+1+n);
+	sort(b+1, b+1+m);
+
+	int l = 1, ans = 0;
+	fto (i, 1, n) {
+		if (l > m) break;
+		if (abs(a[i] - b[l]) <= 1) ++l, ++ans;
+		else if (a[i] > b[l]) --i, ++l;
+	}
+	bug(ans);
 }
 
 int main() {

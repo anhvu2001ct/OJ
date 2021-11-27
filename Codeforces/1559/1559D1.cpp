@@ -15,7 +15,6 @@ using namespace __gnu_pbds;
 #define ll long long
 #define ii pair<int, int>
 #define pll pair<ll, ll>
-#define eb emplace_back
 template<class T, class Cmp = less<T>> using oss = tree<T, null_type, Cmp, rb_tree_tag, tree_order_statistics_node_update>;
 
 #define bc __builtin_popcountll
@@ -23,7 +22,7 @@ template<class T, class Cmp = less<T>> using oss = tree<T, null_type, Cmp, rb_tr
 #define sz(v) int((v).size())
 #define all(v) (v).begin(), (v).end()
 #define buga(a, s, e) fto(__i, s, e) cout << a[__i] << " \n"[__i == e];
-#define bugan(a, s, e) fto(__i, s, e) cout << a[__i] << endl;
+#define bugar(a, s, e) cout << '{'; if (e < s) cout << '}'; else fto (__i, s, e) cout << a[__i] << " }"[__i == e]; cout << endl
 
 template<typename T>
 void bug(T const &var) { cout << var << endl; }
@@ -37,14 +36,53 @@ void bug(T const &var, Args const &... args) {
 double const pi = acos(-1);
 #define oo 1000000007
 #define OO 1000000000000000003LL
-int mod = oo;
-int const maxn = 2e5+3;
+int const maxn = 2e5+5;
 
+int n, m1, m2;
+int p1[maxn], p2[maxn];
 
+int par(int *p, int u) {
+	return !p[u] ? u : (p[u] = par(p, p[u]));
+}
+
+bool isDiff(int *p, int u, int v) {
+	u = par(p, u), v = par(p, v);
+	return u != v;
+}
+
+bool unify(int *p, int u, int v) {
+	u = par(p, u), v = par(p, v);
+	if (u == v) return 0;
+	p[v] = u;
+	return 1;
+}
 
 #define multi_test 0
 void _main() {
-	
+	cin >> n >> m1 >> m2;
+	int u, v;
+	fto (i, 1, m1) {
+		cin >> u >> v;
+		unify(p1, u, v);
+	}
+	fto (i, 1, m2) {
+		cin >> u >> v;
+		unify(p2, u, v);
+	}
+
+	vector<ii> ans;
+	fto (i, 1, n) {
+		fto (j, i+1, n) {
+			if (isDiff(p1, i, j) && isDiff(p2, i, j)) {
+				unify(p1, i, j);
+				unify(p2, i, j);
+				ans.push_back({i, j});
+			}
+		}
+	}
+
+	bug(sz(ans));
+	for (auto &e: ans) bug(e.first, e.second);
 }
 
 int main() {
@@ -58,7 +96,7 @@ int main() {
 	while (t--) _main();
 
 	#ifdef _LOCAL
-		bugt;
+		cerr << 0.001*clock() << endl;
 	#endif
 	return 0;
 }

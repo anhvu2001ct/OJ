@@ -40,11 +40,18 @@ double const pi = acos(-1);
 int mod = oo;
 int const maxn = 2e5+3;
 
-
+int n, m;
 
 #define multi_test 0
 void _main() {
-	
+	cin >> n >> m;
+	double ans = 0;
+	fto (j, 1, n) {
+		double p = pow(1.0*j/n, m) - pow(1.0*(j-1)/n, m);
+		ans += p*j;
+	}
+	cout << setprecision(5);
+	bug(ans);
 }
 
 int main() {

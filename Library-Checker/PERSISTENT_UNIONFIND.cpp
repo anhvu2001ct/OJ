@@ -15,7 +15,6 @@ using namespace __gnu_pbds;
 #define ll long long
 #define ii pair<int, int>
 #define pll pair<ll, ll>
-#define eb emplace_back
 template<class T, class Cmp = less<T>> using oss = tree<T, null_type, Cmp, rb_tree_tag, tree_order_statistics_node_update>;
 
 #define bc __builtin_popcountll
@@ -23,7 +22,7 @@ template<class T, class Cmp = less<T>> using oss = tree<T, null_type, Cmp, rb_tr
 #define sz(v) int((v).size())
 #define all(v) (v).begin(), (v).end()
 #define buga(a, s, e) fto(__i, s, e) cout << a[__i] << " \n"[__i == e];
-#define bugan(a, s, e) fto(__i, s, e) cout << a[__i] << endl;
+#define bugar(a, s, e) cout << '{'; if (e < s) cout << '}'; else fto (__i, s, e) cout << a[__i] << " }"[__i == e]; cout << endl
 
 template<typename T>
 void bug(T const &var) { cout << var << endl; }
@@ -37,14 +36,66 @@ void bug(T const &var, Args const &... args) {
 double const pi = acos(-1);
 #define oo 1000000007
 #define OO 1000000000000000003LL
-int mod = oo;
 int const maxn = 2e5+3;
 
+struct dsu {
+	vector<int> p;
+	vector<tuple<int,int,int>> st;
 
+	void init(int n) { p.resize(n+1, -1); }
+
+	int par(int u) {
+		return p[u] < 0 ? u : par(p[u]);
+	}
+
+	bool unify(int u, int v) {
+		u = par(u); v = par(v);
+		if (u == v) {
+			st.emplace_back(0, 0, 0);
+			return false;
+		}
+		if (p[u] > p[v]) swap(u, v);
+		st.emplace_back(u, v, p[v]);
+		p[u] += p[v];
+		p[v] = u;
+		return true;
+	}
+
+	void rollback() {
+		auto [u, v, size] = st.back();
+		st.pop_back();
+		p[u] -= (p[v] = size);
+	}
+};
+
+int n, q;
+dsu group;
+vector<tuple<int,int,int>> g[maxn], query[maxn];
+int ans[maxn];
+
+void dfs(int u) {
+	for (auto [v, x, y]: query[u]) ans[v] = group.par(x) == group.par(y);
+	for (auto [v, x, y]: g[u]) {
+		group.unify(x, y);
+		dfs(v);
+		group.rollback();
+	}
+}
 
 #define multi_test 0
 void _main() {
-	
+	cin >> n >> q;
+	group.init(n);
+	fto (i, 1, q) {
+		ans[i] = -1;
+		int t, k, u, v;
+		cin >> t >> k >> u >> v;
+		++k; ++u; ++v;
+		if (t) query[k].emplace_back(i, u, v);
+		else g[k].emplace_back(i, u, v);
+	}
+	dfs(0);
+	fto (i, 1, q) if (ans[i] != -1) bug(ans[i]);
 }
 
 int main() {
@@ -58,7 +109,7 @@ int main() {
 	while (t--) _main();
 
 	#ifdef _LOCAL
-		bugt;
+		cerr << 0.001*clock() << endl;
 	#endif
 	return 0;
 }

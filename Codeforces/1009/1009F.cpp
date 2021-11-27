@@ -15,7 +15,6 @@ using namespace __gnu_pbds;
 #define ll long long
 #define ii pair<int, int>
 #define pll pair<ll, ll>
-#define eb emplace_back
 template<class T, class Cmp = less<T>> using oss = tree<T, null_type, Cmp, rb_tree_tag, tree_order_statistics_node_update>;
 
 #define bc __builtin_popcountll
@@ -38,13 +37,66 @@ double const pi = acos(-1);
 #define oo 1000000007
 #define OO 1000000000000000003LL
 int mod = oo;
-int const maxn = 2e5+3;
+int const maxn = 1e6+3;
 
+int n, maxVal, ansCur = oo;
+int ett[maxn], in[maxn], out[maxn], big[maxn], ans[maxn], depth[maxn], cnt[maxn];
+vector<int> adj[maxn];
 
+int dfsInit(int u, int p) {
+	static int t = -1;
+	ett[in[u] = ++t] = u;
+	depth[u] = depth[p] + 1;
+	int size = 1, maxs = 0;
+	for (auto v: adj[u]) {
+		if (v == p) continue;
+		int cs = dfsInit(v, u);
+		if (maxs < cs) maxs = cs, big[u] = v;
+		size += cs;
+	}
+	out[u] = t;
+	return size;
+}
+
+void add(int u) {
+	if (++cnt[depth[u]] == maxVal) ansCur = min(ansCur, depth[u]);
+	else if (cnt[depth[u]] > maxVal) {
+		ansCur = depth[u];
+		maxVal = cnt[depth[u]];
+	}
+}
+
+void dfs(int u, int p, bool keep) {
+	for (auto v: adj[u]) {
+		if (v == p || v == big[u]) continue;
+		dfs(v, u, 0);
+	}
+	if (big[u]) dfs(big[u], u, 1);
+	for (auto v: adj[u]) {
+		if (v == p || v == big[u]) continue;
+		fto (i, in[v], out[v]) add(ett[i]);
+	}
+	add(u);
+	ans[u] = ansCur - depth[u];
+	if (!keep) {
+		fto (i, in[u], out[u]) cnt[depth[ett[i]]] = 0;
+		maxVal = 0;
+		ansCur = oo;
+	}
+}
 
 #define multi_test 0
 void _main() {
-	
+	cin >> n;
+	int u, v;
+	fto1 (i, 1, n) {
+		cin >> u >> v;
+		adj[u].emplace_back(v);
+		adj[v].emplace_back(u);
+	}
+	dfsInit(1, 0);
+	dfs(1, 0, 0);
+	bugan(ans, 1, n);
 }
 
 int main() {
@@ -58,7 +110,7 @@ int main() {
 	while (t--) _main();
 
 	#ifdef _LOCAL
-		bugt;
+		cerr << 0.001*clock() << endl;
 	#endif
 	return 0;
 }

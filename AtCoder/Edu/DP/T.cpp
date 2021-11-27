@@ -38,13 +38,30 @@ double const pi = acos(-1);
 #define oo 1000000007
 #define OO 1000000000000000003LL
 int mod = oo;
-int const maxn = 2e5+3;
+int const maxn = 3e3+3;
 
-
+int n;
+string s;
+ll f[2][maxn];
 
 #define multi_test 0
 void _main() {
-	
+	cin >> n >> s;
+	s = " " + s;
+	fto (i, 1, n) f[0][i] = 1;
+	fto (i, 2, n) {
+		fto (j, 1, i) {
+			int l, r;
+			if (s[i-1] == '<') l = 1, r = j-1;
+			else l = j, r = i-1;
+			f[1][j] = (f[0][r] - f[0][l-1]) % oo;
+			if (f[1][j] < 0) f[1][j] += oo;
+		}
+		fto (j, 1, i) f[0][j] = (f[0][j-1] + f[1][j]) % oo;
+	}
+	ll ans = 0;
+	fto (i, 1, n) ans = (ans + f[1][i]) % oo;
+	bug(ans);
 }
 
 int main() {
@@ -58,7 +75,7 @@ int main() {
 	while (t--) _main();
 
 	#ifdef _LOCAL
-		bugt;
+		cerr << 0.001*clock() << endl;
 	#endif
 	return 0;
 }

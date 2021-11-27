@@ -15,7 +15,6 @@ using namespace __gnu_pbds;
 #define ll long long
 #define ii pair<int, int>
 #define pll pair<ll, ll>
-#define eb emplace_back
 template<class T, class Cmp = less<T>> using oss = tree<T, null_type, Cmp, rb_tree_tag, tree_order_statistics_node_update>;
 
 #define bc __builtin_popcountll
@@ -38,13 +37,37 @@ double const pi = acos(-1);
 #define oo 1000000007
 #define OO 1000000000000000003LL
 int mod = oo;
-int const maxn = 2e5+3;
+int const maxn = 3e3+3;
 
-
+string s1, s2;
+int f[maxn][maxn];
 
 #define multi_test 0
 void _main() {
+	int n, m;
+	cin >> s1 >> s2;
+	n = sz(s1), m = sz(s2);
+	s1 = " " + s1;
+	s2 = " " + s2;
+
+	fto (i, 1, n) {
+		fto (j, 1, m) {
+			f[i][j] = max(f[i-1][j], f[i][j-1]);
+			if (s1[i] == s2[j]) f[i][j] = max(f[i][j], f[i-1][j-1] + 1);
+		}
+	}
 	
+	string ans;
+	while (n && m) {
+		if (s1[n] == s2[m]) {
+			ans += s1[n];
+			--n;
+			--m;
+		} else if (f[n][m] == f[n-1][m]) --n;
+		else --m;
+	}
+	reverse(all(ans));
+	bug(ans);
 }
 
 int main() {
@@ -58,7 +81,7 @@ int main() {
 	while (t--) _main();
 
 	#ifdef _LOCAL
-		bugt;
+		cerr << 0.001*clock() << endl;
 	#endif
 	return 0;
 }

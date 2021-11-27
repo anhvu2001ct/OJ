@@ -40,11 +40,33 @@ double const pi = acos(-1);
 int mod = oo;
 int const maxn = 2e5+3;
 
+int n;
+ii a[maxn];
+ll ft[maxn];
 
+ll get(int x) {
+	ll res = 0;
+	for (; x; x -= x & -x) res = max(res, ft[x]);
+	return res;
+}
+
+void update(int x, ll val) {
+	for (; x <= n; x += x & -x) ft[x] = max(ft[x], val);
+}
 
 #define multi_test 0
 void _main() {
-	
+	cin >> n;
+	fto (i, 1, n) cin >> a[i].first;
+	fto (i, 1, n) cin >> a[i].second;
+
+	ll ans = 0;
+	fto (i, 1, n) {
+		ll val = get(a[i].first) + a[i].second;
+		update(a[i].first+1, val);
+		ans = max(ans, val);
+	}
+	bug(ans);
 }
 
 int main() {
@@ -58,7 +80,7 @@ int main() {
 	while (t--) _main();
 
 	#ifdef _LOCAL
-		bugt;
+		cerr << 0.001*clock() << endl;
 	#endif
 	return 0;
 }

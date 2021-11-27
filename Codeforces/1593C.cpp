@@ -38,13 +38,24 @@ double const pi = acos(-1);
 #define oo 1000000007
 #define OO 1000000000000000003LL
 int mod = oo;
-int const maxn = 2e5+3;
+int const maxn = 4e5+3;
 
+int n, m;
+int a[maxn];
 
-
-#define multi_test 0
+#define multi_test 1
 void _main() {
-	
+	cin >> m >> n;
+	fto (i, 1, n) cin >> a[i];
+	sort(a+1, a+1+n, greater<int>());
+	ll cur = 0, ans = 0;
+	fto (i, 1, n) {
+		if (a[i] > cur) {
+			++ans;
+			cur += m - a[i];
+		}
+	}
+	bug(ans);
 }
 
 int main() {

@@ -40,11 +40,21 @@ double const pi = acos(-1);
 int mod = oo;
 int const maxn = 2e5+3;
 
+int n;
+int a[maxn];
 
-
-#define multi_test 0
+#define multi_test 1
 void _main() {
-	
+	cin >> n;
+	fto (i, 1, n) cin >> a[i];
+	fto (i, 1, n-2) {
+		if (a[i] < a[i+1] && a[i+1] > a[i+2]) {
+			bug("YES");
+			bug(i, i+1, i+2);
+			return;
+		}
+	}
+	bug("NO");
 }
 
 int main() {

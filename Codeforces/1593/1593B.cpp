@@ -40,11 +40,24 @@ double const pi = acos(-1);
 int mod = oo;
 int const maxn = 2e5+3;
 
+string s;
 
-
-#define multi_test 0
+#define multi_test 1
 void _main() {
-	
+	cin >> s;
+	int ans = oo;
+	fdto (i, sz(s)-1, 0) {
+		if (s[i] != '0' && s[i] != '5') continue;
+		int v = oo;
+		fdto (j, i-1, 0) {
+			if ((s[i] == '0' && (s[j] == '5' || s[j] == '0')) || (s[i] == '5' && (s[j] == '2' || s[j] == '7'))) {
+				v = i-j-1;
+				break;
+			}
+		}
+		ans = min(ans, v + sz(s)-1-i);
+	}
+	bug(ans);
 }
 
 int main() {

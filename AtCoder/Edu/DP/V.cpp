@@ -40,11 +40,54 @@ double const pi = acos(-1);
 int mod = oo;
 int const maxn = 2e5+3;
 
+int n;
+int p[maxn], ans[maxn];
+ll f[maxn], g[maxn], pre[maxn], suf[maxn];
+vector<int> adj[maxn];
 
+void dfs(int u) {
+	f[u] = 1;
+	for (auto v: adj[u]) {
+		if (v == p[u]) continue;
+		p[v] = u;
+		dfs(v);
+		f[u] = f[u] * (f[v] + 1) % mod;
+	}
+}
+
+void dfs2(int u, ll pval) {
+	static vector<int> node; node.clear();
+	ans[u] = f[u] * pval % mod;
+	fto1 (i, 0, sz(adj[u])) {
+		int v = adj[u][i];
+		if (v == p[u]) continue;
+		node.eb(v);
+	}
+	int child = sz(node);
+	pre[0] = suf[child+1] = 1;
+	fto (i, 1, child) {
+		pre[i] = pre[i-1] * (f[node[i-1]] + 1) % mod;
+		suf[child-i+1] = suf[child-i+2] * (f[node[child-i]] + 1) % mod;
+	}
+	fto (i, 1, child) g[node[i-1]] = pre[i-1] * suf[i+1] % mod;
+	fto1 (i, 0, sz(adj[u])) {
+		int v = adj[u][i];
+		if (v == p[u]) continue;
+		dfs2(v, (pval * g[v] + 1) % mod);
+	}
+}
 
 #define multi_test 0
 void _main() {
-	
+	cin >> n >> mod;
+	fto1 (i, 1, n) {
+		int u, v; cin >> u >> v;
+		adj[u].eb(v);
+		adj[v].eb(u);
+	}
+	dfs(1);
+	dfs2(1, 1);
+	bugan(ans, 1, n);
 }
 
 int main() {
@@ -58,7 +101,7 @@ int main() {
 	while (t--) _main();
 
 	#ifdef _LOCAL
-		bugt;
+		cerr << 0.001*clock() << endl;
 	#endif
 	return 0;
 }

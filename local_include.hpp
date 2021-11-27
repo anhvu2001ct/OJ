@@ -2,10 +2,12 @@
 
 using namespace std;
 
-#define bugn(...) _bugn(cout, #__VA_ARGS__, __VA_ARGS__)
+#define endl '\n'
+#define bugn(...) _bugn(cerr, #__VA_ARGS__, __VA_ARGS__)
+#define bugt cerr << 0.001*clock() << endl;
 
 template<typename T>
-void _bug(ostream &os, T const &var) { os << var << '\n'; }
+void _bug(ostream &os, T const &var) { os << var << endl; }
 
 template<typename T, typename... Args>
 void _bug(ostream &os, T const &var, Args const &... args) {

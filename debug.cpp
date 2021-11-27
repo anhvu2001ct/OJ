@@ -28,23 +28,17 @@ void runTest(bool runAns = 1) {
 void genTest() {
 	#define outp(args...) outf(inp, args)
 	ofstream inp("main.inp");
-	auto a = genVec(6, -1, 1);
-	string s; s.resize(sz(a));
-	fto1 (i, 0, sz(a)) {
-		if (a[i] == -1) s[i] = '?';
-		else s[i] = '0' + a[i];
-	}
-	outp(s);
-	outp(rand(1, 100), rand(1, 100));
+
 }
 
 int main() {
 	ios_base::sync_with_stdio(false); cin.tie(0); cout.tie(0);
 
-	fto (iTest, 1, 100) {
+	fto (iTest, 1, 1) {
 		genTest();
-		runTest();
-		validTest(iTest);
+		runTest(0);
+		// validTest(iTest);
+		//makeTest("Bai1", iTest);
 	}
 
 	return 0;

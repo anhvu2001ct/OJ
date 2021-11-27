@@ -9,19 +9,28 @@
         "Codeforces/Gym": [
             "cfgym"
         ],
+        "AtCoder": [
+            1,
+            "ac"
+        ],
+        "Spoj": [
+            2,
+            "spoj"
+        ],
         "HackerRank": [
             "hr"
         ],
         "Kattis": [
             "kt"
         ],
-        "Spoj": [
-            2,
-            "spoj"
+        "CSAcademy": [
+            "csa"
         ],
-        "AtCoder": [
-            1,
-            "ac"
+        "Library-Checker": [
+            "lc"
+        ],
+        "CodeChef": [
+            "cc"
         ]
     }
 }

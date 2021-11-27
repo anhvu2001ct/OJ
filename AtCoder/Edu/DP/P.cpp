@@ -40,11 +40,35 @@ double const pi = acos(-1);
 int mod = oo;
 int const maxn = 2e5+3;
 
+int n;
+vector<int> adj[maxn];
+ll f[maxn][2];
 
+ll dfs(int u, int c, int p) {
+	if (f[u][c]) return f[u][c];
+	ll &res = f[u][c] = 1;
+	for (auto v: adj[u]) {
+		if (v == p) continue;
+		int cnt = 0;
+		fto (i, 0, 1) {
+			if (i&c) continue;
+			cnt += dfs(v, i, u);
+		}
+		res = res * cnt % oo;
+	}
+	return res;
+}
 
 #define multi_test 0
 void _main() {
-	
+	cin >> n;
+	int u, v;
+	fto1 (i, 1, n) {
+		cin >> u >> v;
+		adj[u].eb(v);
+		adj[v].eb(u);
+	}
+	bug((dfs(1, 0, 0) + dfs(1, 1, 0)) % oo);
 }
 
 int main() {
@@ -58,7 +82,7 @@ int main() {
 	while (t--) _main();
 
 	#ifdef _LOCAL
-		bugt;
+		cerr << 0.001*clock() << endl;
 	#endif
 	return 0;
 }

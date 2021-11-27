@@ -38,13 +38,31 @@ double const pi = acos(-1);
 #define oo 1000000007
 #define OO 1000000000000000003LL
 int mod = oo;
-int const maxn = 2e5+3;
+int const maxn = 1e5+3;
 
+string s;
+ll f[maxn][102][2];
+int d;
 
+ll calc(int idx, int sum, bool lock) {
+	if (idx == sz(s)) return sum == 0;
+	if (f[idx][sum][lock] != -1) return f[idx][sum][lock];
+	ll &res = f[idx][sum][lock];
+	res = 0;
+	int vmax = lock ? (s[idx] - '0') : 9;
+	fto (i, 0, vmax) {
+		bool newlock = i == vmax ? lock : 0;
+		res += calc(idx+1, (sum + i)%d, newlock);
+		res %= oo;
+	}
+	return res;
+}
 
 #define multi_test 0
 void _main() {
-	
+	cin >> s >> d;
+	memset(f, -1, sizeof(f));
+	bug((calc(0, 0, 1) - 1 + oo) % oo);
 }
 
 int main() {
@@ -58,7 +76,7 @@ int main() {
 	while (t--) _main();
 
 	#ifdef _LOCAL
-		bugt;
+		cerr << 0.001*clock() << endl;
 	#endif
 	return 0;
 }

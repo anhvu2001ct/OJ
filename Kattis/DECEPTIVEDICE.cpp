@@ -38,13 +38,26 @@ double const pi = acos(-1);
 #define oo 1000000007
 #define OO 1000000000000000003LL
 int mod = oo;
-int const maxn = 2e5+3;
+int const maxn = 1e2+3;
 
-
+int n, k;
+long double f[maxn][maxn];
 
 #define multi_test 0
 void _main() {
-	
+	cin >> n >> k;
+	double ans = (n+1)/2.0;
+	fto (i, 2, k) {
+		ll cur = 0;
+		int cnt = 0;
+		fto (j, 1, n) {
+			if (j >= ans) cur += j;
+			else ++cnt;
+		}
+		ans = 1.0*cur/n + ans*cnt/n;
+	}
+	cout << fixed << setprecision(8);
+	bug(ans);
 }
 
 int main() {

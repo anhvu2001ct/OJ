@@ -1,0 +1,8 @@
+Mountain time: CSAcademy
+Persitent dsu (offline using dfs): Library-Checker
+DSU with delete edge (offline using ST+dfs):
+    Cf/gym 100551A,E
+    spoj DYNACON1,
+    cses Dynamic Connectivity
+DSU on tree:
+    Cf 600E, 570D, 208E, 1009F, 343D, 375D, 716E

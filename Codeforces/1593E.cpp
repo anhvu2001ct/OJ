@@ -38,13 +38,45 @@ double const pi = acos(-1);
 #define oo 1000000007
 #define OO 1000000000000000003LL
 int mod = oo;
-int const maxn = 2e5+3;
+int const maxn = 4e5+3;
 
+int n, k;
+int a[maxn], cnt[maxn];
+vector<int> adj[maxn];
 
+void bfs() {
+	queue<int> q;
+	fto (i, 1, n) if (cnt[i] <= 1) {
+		q.push(i);
+		a[i] = 1;
+	}
 
-#define multi_test 0
+	while (!q.empty()) {
+		int u = q.front();
+		q.pop();
+		for (auto v: adj[u]) {
+			if (cnt[v] <= 1) continue;
+			if (--cnt[v] == 1) {
+				q.push(v);
+				a[v] = a[u] + 1;
+			}
+		}
+	}
+}
+
+#define multi_test 1
 void _main() {
-	
+	cin >> n >> k;
+	fto (i, 1, n) adj[i].clear();
+	fto1 (i, 1, n) {
+		int u, v; cin >> u >> v;
+		adj[u].eb(v);
+		adj[v].eb(u);
+	}
+	fto (i, 1, n) cnt[i] = sz(adj[i]);
+	bfs();
+	sort(a+1, a+1+n);
+	bug((a+1+n)-upper_bound(a+1, a+1+n, k));
 }
 
 int main() {

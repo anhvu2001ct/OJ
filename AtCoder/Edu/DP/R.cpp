@@ -38,13 +38,60 @@ double const pi = acos(-1);
 #define oo 1000000007
 #define OO 1000000000000000003LL
 int mod = oo;
-int const maxn = 2e5+3;
+int const maxn = 50+3;
 
+struct matrix {
+	int n;
+	ll a[maxn][maxn];
 
+	static matrix power(matrix a, ll n) {
+		matrix res;
+		bool first = 1;
+		while (n) {
+			if (n%2) {
+				if (first) first = 0, res = a;
+				else res = multiply(res, a);
+			}
+			a = multiply(a, a);
+			n >>= 1;
+		}
+		return res;
+	}
+
+	static matrix multiply(matrix &a, matrix &b) {
+		matrix res;
+		fto (i, 1, a.n) {
+			fto (j, 1, a.n) {
+				res.a[i][j] = 0;
+				fto (k, 1, a.n) {
+					res.a[i][j] += a.a[i][k] * b.a[k][j];
+					res.a[i][j] %= oo;
+				}
+			}
+		}
+		return res;
+	}
+} m;
+
+ll k;
 
 #define multi_test 0
 void _main() {
-	
+	cin >> m.n >> k;
+	int n = m.n;
+	fto (i, 1, n) {
+		fto (j, 1, n) {
+			cin >> m.a[i][j];
+		}
+	}
+
+	m = matrix::power(m, k);
+	ll ans = 0;
+	fto (i, 1, n) fto (j, 1, n) {
+		ans += m.a[i][j];// + m.a[j][i];
+		ans %= oo;
+	}
+	bug(ans);
 }
 
 int main() {
@@ -58,7 +105,7 @@ int main() {
 	while (t--) _main();
 
 	#ifdef _LOCAL
-		bugt;
+		cerr << 0.001*clock() << endl;
 	#endif
 	return 0;
 }

@@ -15,7 +15,6 @@ using namespace __gnu_pbds;
 #define ll long long
 #define ii pair<int, int>
 #define pll pair<ll, ll>
-#define eb emplace_back
 template<class T, class Cmp = less<T>> using oss = tree<T, null_type, Cmp, rb_tree_tag, tree_order_statistics_node_update>;
 
 #define bc __builtin_popcountll
@@ -38,13 +37,48 @@ double const pi = acos(-1);
 #define oo 1000000007
 #define OO 1000000000000000003LL
 int mod = oo;
-int const maxn = 2e5+3;
+int const maxn = 3e5+3;
 
+int n, q;
+string s;
+int sum[maxn];
+vector<int> ans[maxn];
+vector<ii> que[maxn];
+unordered_map<int, int> pos;
 
+int getsum(int l, int r) {
+	if (l > r) return 0;
+	return sum[r] - sum[l-1];
+}
 
-#define multi_test 0
+#define multi_test 1
 void _main() {
-	
+	cin >> n >> q >> s;
+	int sign = 1;
+	pos.clear();
+	fto (i, 1, n) {
+		sum[i] = sum[i-1] + (s[i-1] == '+' ? 1 : -1)*sign;
+		sign *= -1;
+		que[i].clear();
+	}
+	fto (i, 1, q) {
+		ans[i].clear();
+		int l, r; cin >> l >> r;
+		if (l == r) ans[i].emplace_back(l);
+		else if (getsum(l, r) != 0) que[l].emplace_back(i, r);
+	}
+	fdto (i, n, 1) {
+		pos[sum[i] + sum[i-1]] = i;
+		for (auto [id, r]: que[i]) {
+			int l = i;
+			if ((r-i+1)%2 == 0) ans[id].emplace_back(l++);
+			ans[id].emplace_back(pos[sum[r] + sum[l-1]]);
+		}
+	}
+	fto (i, 1, q) {
+		bug(sz(ans[i]));
+		buga(ans[i], 0, sz(ans[i])-1);
+	}
 }
 
 int main() {
@@ -58,7 +92,7 @@ int main() {
 	while (t--) _main();
 
 	#ifdef _LOCAL
-		bugt;
+		cerr << 0.001*clock() << endl;
 	#endif
 	return 0;
 }

@@ -15,7 +15,6 @@ using namespace __gnu_pbds;
 #define ll long long
 #define ii pair<int, int>
 #define pll pair<ll, ll>
-#define eb emplace_back
 template<class T, class Cmp = less<T>> using oss = tree<T, null_type, Cmp, rb_tree_tag, tree_order_statistics_node_update>;
 
 #define bc __builtin_popcountll
@@ -23,7 +22,7 @@ template<class T, class Cmp = less<T>> using oss = tree<T, null_type, Cmp, rb_tr
 #define sz(v) int((v).size())
 #define all(v) (v).begin(), (v).end()
 #define buga(a, s, e) fto(__i, s, e) cout << a[__i] << " \n"[__i == e];
-#define bugan(a, s, e) fto(__i, s, e) cout << a[__i] << endl;
+#define bugar(a, s, e) cout << '{'; if (e < s) cout << '}'; else fto (__i, s, e) cout << a[__i] << " }"[__i == e]; cout << endl
 
 template<typename T>
 void bug(T const &var) { cout << var << endl; }
@@ -37,14 +36,79 @@ void bug(T const &var, Args const &... args) {
 double const pi = acos(-1);
 #define oo 1000000007
 #define OO 1000000000000000003LL
-int mod = oo;
-int const maxn = 2e5+3;
+int const maxn = 2e5+5;
 
+struct dsu {
+	vector<int> p;
 
+	void init(int n) {
+		p.resize(n+1, 0);
+	}
+
+	int par(int u) {
+		return !p[u] ? u : (p[u] = par(p[u]));
+	}
+
+	bool isDiff(int u, int v) {
+		return par(u) != par(v);
+	}
+
+	bool unify(int u, int v) {
+		u = par(u); v = par(v);
+		if (u == v) return false;
+		p[v] = u;
+		return true;
+	}
+};
+
+int n, m1, m2;
+dsu g1, g2;
 
 #define multi_test 0
 void _main() {
-	
+	cin >> n >> m1 >> m2;
+	g1.init(n); g2.init(n);
+	int u, v;
+	fto (i, 1, m1) {
+		cin >> u >> v;
+		g1.unify(u, v);
+	}
+	fto (i, 1, m2) {
+		cin >> u >> v;
+		g2.unify(u, v);
+	}
+
+	vector<int> v1, v2;
+	vector<ii> ans;
+	fto (i, 1, n) {
+		if (g1.isDiff(1, i) && g2.isDiff(1, i)) {
+			g1.unify(1, i);
+			g2.unify(1, i);
+			ans.push_back({1, i});
+		}
+		if (!g1.isDiff(1, i)) v1.push_back(i);
+		if (!g2.isDiff(1, i)) v2.push_back(i);
+	}
+
+	while (!v1.empty() && !v2.empty()) {
+		u = v1.back(); v = v2.back();
+		if (!g2.isDiff(1, u)) {
+			v1.pop_back();
+			continue;
+		}
+		if (!g1.isDiff(1, v)) {
+			v2.pop_back();
+			continue;
+		}
+		ans.push_back({u, v});
+		g1.unify(u, v);
+		g2.unify(u, v);
+		v1.pop_back();
+		v2.pop_back();
+	}
+
+	bug(sz(ans));
+	for (auto &e: ans) bug(e.first, e.second);
 }
 
 int main() {
@@ -58,7 +122,7 @@ int main() {
 	while (t--) _main();
 
 	#ifdef _LOCAL
-		bugt;
+		cerr << 0.001*clock() << endl;
 	#endif
 	return 0;
 }

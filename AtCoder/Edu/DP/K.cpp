@@ -15,7 +15,6 @@ using namespace __gnu_pbds;
 #define ll long long
 #define ii pair<int, int>
 #define pll pair<ll, ll>
-#define eb emplace_back
 template<class T, class Cmp = less<T>> using oss = tree<T, null_type, Cmp, rb_tree_tag, tree_order_statistics_node_update>;
 
 #define bc __builtin_popcountll
@@ -40,11 +39,20 @@ double const pi = acos(-1);
 int mod = oo;
 int const maxn = 2e5+3;
 
-
+int n, k;
+int a[maxn], f[maxn];
 
 #define multi_test 0
 void _main() {
-	
+	cin >> n >> k;
+	fto (i, 1, n) cin >> a[i];
+	sort(a+1, a+1+n);
+	fto (i, a[1], k) {
+		fto (j, 1, n) {
+			if (a[j] <= i) f[i] = max(f[i], 1^f[i - a[j]]);
+		}
+	}
+	bug(f[k] ? "First" : "Second");
 }
 
 int main() {
@@ -58,7 +66,7 @@ int main() {
 	while (t--) _main();
 
 	#ifdef _LOCAL
-		bugt;
+		cerr << 0.001*clock() << endl;
 	#endif
 	return 0;
 }

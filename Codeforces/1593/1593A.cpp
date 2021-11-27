@@ -40,11 +40,17 @@ double const pi = acos(-1);
 int mod = oo;
 int const maxn = 2e5+3;
 
+int a[3];
 
-
-#define multi_test 0
+#define multi_test 1
 void _main() {
-	
+	fto1 (i, 0, 3) cin >> a[i];
+	fto1 (i, 0, 3) {
+		swap(a[i], a[0]);
+		int v = max(a[1], a[2]);
+		cout << (a[0] > v ? 0 : v+1-a[0]) << ' ';
+	}
+	bug("");
 }
 
 int main() {

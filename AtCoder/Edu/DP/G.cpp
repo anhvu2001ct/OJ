@@ -15,7 +15,6 @@ using namespace __gnu_pbds;
 #define ll long long
 #define ii pair<int, int>
 #define pll pair<ll, ll>
-#define eb emplace_back
 template<class T, class Cmp = less<T>> using oss = tree<T, null_type, Cmp, rb_tree_tag, tree_order_statistics_node_update>;
 
 #define bc __builtin_popcountll
@@ -40,11 +39,38 @@ double const pi = acos(-1);
 int mod = oo;
 int const maxn = 2e5+3;
 
+int n, m;
+bool visited[maxn];
+int f[maxn];
+vector<int> topo;
+vector<int> adj[maxn];
 
+void dfs(int u) {
+	visited[u] = 1;
+	for (auto v: adj[u]) {
+		if (!visited[v]) dfs(v);
+	}
+	topo.emplace_back(u);
+}
 
 #define multi_test 0
 void _main() {
+	cin >> n >> m;
+	int u, v;
+	fto (i, 1, m) {
+		cin >> u >> v;
+		adj[u].push_back(v);
+	}
 	
+	fto (i, 1, n) if (!visited[i]) dfs(i);
+	reverse(all(topo));
+
+	int ans = 0;
+	for (auto u: topo) {
+		for (auto v: adj[u]) f[v] = max(f[v], f[u]+1);
+		ans = max(ans, f[u]);
+	}
+	bug(ans);
 }
 
 int main() {
@@ -58,7 +84,7 @@ int main() {
 	while (t--) _main();
 
 	#ifdef _LOCAL
-		bugt;
+		cerr << 0.001*clock() << endl;
 	#endif
 	return 0;
 }

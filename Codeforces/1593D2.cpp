@@ -40,11 +40,44 @@ double const pi = acos(-1);
 int mod = oo;
 int const maxn = 2e5+3;
 
+int n;
+int a[maxn];
 
+void addDiv(int x, map<int, int> &cnt) {
+	for (int i = 1; (ll)i*i <= x; ++i) {
+		if (x%i == 0) {
+			++cnt[i];
+			if (x/i != i) ++cnt[x/i];
+		}
+	}
+}
 
-#define multi_test 0
+#define multi_test 1
 void _main() {
-	
+	map<int, int> cnt;
+	cin >> n;
+	fto (i, 1, n) {
+		cin >> a[i];
+		++cnt[a[i]];
+	}
+	fto (i, 1, n) {
+		if (cnt[a[i]] >= n/2) {
+			bug(-1);
+			return;
+		}
+	}
+	int ans = 0;
+	fto (i, 1, n) {
+		map<int, int> cnt2;
+		fto (j, 1, n) {
+			if (a[j] <= a[i]) continue;
+			addDiv(a[j] - a[i], cnt2);
+		}
+		for (auto [k, v]: cnt2) {
+			if (v+cnt[a[i]] >= n/2) ans = max(ans, k);
+		}
+	}
+	bug(ans);
 }
 
 int main() {

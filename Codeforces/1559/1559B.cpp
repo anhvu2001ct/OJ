@@ -15,7 +15,6 @@ using namespace __gnu_pbds;
 #define ll long long
 #define ii pair<int, int>
 #define pll pair<ll, ll>
-#define eb emplace_back
 template<class T, class Cmp = less<T>> using oss = tree<T, null_type, Cmp, rb_tree_tag, tree_order_statistics_node_update>;
 
 #define bc __builtin_popcountll
@@ -23,7 +22,7 @@ template<class T, class Cmp = less<T>> using oss = tree<T, null_type, Cmp, rb_tr
 #define sz(v) int((v).size())
 #define all(v) (v).begin(), (v).end()
 #define buga(a, s, e) fto(__i, s, e) cout << a[__i] << " \n"[__i == e];
-#define bugan(a, s, e) fto(__i, s, e) cout << a[__i] << endl;
+#define bugar(a, s, e) cout << '{'; if (e < s) cout << '}'; else fto (__i, s, e) cout << a[__i] << " }"[__i == e]; cout << endl
 
 template<typename T>
 void bug(T const &var) { cout << var << endl; }
@@ -37,14 +36,31 @@ void bug(T const &var, Args const &... args) {
 double const pi = acos(-1);
 #define oo 1000000007
 #define OO 1000000000000000003LL
-int mod = oo;
-int const maxn = 2e5+3;
+int const maxn = 2e5+5;
 
+int n;
+string s;
 
-
-#define multi_test 0
+#define multi_test 1
 void _main() {
-	
+	cin >> n >> s;
+	s = " " + s;
+	fto (i, 1, n) {
+		if (s[i] == '?') continue;
+		fdto (j, i-1, 1) {
+			if (s[j] != '?') break;
+			s[j] = s[j+1] == 'B' ? 'R' : 'B';
+		}
+	}
+	if (s[1] == '?') s[1] = 'B';
+	fto (i, 1, n) {
+		if (s[i] == '?') continue;
+		fto (j, i+1, n) {
+			if (s[j] != '?') break;
+			s[j] = s[j-1] == 'B' ? 'R' : 'B';
+		}
+	}
+	bug(s.substr(1));
 }
 
 int main() {
@@ -58,7 +74,7 @@ int main() {
 	while (t--) _main();
 
 	#ifdef _LOCAL
-		bugt;
+		cerr << 0.001*clock() << endl;
 	#endif
 	return 0;
 }

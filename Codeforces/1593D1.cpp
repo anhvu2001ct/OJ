@@ -40,11 +40,26 @@ double const pi = acos(-1);
 int mod = oo;
 int const maxn = 2e5+3;
 
+int n;
+int a[maxn];
 
-
-#define multi_test 0
+#define multi_test 1
 void _main() {
-	
+	cin >> n;
+	bool found = 0;
+	fto (i, 1, n) {
+		cin >> a[i];
+		if (i > 1 && a[i] != a[i-1]) found = 1;
+	}
+	if (!found) {
+		bug(-1);
+		return;
+	}
+	int ans = 0;
+	fto (i, 2, n) {
+		ans = __gcd(ans, abs(a[i] - a[1]));
+	}
+	bug(ans);
 }
 
 int main() {
